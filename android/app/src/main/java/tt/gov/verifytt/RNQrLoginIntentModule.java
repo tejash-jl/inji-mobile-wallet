@@ -1,4 +1,4 @@
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;

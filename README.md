@@ -84,7 +84,7 @@ keytool \
  -keypass 'android' \
  -alias androiddebugkey \
  -keystore android/app/debug.keystore \
- -dname "CN=io.mosip.residentapp,OU=,O=,L=,S=,C=US"
+ -dname "CN=tt.gov.verifytt,OU=,O=,L=,S=,C=US"
 ```
 
 Export keystore. Run the below command in your terminal.

@@ -26,7 +26,7 @@ export default {
     supportsTablet: true,
   },
   android: {
-    package: 'io.mosip.residentapp',
+    package: 'tt.gov.verifytt',
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: adaptiveImage,

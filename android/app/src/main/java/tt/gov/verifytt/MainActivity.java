@@ -1,4 +1,4 @@
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import android.Manifest;
@@ -54,7 +54,7 @@ public class MainActivity extends ReactActivity {
 
   private void readAndSetQRLoginIntentData(Intent intent){
     Uri data = intent.getData();
-    if(data != null && Objects.equals(data.getScheme(), "io.mosip.residentapp.inji")){
+    if(data != null && Objects.equals(data.getScheme(), "tt.gov.verifytt.inji")){
       IntentData intentData = IntentData.getInstance();
       intentData.setQrData(String.valueOf(data));
     }

@@ -1,4 +1,4 @@
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 
 public class IntentData {
     private String qrData = "";

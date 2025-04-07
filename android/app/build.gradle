@@ -107,17 +107,17 @@ android {
         APP_NAME = "@string/app_name"
     }
 
-    namespace 'io.mosip.residentapp'
+    namespace 'tt.gov.verifytt'
 
     defaultConfig {
-        applicationId 'io.mosip.residentapp'
+        applicationId 'tt.gov.verifytt'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName "0.15.1"
         versionCode 1
         manifestPlaceholders = [
                 APP_NAME             : APP_NAME,
-                appAuthRedirectScheme: 'io.mosip.residentapp.inji'
+                appAuthRedirectScheme: 'tt.gov.verifytt.inji'
         ]
     }
 
@@ -134,7 +134,7 @@ android {
         release {
             // for sonarqube job we will generate dummy release keystore to sign the app as we are not doing it in workflow
             def hasSonarqube = System.properties.containsKey("sonarqube")
-            def keystore = file('release.keystore').exists() ? file('release.keystore') : file('dummyrelease.keystore')
+            def keystore = file('debug.keystore').exists() ? file('debug.keystore') : file('dummyrelease.keystore')
             storeFile file("$keystore")
             if (hasSonarqube && !keystore.exists()) {
                 exec {
@@ -155,8 +155,8 @@ android {
                 keyAlias "androidreleasekey"
                 keyPassword "password"
             } else {
-                def keystoreAlias = System.getenv("RELEASE_KEYSTORE_ALIAS")
-                def keystorePass = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                def keystoreAlias = System.getenv("DEBUG_KEYSTORE_ALIAS")
+                def keystorePass = System.getenv("DEBUG_KEYSTORE_PASSWORD")
                 storePassword "$keystorePass"
                 keyAlias "$keystoreAlias"
                 keyPassword "$keystorePass"

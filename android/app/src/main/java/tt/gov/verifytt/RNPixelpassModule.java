@@ -1,4 +1,4 @@
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 
 import io.mosip.pixelpass.PixelPass;
 import io.mosip.pixelpass.cbor.Utils;

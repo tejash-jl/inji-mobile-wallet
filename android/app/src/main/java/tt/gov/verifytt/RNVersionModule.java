@@ -1,9 +1,9 @@
 
-package io.mosip.residentapp;
+package tt.gov.verifytt;
 
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import io.mosip.residentapp.BuildConfig;
+import tt.gov.verifytt.BuildConfig;
 
 
 
