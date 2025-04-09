@@ -107,14 +107,14 @@ android {
         APP_NAME = "@string/app_name"
     }
 
-    namespace 'tt.gov.verifytt'
+    namespace 'tt.gov.verifytt'
 
     defaultConfig {
         applicationId 'tt.gov.verifytt'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionName "0.15.1"
-        versionCode 1
+        versionName "0.15.4"
+        versionCode 4
         manifestPlaceholders = [
                 APP_NAME             : APP_NAME,
                 appAuthRedirectScheme: 'tt.gov.verifytt.inji'
@@ -192,7 +192,9 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
+            //minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -264,7 +266,8 @@ android {
 dependencies {
     implementation("io.mosip:inji-openid4vp:0.1.0")
     implementation("com.facebook.react:react-android")
-    implementation 'com.facebook.soloader:soloader:0.10.1+'
+    //implementation 'com.facebook.soloader:soloader:0.10.1+'
+    implementation 'com.facebook.soloader:soloader:0.11.0'
     implementation("io.mosip:pixelpass-aar:0.6.0")
     implementation("io.mosip:secure-keystore:0.3.0")
     implementation("io.mosip:tuvali:0.5.1")
