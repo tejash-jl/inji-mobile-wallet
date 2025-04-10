@@ -107,8 +107,7 @@ android {
         APP_NAME = "@string/app_name"
     }
 
-    namespace 'tt.gov.verifytt'
-
+    namespace 'tt.gov.verifytt'
     defaultConfig {
         applicationId 'tt.gov.verifytt'
         minSdkVersion rootProject.ext.minSdkVersion
