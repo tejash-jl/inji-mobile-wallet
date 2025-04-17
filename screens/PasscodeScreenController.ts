@@ -62,6 +62,10 @@ export function usePasscodeScreen(props: PasscodeRouteProps) {
       );
     },
 
+    RESET_AUTH: () => {
+      authService.send(AuthEvents.RESET_AUTH());
+    },
+
     storedSalt: useSelector(authService, selectPasscodeSalt),
   };
 }

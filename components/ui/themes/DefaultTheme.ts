@@ -151,6 +151,7 @@ export const DefaultTheme = {
     warningText: Colors.Red,
     PendingIcon: Colors.Yellow,
     selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
+    forgotPin: Colors.Blue,
   },
   Styles: StyleSheet.create({
     title: {

@@ -153,6 +153,7 @@ export const PurpleTheme = {
     urlLink: Colors.Purple,
     warningText: Colors.Red,
     PendingIcon: Colors.Yellow,
+    forgotPin: Colors.Blue,
   },
   Styles: StyleSheet.create({
     title: {

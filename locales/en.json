@@ -522,7 +522,12 @@
     "enterAlternateNewPassword": "Your passcode is your key to access the app securely. Choose a 6-digit passcode which is unique and memorable, ensuring the safety of your data and privacy within the app.",
     "reEnterAlternatePassword": "Confirm your passcode by entering it again. Once confirmed, your passcode will be securely set for accessing the app.",
     "confirmPasscode": "Confirm passcode",
-    "enterPasscode": "Enter your passcode"
+    "enterPasscode": "Enter your passcode",
+    "forgotPassword": "Forgot PIN?",
+    "resetPinConfirmation": "Reset PIN Confirmation",
+    "resetPinConfirmationText": "Resetting your PIN will erase all your data from this app and reset the app to its initial state. This action cannot be undone. Do you want to proceed?",
+    "resetPinCancel": "Cancel",
+    "resetPinReset": "Reset"
   },
   "QrLogin": {
     "title": "QR Login",

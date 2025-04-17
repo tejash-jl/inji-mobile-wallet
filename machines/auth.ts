@@ -35,6 +35,7 @@ const model = createModel(
       INITIAL_DOWNLOAD_DONE: () => ({}),
       SET_TOUR_GUIDE: (set: boolean) => ({set}),
       BIOMETRIC_CANCELLED: () => ({}),
+      RESET_AUTH: () => ({}),
     },
   },
 );
@@ -66,6 +67,10 @@ export const authMachine = model.createMachine(
       },
       BIOMETRIC_CANCELLED: {
         target: 'init',
+      },
+      RESET_AUTH: {
+        target: 'unauthorized',
+        actions: ['resetContext', 'storeContext'],
       },
     },
     states: {
@@ -211,6 +216,18 @@ export const authMachine = model.createMachine(
 
       setTourGuide: model.assign({
         isTourGuide: (_, event) => event.set,
+      }),
+      resetContext: assign({
+        serviceRefs: {} as AppServices,
+        passcode: '',
+        passcodeSalt: '',
+        biometrics: '',
+        canUseBiometrics: false,
+        selectLanguage: false,
+        toggleFromSettings: false,
+        isOnboarding: true,
+        isInitialDownload: true,
+        isTourGuide: false,
       }),
     },
 
