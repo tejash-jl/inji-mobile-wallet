@@ -73,6 +73,15 @@ export const SettingScreen: React.FC<
     }
   };
 
+  // Get showDataBackup param from route params
+  const showDataBackup = props.route?.params?.showDataBackup ?? false;
+
+  React.useEffect(() => {
+    if (showDataBackup) {
+      props.navigation.setParams({showDataBackup: false});
+    }
+  }, [showDataBackup]);
+
   return (
     <React.Fragment>
       <Pressable accessible={false} onPress={controller.TOGGLE_SETTINGS}>
@@ -157,7 +166,7 @@ export const SettingScreen: React.FC<
 
           <AboutInji appId={controller.appId} />
 
-          <DataBackupAndRestore />
+          <DataBackupAndRestore autoOpen={showDataBackup} />
           <SettingsKeyManagementScreen controller={controller} />
 
           {/* {CREDENTIAL_REGISTRY_EDIT === 'true' && (

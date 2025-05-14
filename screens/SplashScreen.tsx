@@ -1,10 +1,11 @@
 import {Dimensions} from 'react-native';
 import {RootRouteProps} from '../routes';
 import {Image} from 'react-native-elements';
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {APPLICATION_THEME} from 'react-native-dotenv';
 import {Column} from '../components/ui';
 import {useAppLayout} from './AppLayoutController';
+import {useConsoleAuthData} from './ResetPasscode/ResetPasscodeFunction';
 
 export const SplashScreen: React.FC<RootRouteProps> = props => {
   const imageResource =
@@ -12,15 +13,30 @@ export const SplashScreen: React.FC<RootRouteProps> = props => {
       ? require('../assets/purpleSplashScreen.png')
       : require('../assets/SplashScreen1.png');
   const controller = useAppLayout();
-  useEffect(() => {
+  const logAuthData = useConsoleAuthData();
+
+  // React.useEffect(() => {
+  //   const logKeysAndAuth = async () => {
+  //     await logAuthData();
+  //   };
+  //   logKeysAndAuth();
+  // }, []);
+
+  //console.log('SplashScreen -------------------------------------------------', controller);
+
+  React.useEffect(() => {
     setTimeout(() => {
       if (controller.isLanguagesetup) {
         props.navigation.navigate('Language');
-      } else if (controller.isUnAuthorized) {
+      } else if (controller.isUnAuthorized || (controller as any).isSettingUp) {
         props.navigation.navigate('Welcome');
       }
     }, 3000);
-  }, [controller.isAuthorized || controller.isLanguagesetup]);
+  }, [
+    controller.isAuthorized ||
+      controller.isLanguagesetup ||
+      (controller as any).isSettingUp,
+  ]);
 
   return (
     <Column
@@ -30,7 +46,7 @@ export const SplashScreen: React.FC<RootRouteProps> = props => {
         justifyContent: 'center',
         height: Dimensions.get('screen').height,
         width: Dimensions.get('screen').width,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
       }}>
       <Image
         resizeMode="stretch"

@@ -69,8 +69,8 @@ export const authMachine = model.createMachine(
         target: 'init',
       },
       RESET_AUTH: {
-        target: 'unauthorized',
-        actions: ['resetContext', 'storeContext'],
+        target: 'checkingAuth',
+        actions: ['resetContext'],
       },
     },
     states: {

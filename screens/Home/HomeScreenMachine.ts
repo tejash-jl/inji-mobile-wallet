@@ -9,6 +9,10 @@ import {
 import {IssuersMachine} from '../../machines/Issuers/IssuersMachine';
 import Storage from '../../shared/storage';
 import {VCItemMachine} from '../../machines/VerifiableCredential/VCItemMachine/VCItemMachine';
+import {
+  backupRestoreMachine,
+  createBackupRestoreMachine,
+} from '../../machines/backupAndRestore/backupRestore';
 
 const model = createModel(
   {
@@ -19,6 +23,7 @@ const model = createModel(
     },
     selectedVc: null as ActorRefFrom<typeof VCItemMachine> | null,
     activeTab: 0,
+    backupRestoreRef: null as ActorRefFrom<typeof backupRestoreMachine> | null,
   },
   {
     events: {
@@ -68,7 +73,7 @@ export const HomeScreenMachine = model.createMachine(
         },
         states: {
           init: {
-            entry: ['spawnTabActors'],
+            entry: ['spawnTabActors', 'spawnBackupRestoreActor'],
             after: {
               100: 'myVcs',
             },
@@ -190,6 +195,13 @@ export const HomeScreenMachine = model.createMachine(
           ),
         }),
       }),
+      spawnBackupRestoreActor: assign({
+        backupRestoreRef: context =>
+          spawn(
+            createBackupRestoreMachine(context.serviceRefs),
+            'backupRestore',
+          ),
+      }),
 
       sendAddEvent: send('ADD_VC', {
         to: context => context.tabRefs.myVcs,
@@ -217,6 +229,12 @@ type State = StateFrom<typeof HomeScreenMachine>;
 
 export function selectIssuersMachine(state: State) {
   return state.children.issuersMachine as ActorRefFrom<typeof IssuersMachine>;
+}
+
+export function selectBackupRestoreMachine(state: State) {
+  return state.children.backupRestore as ActorRefFrom<
+    typeof backupRestoreMachine
+  >;
 }
 
 export function selectTabRefs(state: State) {

@@ -12,6 +12,7 @@ import {
   selectViewingVc,
   selectIssuersMachine,
   selectIsMinimumStorageLimitReached,
+  selectBackupRestoreMachine,
 } from './HomeScreenMachine';
 import {selectVc} from '../../machines/VerifiableCredential/VCItemMachine/VCItemSelectors';
 
@@ -49,6 +50,7 @@ export function useHomeScreen(props: HomeRouteProps) {
     isViewingVc: useSelector(service, selectViewingVc),
     haveTabsLoaded: useSelector(service, selectTabsLoaded),
     IssuersService: useSelector(service, selectIssuersMachine),
+    backupRestoreService: useSelector(service, selectBackupRestoreMachine),
     isMinimumStorageLimitReached: useSelector(
       service,
       selectIsMinimumStorageLimitReached,

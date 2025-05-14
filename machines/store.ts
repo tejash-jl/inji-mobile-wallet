@@ -261,6 +261,12 @@ export const storeMachine =
             },
             STORE_RESPONSE: {
               actions: [
+                (context, event) => {
+                  console.log(
+                    'STORE_RESPONSE received in store with data:',
+                    event.response,
+                  );
+                },
                 send(
                   (_, event) => model.events.STORE_RESPONSE(event.response),
                   {

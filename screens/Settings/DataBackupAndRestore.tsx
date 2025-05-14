@@ -15,10 +15,19 @@ import {useOverlayVisibleAfterTimeout} from '../../shared/hooks/useOverlayVisibl
 import {isAndroid, isIOS} from '../../shared/constants';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const DataBackupAndRestore: React.FC = ({} = () => {
+export const DataBackupAndRestore: React.FC<{autoOpen?: boolean}> = ({
+  autoOpen = false,
+}) => {
   const controller = useBackupAndRestoreSetup();
   const delay = isAndroid() ? 0 : 1000;
   const {t} = useTranslation('DataBackupScreen');
+
+  React.useEffect(() => {
+    if (autoOpen) {
+      controller.BACKUP_AND_RESTORE();
+    }
+  }, [autoOpen]);
+
   const accountSelectionModalVisible = useOverlayVisibleAfterTimeout(
     controller.showAccountSelectionConfirmation,
     delay,
@@ -136,4 +145,4 @@ export const DataBackupAndRestore: React.FC = ({} = () => {
       />
     </React.Fragment>
   );
-});
+};

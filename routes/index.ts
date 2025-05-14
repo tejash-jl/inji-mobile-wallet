@@ -15,6 +15,7 @@ import {RequestLayout} from '../screens/Request/RequestLayout';
 import {SplashScreen} from '../screens/SplashScreen';
 import {RequestStackParamList} from './routesConstants';
 import {KeyManagementScreen} from '../screens/Settings/KeyManagementScreen';
+import App from '../App';
 
 export const baseRoutes: Screen[] = [
   {

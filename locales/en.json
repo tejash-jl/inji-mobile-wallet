@@ -139,8 +139,8 @@
     "cancel": "Cancel"
   },
   "AuthScreen": {
-    "header": "Select App Unlock Method",
-    "Description": "To unlock the app securely, you can set up either biometric authentication, such as fingerprint or facial recognition or opt for a 6-digit Passcode for quick access.",
+    "header": "Select Unlock Method",
+    "Description": "To unlock the application securely, you can set up either biometric authentication, such as fingerprint or facial recognition or opt for a 6-digit Passcode for quick access.",
     "PasswordTypeDescription": "Choose ‘Use Biometrics’ to enable biometric authentication or ‘I’ll Do Later’ to set up a 6-digit passcode.",
     "useBiometrics": "Use Biometrics",
     "usePasscode": "I'll Do Later",
@@ -464,15 +464,15 @@
   },
   "OnboardingOverlay": {
     "stepOneTitle": "Welcome!",
-    "stepOneText": "Keep your digital credential with you at all times. Verifytt helps you manage and use them effectively. To get started, add cards to your profile.",
+    "stepOneText": "Keep your digital credential with you at all times. Verifytt helps you manage and use them effectively. To get started, add Credentials to your profile.",
     "stepTwoTitle": "Secure Sharing",
-    "stepTwoText": "Share your cards securely in a hassle free way and avail various services.",
+    "stepTwoText": "Share your credentials securely in a hassle free way and avail various services.",
     "stepThreeTitle": "Trusted Digital Wallet",
-    "stepThreeText": "Store and carry all your important cards in a single trusted wallet.",
+    "stepThreeText": "Store and carry all your important credentials in a single trusted wallet.",
     "stepFourTitle": "Quick Access",
-    "stepFourText": "Authenticate yourself with ease using the stored digital credential.",
+    "stepFourText": "Authenticate your Credentials with ease using the stored digital credential.",
     "stepFiveTitle": "Backup & Restore",
-    "stepFiveText": "Protect your data with ease using our Backup & Restore feature. Safely store your VCs against loss or accidents by creating regular backups and recover it effortlessly whenever needed for seamless continuity.",
+    "stepFiveText": "Protect your data with ease using Backup & Restore feature. Safely store your VCs against loss by creating regular backups and recover it effortlessly whenever needed for seamless continuity.",
     "getStarted": "Get Started",
     "goBack": "Go Back",
     "back": "Back",
@@ -1053,6 +1053,9 @@
     "skip": "Skip",
     "done": "Done",
     "keyManagementTitle": "Key Management",
-    "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority."
+    "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority.",
+    "backupCard": "Card",
+    "backupSuggestionTitle": "Since you have not enabled backup, please enable it or you will lose your data when you reset the app or switch to a new device",
+    "goToBackupBtnTitle": "Go To Backup" 
   }
 }

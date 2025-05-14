@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
@@ -29,12 +29,32 @@ import {TelemetryConstants} from '../shared/telemetry/TelemetryConstants';
 import {BackHandler} from 'react-native';
 import {incrementRetryCount} from '../shared/telemetry/TelemetryUtils';
 import {SvgImage} from '../components/ui/svg';
+import {useResetAuthToDefault} from './ResetPasscode/ResetPasscodeFunction';
+import {useResetAppStorageToDefault} from './ResetPasscode/ResetApp';
+import {GlobalContext} from '../shared/GlobalContext';
 
 export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
   const {t} = useTranslation('PasscodeScreen');
   const controller = usePasscodeScreen(props);
   const isSettingUp = props.route.params?.setup;
   const [resetPinModalVisible, setResetPinModalVisible] = useState(false);
+
+  const resetAuthToDefault = useResetAuthToDefault();
+  const resetAppStorageToDefault = useResetAppStorageToDefault();
+
+  const {appService} = useContext(GlobalContext);
+
+  console.log(
+    'Pintu Kumar Whole Object-----------------------------',
+    controller,
+  );
+
+  console.log(
+    'Pintu Kumar Stored Passcode & Stored Salt-----------------------------',
+    controller.storedPasscode,
+    '\t',
+    controller.storedSalt,
+  );
 
   useEffect(() => {
     sendImpressionEvent(
@@ -280,10 +300,27 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
               style={{width: 1, height: '100%', backgroundColor: '#A7A7A7'}}
             />
             <TouchableOpacity
-              onPress={() => {
+              onPress={async () => {
+                //const storeService = appService.children.get('store');
+                //storeService?.send('CLEAR');
+
                 controller.RESET_AUTH();
+                await resetAuthToDefault();
+                //await resetAppStorageToDefault();  // Resetting app storage to default
+
                 setResetPinModalVisible(false);
-                props.navigation.navigate('SplashScreen');
+
+                props.navigation.reset({
+                  index: 0,
+                  routes: [{name: 'SplashScreen'}], //params: { setup: true }
+                });
+
+                // setTimeout(() => {
+                //   props.navigation.reset({
+                //     index: 0,
+                //     routes: [{ name: 'SplashScreen' }],
+                //   });
+                // }, 2000);
               }}
               style={{
                 width: '49.5%',
