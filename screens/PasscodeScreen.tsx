@@ -207,7 +207,7 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
           color={Theme.Colors.errorMessage}>
           {controller.error}
         </Text>
-        {!isSettingUp && (
+        {/* {!isSettingUp && (
           <TouchableOpacity
             onPress={() => {
               setResetPinModalVisible(true);
@@ -223,7 +223,7 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
               {t('forgotPassword')}
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
       </Column>
       <Modal
         isVisible={resetPinModalVisible}
