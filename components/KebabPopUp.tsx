@@ -21,14 +21,16 @@ export const KebabPopUp: React.FC<KebabPopUpProps> = props => {
       {props.icon ? (
         props.icon
       ) : (
-        <Icon
-          {...testIDProps('ellipsis')}
-          accessible={true}
-          name={props.iconName}
-          type={props.iconType}
-          color={props.iconColor}
-          size={Theme.ICON_SMALL_SIZE}
-        />
+        <View style={{transform: [{ rotate: '90deg' }]}}>
+          <Icon
+            {...testIDProps('ellipsis')}
+            accessible={true}
+            name={props.iconName}
+            type={props.iconType}
+            color={props.iconColor}
+            size={Theme.ICON_SMALL_SIZE}
+          />
+        </View>
       )}
       <Overlay
         isVisible={props.isVisible && !controller.isScanning}
