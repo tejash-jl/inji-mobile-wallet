@@ -182,3 +182,23 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for  
   React Native.
+
+
+## Setting up Inji VCI Client (Local JAR Installation)
+
+**Step 1:** Clone the Repository
+
+git clone https://github.com/mosip/inji-vci-client.git
+cd inji-vci-client
+
+**Step 2:** Install the JAR to Local Maven Repository
+
+Navigate to the Kotlin folder (inside the cloned repo) and run the following command in Command Prompt or Terminal:
+
+mvn install:install-file -Dfile=./vci-client/build/libs/vci-client-release-1.1.0-SNAPSHOT.jar -DgroupId=io.mosip -DartifactId=inji-vci-client-jar -Dversion=1.1.0-SNAPSHOT -Dpackaging=jar
+ 
+ **Step 3:** Add Maven Local Repository
+
+ In android/build.gradle, inside the repositories block, add: mavenLocal()
+
+ **Step 4:**  Clean the Android Build : cd android && gradlew clean && cd ..

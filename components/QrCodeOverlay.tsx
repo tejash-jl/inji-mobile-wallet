@@ -89,7 +89,7 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
             onPress={toggleQrOverlay}>
             <QRCode
               {...testIDProps('qrCode')}
-              size={72}
+              size={92}
               value={qrString}
               backgroundColor={Theme.Colors.QRCodeBackgroundColor}
               ecl={DEFAULT_ECL}

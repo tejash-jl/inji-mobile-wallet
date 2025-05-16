@@ -469,8 +469,8 @@ export const DefaultTheme = {
     ProfileIconContainer: {
       alignSelf: 'center',
       justifyContent: 'center',
-      width: 40,
-      height: 53,
+      width: 45,
+      height: 45,
       borderRadius: 10,
       borderWidth: 1,
       borderColor: Colors.Mercury,
@@ -526,8 +526,8 @@ export const DefaultTheme = {
       width: 40,
     },
     closeCardImage: {
-      width: 40,
-      height: 53,
+      width: 45,
+      height: 45,
       borderRadius: 100,
     },
     detailedViewImage: {
@@ -620,7 +620,7 @@ export const DefaultTheme = {
       marginTop: 10,
       marginLeft: 14,
       marginRight: 14,
-      marginBottom: 20,
+      marginBottom: 10,
       opacity: 0.2,
     },
     hrLineFill: {
@@ -840,8 +840,8 @@ export const DefaultTheme = {
       fontSize: 18,
     },
     QrView: {
-      width: 80,
-      height: 80,
+      width: 100,
+      height: 100,
       padding: 8,
       backgroundColor: Colors.White,
       alignItems: 'center',
