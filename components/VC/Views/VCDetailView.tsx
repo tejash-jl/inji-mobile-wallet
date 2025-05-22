@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image, ImageBackground, View } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Image, ImageBackground, View} from 'react-native';
 import {
   Credential,
   CredentialWrapper,
@@ -8,24 +8,24 @@ import {
   VerifiableCredentialData,
   WalletBindingResponse,
 } from '../../../machines/VerifiableCredential/VCMetaMachine/vc';
-import { Button, Column, Row, Text } from '../../ui';
-import { Theme } from '../../ui/styleUtils';
-import { QrCodeOverlay } from '../../QrCodeOverlay';
-import { SvgImage } from '../../ui/svg';
-import { isActivationNeeded } from '../../../shared/openId4VCI/Utils';
+import {Button, Column, Row, Text} from '../../ui';
+import {Theme} from '../../ui/styleUtils';
+import {QrCodeOverlay} from '../../QrCodeOverlay';
+import {SvgImage} from '../../ui/svg';
+import {isActivationNeeded} from '../../../shared/openId4VCI/Utils';
 import {
   BOTTOM_SECTION_FIELDS_WITH_DETAILED_ADDRESS_FIELDS,
   DETAIL_VIEW_BOTTOM_SECTION_FIELDS,
   Display,
   fieldItemIterator,
 } from '../common/VCUtils';
-import { ProfileIcon } from '../../ProfileIcon';
-import { VCFormat } from '../../../shared/VCFormat';
+import {ProfileIcon} from '../../ProfileIcon';
+import {VCFormat} from '../../../shared/VCFormat';
 
 const getProfileImage = (face: any) => {
   if (face) {
     return (
-      <Image source={{ uri: face }} style={Theme.Styles.detailedViewImage} />
+      <Image source={{uri: face}} style={Theme.Styles.detailedViewImage} />
     );
   }
   return (
@@ -36,8 +36,10 @@ const getProfileImage = (face: any) => {
   );
 };
 
-export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
-  const { t } = useTranslation('VcDetails');
+export const VCDetailView: React.FC<
+  VCItemDetailsProps & {onModalDismissWithCleanup?: () => void}
+> = props => {
+  const {t} = useTranslation('VcDetails');
   const logo = props.verifiableCredentialData.issuerLogo;
   const face = props.verifiableCredentialData.face;
   const verifiableCredential = props.credential;
@@ -78,7 +80,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
         <Column fill>
           <Column
             padding="10 10 3 10"
-          //backgroundColor={Theme.Colors.DetailedViewBackground}
+            //backgroundColor={Theme.Colors.DetailedViewBackground}
           >
             <ImageBackground
               imageStyle={Theme.Styles.vcDetailBg}
@@ -88,7 +90,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                 Theme.Styles.openCardBgContainer,
                 //wellknownDisplayProperty.getBackgroundColor(),
               ]}
-            //source={wellknownDisplayProperty.getBackgroundImage(Theme.OpenCard)}
+              //source={wellknownDisplayProperty.getBackgroundImage(Theme.OpenCard)}
             >
               <Row padding="14 14 0 14" margin="0 0 0 0">
                 <Column crossAlign="center">
@@ -98,6 +100,8 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                       props.credentialWrapper as unknown as VerifiableCredential
                     }
                     meta={props.verifiableCredentialData.vcMetadata}
+                    onModalDismissWithCleanup={props.onModalDismissWithCleanup}
+                    navigation={props.navigation}
                   />
                   <Column
                     width={80}
@@ -116,7 +120,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                 <Column
                   align="space-evenly"
                   margin={'0 0 0 24'}
-                  style={{ flex: 1 }}>
+                  style={{flex: 1}}>
                   {fieldItemIterator(
                     props.fields,
                     verifiableCredential,
@@ -147,17 +151,19 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                     )}
                 </Column>
               </>
-              <>
-                <View
-                  style={[
-                    Theme.Styles.hrLine,
-                    {
-                      borderBottomColor: wellknownDisplayProperty.getTextColor(
-                        Theme.Styles.hrLine.borderBottomColor,
-                      ),
-                    },
-                  ]}></View>
-                {props.credential?.credentialSubject?.courses && (
+              {props.credential?.credentialSubject?.courses && (
+                <>
+                  <View
+                    style={[
+                      Theme.Styles.hrLine,
+                      {
+                        borderBottomColor:
+                          wellknownDisplayProperty.getTextColor(
+                            Theme.Styles.hrLine.borderBottomColor,
+                          ),
+                      },
+                    ]}
+                  />
                   <Column margin="5 14 10 14">
                     <Text
                       style={{
@@ -170,32 +176,46 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                       }}>
                       {t('courses')}
                     </Text>
-                    {props.credential.credentialSubject?.courses.map((course, index) => (
-                      <Column
-                        key={index}
-                        margin="0 0 16 0"
-                        style={{
-                          borderBottomWidth: index !== props.credential.credentialSubject.courses.length - 1 ? 1 : 0,
-                          borderBottomColor: Theme.Colors.borderColor || '#ccc',
-                          paddingBottom: 16,
-                        }}>
-                        {Object.entries(course).map(([key, value]) => (
-                          <Text
-                            key={key}
-                            style={{
-                              fontFamily: 'Inter_600SemiBold',
-                              fontSize: 12,
-                              color: wellknownDisplayProperty.getTextColor(Theme.Colors.Details),
-                              marginBottom: 4,
-                            }}>
-                            {`${key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}: ${value ?? 'N/A'}`}
-                          </Text>
-                        ))}
-                      </Column>
-                    ))}
+                    {props.credential.credentialSubject?.courses.map(
+                      (course, index) => (
+                        <Column
+                          key={index}
+                          margin="0 0 16 0"
+                          style={{
+                            borderBottomWidth:
+                              index !==
+                              props.credential.credentialSubject.courses
+                                .length -
+                                1
+                                ? 1
+                                : 0,
+                            borderBottomColor:
+                              Theme.Colors.borderColor || '#ccc',
+                            paddingBottom: 16,
+                          }}>
+                          {Object.entries(course).map(([key, value]) => (
+                            <Text
+                              key={key}
+                              style={{
+                                fontFamily: 'Inter_600SemiBold',
+                                fontSize: 12,
+                                color: wellknownDisplayProperty.getTextColor(
+                                  Theme.Colors.Details,
+                                ),
+                                marginBottom: 4,
+                              }}>
+                              {`${
+                                key.charAt(0).toUpperCase() +
+                                key.slice(1).replace(/([A-Z])/g, ' $1')
+                              }: ${value ?? 'N/A'}`}
+                            </Text>
+                          ))}
+                        </Column>
+                      ),
+                    )}
                   </Column>
-                )}
-              </>
+                </>
+              )}
             </ImageBackground>
           </Column>
         </Column>
@@ -209,7 +229,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
             }}>
             {props.activeTab !== 1 &&
               (!props.walletBindingResponse &&
-                isActivationNeeded(props.verifiableCredentialData?.issuer) ? (
+              isActivationNeeded(props.verifiableCredentialData?.issuer) ? (
                 <Column
                   padding="10"
                   style={Theme.Styles.detailedViewActivationPopupContainer}>
@@ -295,4 +315,5 @@ export interface VCItemDetailsProps {
   onBinding?: () => void;
   activeTab?: Number;
   vcHasImage: boolean;
+  navigation?: any;
 }

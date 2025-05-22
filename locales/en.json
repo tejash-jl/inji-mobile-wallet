@@ -109,7 +109,9 @@
       }
     },
     "shareQRCode": "Share QR Code",
-    "courses": "Courses"
+    "courses": "Courses",
+    "failedLoadingQRReaction": "Oops!",
+    "failedLoadingQRMessage": "This VC is too big for a QR code"
   },
   "HomeScreenKebabPopUp": {
     "title": "More Options",

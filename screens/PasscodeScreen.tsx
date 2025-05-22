@@ -40,7 +40,8 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
   const [resetPinModalVisible, setResetPinModalVisible] = useState(false);
 
   const resetAuthToDefault = useResetAuthToDefault();
-  const resetAppStorageToDefault = useResetAppStorageToDefault();
+  const {resetAppStorageToDefault, resetMachinesToInitialState} =
+    useResetAppStorageToDefault();
 
   const {appService} = useContext(GlobalContext);
 
@@ -304,9 +305,10 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
                 //const storeService = appService.children.get('store');
                 //storeService?.send('CLEAR');
 
-                controller.RESET_AUTH();
-                await resetAuthToDefault();
-                //await resetAppStorageToDefault();  // Resetting app storage to default
+                //controller.RESET_AUTH();
+                //await resetAuthToDefault();
+                await resetAppStorageToDefault(); // Resetting app storage to default
+                resetMachinesToInitialState(); // Resetting machines to initial state
 
                 setResetPinModalVisible(false);
 

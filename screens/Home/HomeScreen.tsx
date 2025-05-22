@@ -98,6 +98,7 @@ export const HomeScreen: React.FC<
             //props.navigationRef?.current?.navigate('Settings');
             //await logAuthData();
             controller.GOTO_ISSUERS();
+            //resetMachinesToInitialState();
           }}
           {...testIDProps('downloadCardButton')}
           accessible={false}
@@ -154,6 +155,7 @@ export const HomeScreen: React.FC<
             vcItemActor={controller.selectedVc}
             activeTab={controller.activeTab}
             flow="downloadedVc"
+            navigation={props.navigation}
           />
         )}
       </React.Fragment>
