@@ -416,7 +416,10 @@ export const DefaultTheme = {
       height: 100,
     },
     injiLogo: {
-      width: 150,
+
+
+      width: 191.58,
+
       height: 50,
     },
     injiHomeLogo: {
