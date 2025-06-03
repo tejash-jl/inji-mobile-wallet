@@ -71,6 +71,7 @@
     "valid": "Valid",
     "pending": "Pending",
     "expired": "Expired",
+    "revoked": "Revoked",
     "photo": "Photo",
     "fullName": "Full Name",
     "gender": "Gender",
@@ -109,7 +110,9 @@
       }
     },
     "shareQRCode": "Share QR Code",
-    "courses": "Courses"
+    "courses": "Courses",
+    "failedLoadingQRReaction": "Oops!",
+    "failedLoadingQRMessage": "This VC is too big for a QR code"
   },
   "HomeScreenKebabPopUp": {
     "title": "More Options",
@@ -197,7 +200,7 @@
     "poweredBy": "Powered by VerifyTT, A MOSIP Product"
   },
   "IssuersScreen": {
-    "title": "Add new credential",
+    "title": "List of Issuers",
     "description": "Please choose your preferred issuer from the options below to add a new credential.",
     "searchByIssuersName": "Search by Issuer’s name",
     "credentialTypeDescription": "Please select a credential",
@@ -506,6 +509,10 @@
       "expired": {
         "title": "Expired Status:",
         "description": "The credential has expired."
+      },
+      "revoked": {
+        "title": "Revoked Status:",
+        "description": "The credential has revoked."
       }
     }
   },

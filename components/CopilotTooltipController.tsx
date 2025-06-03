@@ -7,7 +7,7 @@ import {
   selectIsInitialDownload,
   selectIsOnboarding,
 } from '../machines/auth';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {copilotTestID} from '../shared/constants';
 
 export const UseCopilotTooltip = () => {
@@ -29,8 +29,8 @@ export const UseCopilotTooltip = () => {
     authService?.send(AuthEvents.INITIAL_DOWNLOAD_DONE());
   const SET_TOUR_GUIDE = set =>
     authService?.send(AuthEvents.SET_TOUR_GUIDE(set));
-  const isOnboarding = useSelector(authService, selectIsOnboarding);
-  const isInitialDownloading = useSelector(
+  const isOnboarding = useSafeSelector(authService, selectIsOnboarding);
+  const isInitialDownloading = useSafeSelector(
     authService,
     selectIsInitialDownload,
   );
@@ -38,9 +38,9 @@ export const UseCopilotTooltip = () => {
   const CURRENT_STEP = currentStep?.order;
   const currentStepTitle = currentStep?.name;
   const currentStepDescription = currentStep?.text;
-  const titleTestID = `${copilotTestID[CURRENT_STEP?.toString()]}Title`;
+  const titleTestID = `${copilotTestID[CURRENT_STEP?.toString()] || 'unknown'}Title`;
   const descriptionTestID = `${
-    copilotTestID[CURRENT_STEP?.toString()]
+    copilotTestID[CURRENT_STEP?.toString()] || 'unknown'
   }Description`;
 
   const stepCount =

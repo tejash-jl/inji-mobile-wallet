@@ -1,10 +1,10 @@
 import React from 'react';
-import {decryptJson, encryptJson} from '../../shared/cryptoutil/cryptoUtil';
-import {GlobalContext} from '../../shared/GlobalContext';
-import {MMKV} from '../../shared/storage';
+import { decryptJson, encryptJson } from '../../shared/cryptoutil/cryptoUtil';
+import { GlobalContext } from '../../shared/GlobalContext';
+import Storage, { MMKV } from '../../shared/storage';
 
 export function useResetAuthToDefault() {
-  const {appService} = React.useContext(GlobalContext);
+  const { appService } = React.useContext(GlobalContext);
   const storeService = appService.children.get('store');
   const encryptionKey =
     storeService?.getSnapshot()?.context?.encryptionKey || '';
@@ -14,7 +14,7 @@ export function useResetAuthToDefault() {
       const authValue = await MMKV.getItem('auth');
       if (authValue && typeof authValue === 'string') {
         const decryptedAuth = await decryptJson(encryptionKey, authValue);
-        let authObj: {[key: string]: any} = {};
+        let authObj: { [key: string]: any } = {};
         try {
           authObj = JSON.parse(decryptedAuth);
         } catch (e) {
@@ -46,7 +46,7 @@ export function useResetAuthToDefault() {
 }
 
 export function useResetAuthStore() {
-  const {appService} = React.useContext(GlobalContext);
+  const { appService } = React.useContext(GlobalContext);
   const storeService = appService.children.get('store');
   const encryptionKey =
     storeService?.getSnapshot()?.context?.encryptionKey || '';
@@ -56,7 +56,7 @@ export function useResetAuthStore() {
       const authValue = await MMKV.getItem('auth');
       if (authValue && typeof authValue === 'string') {
         const decryptedAuth = await decryptJson(encryptionKey, authValue);
-        let authObj: {[key: string]: any} = {};
+        let authObj: { [key: string]: any } = {};
         try {
           authObj = JSON.parse(decryptedAuth);
         } catch (e) {
@@ -78,8 +78,40 @@ export function useResetAuthStore() {
   return resetAuthStore;
 }
 
+// export function useConsoleAuthData() {
+//   const {appService} = React.useContext(GlobalContext);
+//   const storeService = appService.children.get('store');
+//   const encryptionKey =
+//     storeService?.getSnapshot()?.context?.encryptionKey || '';
+
+//   const logAllKeysData = async () => {
+//     try {
+//       const keys = await MMKV.indexer.strings.getKeys();
+//       console.log('MMKV Stored Keys:', keys);
+//       for (const key of keys) {
+//         const value = await MMKV.getItem(key);
+//         if (value && typeof value === 'string') {
+//           try {
+//             const decryptedValue = await decryptJson(encryptionKey, value);
+//             console.log(`Decrypted value for key '${key}':`, decryptedValue);
+//           } catch (e) {
+//             console.log(`Raw value for key '${key}':`, value);
+//           }
+//         } else {
+//           console.log(`Value for key '${key}' is empty or not a string`);
+//         }
+//       }
+//     } catch (error) {
+//       console.error('Error fetching MMKV keys or values:', error);
+//     }
+//   };
+
+//   return logAllKeysData;
+// }
+
+
 export function useConsoleAuthData() {
-  const {appService} = React.useContext(GlobalContext);
+  const { appService } = React.useContext(GlobalContext);
   const storeService = appService.children.get('store');
   const encryptionKey =
     storeService?.getSnapshot()?.context?.encryptionKey || '';
@@ -92,8 +124,19 @@ export function useConsoleAuthData() {
         const value = await MMKV.getItem(key);
         if (value && typeof value === 'string') {
           try {
-            const decryptedValue = await decryptJson(encryptionKey, value);
-            console.log(`Decrypted value for key '${key}':`, decryptedValue);
+            if (key.startsWith('VC_')) {
+              // For VC keys, attempt to read from file system if needed
+              const vcData = await Storage.getItem(key, encryptionKey);
+              if (vcData) {
+                const decryptedValue = await decryptJson(encryptionKey, vcData);
+                console.log(`From File Decrypted value for key '${key}':`, decryptedValue);
+              } else {
+                console.log(`No data found for VC key '${key}'`);
+              }
+            } else {
+              const decryptedValue = await decryptJson(encryptionKey, value);
+              console.log(`Decrypted value for key '${key}':`, decryptedValue);
+            }
           } catch (e) {
             console.log(`Raw value for key '${key}':`, value);
           }
@@ -108,3 +151,7 @@ export function useConsoleAuthData() {
 
   return logAllKeysData;
 }
+
+
+
+

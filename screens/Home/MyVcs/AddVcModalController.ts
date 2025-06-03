@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../../shared/hooks/useSafeSelector';
 import {ActorRefFrom} from 'xstate';
 import {
   AddVcModalEvents,
@@ -14,15 +14,15 @@ import {
 
 export function useAddVcModal({service}: AddVcModalProps) {
   return {
-    isRequestingCredential: useSelector(service, selectIsRequestingCredential),
+    isRequestingCredential: useSafeSelector(service, selectIsRequestingCredential),
 
-    otpError: useSelector(service, selectOtpError),
+    otpError: useSafeSelector(service, selectOtpError),
 
-    isAcceptingUinInput: useSelector(service, selectIsAcceptingIdInput),
-    isAcceptingOtpInput: useSelector(service, selectIsAcceptingOtpInput),
-    isDownloadCancelled: useSelector(service, selectIsCancellingDownload),
-    isPhoneNumber: useSelector(service, selectIsPhoneNumber),
-    isEmail: useSelector(service, selectIsEmail),
+    isAcceptingUinInput: useSafeSelector(service, selectIsAcceptingIdInput),
+    isAcceptingOtpInput: useSafeSelector(service, selectIsAcceptingOtpInput),
+    isDownloadCancelled: useSafeSelector(service, selectIsCancellingDownload),
+    isPhoneNumber: useSafeSelector(service, selectIsPhoneNumber),
+    isEmail: useSafeSelector(service, selectIsEmail),
 
     INPUT_OTP: (otp: string) => service.send(AddVcModalEvents.INPUT_OTP(otp)),
 

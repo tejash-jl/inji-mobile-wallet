@@ -1,4 +1,5 @@
-import {useInterpret, useSelector} from '@xstate/react';
+import {useInterpret} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useRef} from 'react';
 
 import {
@@ -34,16 +35,16 @@ export function useBackupAndRestoreSetup() {
     }),
   );
   const backupAndRestoreSetupService = useInterpret(machine.current);
-  const isBackupAndRestoreExplored = useSelector(
+  const isBackupAndRestoreExplored = useSafeSelector(
     settingsService,
     selectIsBackUpAndRestoreExplored,
   );
 
-  const isNetworkErrorDuringAccountSetup = useSelector(
+  const isNetworkErrorDuringAccountSetup = useSafeSelector(
     backupAndRestoreSetupService,
     selectIsNetworkErrorDuringSetup,
   );
-  const isNetworkErrorWhileFetchingLastBackupDetails = useSelector(
+  const isNetworkErrorWhileFetchingLastBackupDetails = useSafeSelector(
     backupService,
     selectIsNetworkErrorWhileFetchingLastBackupDetails,
   );
@@ -57,26 +58,26 @@ export function useBackupAndRestoreSetup() {
   };
 
   return {
-    isLoading: useSelector(backupAndRestoreSetupService, selectIsLoading),
-    profileInfo: useSelector(backupAndRestoreSetupService, selectProfileInfo),
+    isLoading: useSafeSelector(backupAndRestoreSetupService, selectIsLoading),
+    profileInfo: useSafeSelector(backupAndRestoreSetupService, selectProfileInfo),
     isNetworkError:
       isNetworkErrorDuringAccountSetup ||
       isNetworkErrorWhileFetchingLastBackupDetails,
 
-    showAccountSelectionConfirmation: useSelector(
+    showAccountSelectionConfirmation: useSafeSelector(
       backupAndRestoreSetupService,
       selectShowAccountSelectionConfirmation,
     ),
-    isSigningIn: useSelector(backupAndRestoreSetupService, selectIsSigningIn),
-    isSigningInFailed: useSelector(
+    isSigningIn: useSafeSelector(backupAndRestoreSetupService, selectIsSigningIn),
+    isSigningInFailed: useSafeSelector(
       backupAndRestoreSetupService,
       selectIsSigningInFailure,
     ),
-    isCloudSignInFailed: useSelector(
+    isCloudSignInFailed: useSafeSelector(
       backupAndRestoreSetupService,
       selectIsCloudSignedInFailed,
     ),
-    isSigningInSuccessful: useSelector(
+    isSigningInSuccessful: useSafeSelector(
       backupAndRestoreSetupService,
       selectIsSigningInSuccessful,
     ),
@@ -91,7 +92,7 @@ export function useBackupAndRestoreSetup() {
         );
       }
     },
-    shouldTriggerAutoBackup: useSelector(
+    shouldTriggerAutoBackup: useSafeSelector(
       backupAndRestoreSetupService,
       selectShouldTriggerAutoBackup,
     ),

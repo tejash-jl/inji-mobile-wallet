@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {ActorRefFrom} from 'xstate';
 import {
@@ -47,28 +47,28 @@ export function useMyVcsTab(props: HomeScreenTabProps) {
 
   return {
     service,
-    AddVcModalService: useSelector(service, selectAddVcModal),
-    GetVcModalService: useSelector(service, selectGetVcModal),
-    vcMetadatas: useSelector(vcMetaService, selectMyVcsMetadata),
-    isRefreshingVcs: useSelector(vcMetaService, selectIsRefreshingMyVcs),
-    isRequestSuccessful: useSelector(service, selectIsRequestSuccessful),
-    walletBindingError: useSelector(service, selectWalletBindingError),
-    isBindingError: useSelector(service, selectShowWalletBindingError),
-    isBindingSuccess: useSelector(vcMetaService, selectWalletBindingSuccess),
-    isNetworkOff: useSelector(service, selectIsNetworkOff),
-    inProgressVcDownloads: useSelector(
+    AddVcModalService: useSafeSelector(service, selectAddVcModal),
+    GetVcModalService: useSafeSelector(service, selectGetVcModal),
+    vcMetadatas: useSafeSelector(vcMetaService, selectMyVcsMetadata),
+    isRefreshingVcs: useSafeSelector(vcMetaService, selectIsRefreshingMyVcs),
+    isRequestSuccessful: useSafeSelector(service, selectIsRequestSuccessful),
+    walletBindingError: useSafeSelector(service, selectWalletBindingError),
+    isBindingError: useSafeSelector(service, selectShowWalletBindingError),
+    isBindingSuccess: useSafeSelector(vcMetaService, selectWalletBindingSuccess),
+    isNetworkOff: useSafeSelector(service, selectIsNetworkOff),
+    inProgressVcDownloads: useSafeSelector(
       vcMetaService,
       selectInProgressVcDownloads,
     ),
-    areAllVcsLoaded: useSelector(vcMetaService, selectAreAllVcsDownloaded),
-    isTampered: useSelector(vcMetaService, selectIsTampered),
-    downloadFailedVcs: useSelector(vcMetaService, selectDownloadingFailedVcs),
-    vcData: useSelector(vcMetaService, selectMyVcs),
-    showHardwareKeystoreNotExistsAlert: useSelector(
+    areAllVcsLoaded: useSafeSelector(vcMetaService, selectAreAllVcsDownloaded),
+    isTampered: useSafeSelector(vcMetaService, selectIsTampered),
+    downloadFailedVcs: useSafeSelector(vcMetaService, selectDownloadingFailedVcs),
+    vcData: useSafeSelector(vcMetaService, selectMyVcs),
+    showHardwareKeystoreNotExistsAlert: useSafeSelector(
       settingsService,
       selectShowHardwareKeystoreNotExistsAlert,
     ),
-    verificationErrorMessage: useSelector(
+    verificationErrorMessage: useSafeSelector(
       vcMetaService,
       selectVerificationErrorMessage,
     ),
@@ -113,8 +113,8 @@ export function useMyVcsTab(props: HomeScreenTabProps) {
     SET_TOUR_GUIDE: set => {
       authService?.send(AuthEvents.SET_TOUR_GUIDE(set));
     },
-    isOnboarding: authService && useSelector(authService, selectIsOnboarding),
+    isOnboarding: authService && useSafeSelector(authService, selectIsOnboarding),
     isInitialDownloading:
-      authService && useSelector(authService, selectIsInitialDownload),
+      authService && useSafeSelector(authService, selectIsInitialDownload),
   };
 }

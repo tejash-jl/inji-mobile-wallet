@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useState} from 'react';
 import {ActorRefFrom} from 'xstate';
 import {QrLoginEvents} from '../../machines/QrLogin/QrLoginMachine';
@@ -44,39 +44,39 @@ export function useQrLogin({service}: QrLoginProps) {
   const vcMetaService = appService.children.get('vcMeta')!!;
   const [selectedIndex, setSelectedIndex] = useState<number>(null);
   return {
-    isFaceVerificationConsent: useSelector(
+    isFaceVerificationConsent: useSafeSelector(
       service,
       selectIsFaceVerificationConsent,
     ),
-    linkTransactionResponse: useSelector(
+    linkTransactionResponse: useSafeSelector(
       service,
       selectLinkTransactionResponse,
     ),
-    shareableVcsMetadata: useSelector(vcMetaService, selectBindedVcsMetadata),
-    verifiableCredentialData: useSelector(
+    shareableVcsMetadata: useSafeSelector(vcMetaService, selectBindedVcsMetadata),
+    verifiableCredentialData: useSafeSelector(
       service,
       selectVerifiableCredentialData,
     ),
-    isQrLoginViaDeepLink: useSelector(service, selectIsQrLoginViaDeepLink),
-    domainName: useSelector(service, selectDomainName),
-    logoUrl: useSelector(service, selectLogoUrl),
-    essentialClaims: useSelector(service, selectEssentialClaims),
-    voluntaryClaims: useSelector(service, selectVoluntaryClaims),
-    clientName: useSelector(service, selectClientName),
-    error: useSelector(service, selectErrorMessage),
-    selectCredential: useSelector(service, selectCredential),
-    isWaitingForData: useSelector(service, selectIsWaitingForData),
-    isShowingVcList: useSelector(service, selectIsShowingVcList),
-    isLinkTransaction: useSelector(service, selectIsLinkTransaction),
-    isLoadingMyVcs: useSelector(service, selectIsloadMyVcs),
-    isRequestConsent: useSelector(service, selectIsRequestConsent),
-    isShowingError: useSelector(service, selectIsShowError),
-    isSendingAuthenticate: useSelector(service, selectIsSendingAuthenticate),
-    isSendingConsent: useSelector(service, selectIsSendingConsent),
-    isVerifyingIdentity: useSelector(service, selectIsisVerifyingIdentity),
-    isInvalidIdentity: useSelector(service, selectIsInvalidIdentity),
-    isVerifyingSuccesful: useSelector(service, selectIsVerifyingSuccesful),
-    isShare: useSelector(service, selectIsSharing),
+    isQrLoginViaDeepLink: useSafeSelector(service, selectIsQrLoginViaDeepLink),
+    domainName: useSafeSelector(service, selectDomainName),
+    logoUrl: useSafeSelector(service, selectLogoUrl),
+    essentialClaims: useSafeSelector(service, selectEssentialClaims),
+    voluntaryClaims: useSafeSelector(service, selectVoluntaryClaims),
+    clientName: useSafeSelector(service, selectClientName),
+    error: useSafeSelector(service, selectErrorMessage),
+    selectCredential: useSafeSelector(service, selectCredential),
+    isWaitingForData: useSafeSelector(service, selectIsWaitingForData),
+    isShowingVcList: useSafeSelector(service, selectIsShowingVcList),
+    isLinkTransaction: useSafeSelector(service, selectIsLinkTransaction),
+    isLoadingMyVcs: useSafeSelector(service, selectIsloadMyVcs),
+    isRequestConsent: useSafeSelector(service, selectIsRequestConsent),
+    isShowingError: useSafeSelector(service, selectIsShowError),
+    isSendingAuthenticate: useSafeSelector(service, selectIsSendingAuthenticate),
+    isSendingConsent: useSafeSelector(service, selectIsSendingConsent),
+    isVerifyingIdentity: useSafeSelector(service, selectIsisVerifyingIdentity),
+    isInvalidIdentity: useSafeSelector(service, selectIsInvalidIdentity),
+    isVerifyingSuccesful: useSafeSelector(service, selectIsVerifyingSuccesful),
+    isShare: useSafeSelector(service, selectIsSharing),
     selectedIndex,
     SELECT_CONSENT: (value: boolean, claim: string) => {
       service.send(QrLoginEvents.TOGGLE_CONSENT_CLAIM(value, claim));

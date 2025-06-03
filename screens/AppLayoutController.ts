@@ -1,4 +1,4 @@
-import { useSelector } from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';;
 import { useContext } from 'react';
 import {
   selectAuthorized,
@@ -10,10 +10,10 @@ import { GlobalContext } from '../shared/GlobalContext';
 export function useAppLayout() {
   const { appService } = useContext(GlobalContext);
   const authService = appService.children.get('auth');
-  const isLanguagesetup = useSelector(authService, selectLanguagesetup);
+  const isLanguagesetup = useSafeSelector(authService, selectLanguagesetup);
   return {
-    isAuthorized: useSelector(authService, selectAuthorized),
-    isUnAuthorized: useSelector(authService, selectUnauthorized),
+    isAuthorized: useSafeSelector(authService, selectAuthorized),
+    isUnAuthorized: useSafeSelector(authService, selectUnauthorized),
     isLanguagesetup,
   };
 }

@@ -1,30 +1,39 @@
 import testIDProps from '../shared/commonUtil';
-import {Display} from './VC/common/VCUtils';
+import { Display } from './VC/common/VCUtils';
 import VerifiedIcon from './VerifiedIcon';
-import {Row, Text} from './ui';
-import {Theme} from './ui/styleUtils';
+import { Row, Text } from './ui';
+import { Theme } from './ui/styleUtils';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import PendingIcon from './PendingIcon';
-import {VCMetadata} from '../shared/VCMetadata';
+import { VCMetadata } from '../shared/VCMetadata';
+import { SvgImage } from './ui/svg';
+import { View } from 'react-native';
+import RevokedIcon from './RevokedIcon';
 
 export const VCVerification: React.FC<VCVerificationProps> = ({
   vcMetadata,
   display,
+  vcStatus
 }) => {
-  const {t} = useTranslation('VcDetails');
+  const { t } = useTranslation('VcDetails');
+  console.log("vcStatus VCVerification:", vcStatus);
   const statusText = vcMetadata.isVerified
     ? vcMetadata.isExpired
       ? t('expired')
-      : t('valid')
+      : vcStatus === 'revoked' ? t('revoked') : t('valid')
     : t('pending');
 
   const statusIcon = vcMetadata.isVerified ? (
     vcMetadata.isExpired ? (
       <PendingIcon />
-    ) : (
-      <VerifiedIcon />
-    )
+    ) :
+      vcStatus === 'revoked' ? (
+        // <View style={{marginRight: 5}}>{SvgImage.RevokedIcon()}</View>
+        <RevokedIcon />
+      ) : (
+        <VerifiedIcon />
+      )
   ) : (
     <PendingIcon />
   );
@@ -35,13 +44,18 @@ export const VCVerification: React.FC<VCVerificationProps> = ({
         alignItems: 'center',
       }}>
       <React.Fragment>
-        {statusIcon}
-        <Text
-          testID="verificationStatus"
-          color={display.getTextColor(Theme.Colors.Details)}
-          style={Theme.Styles.verificationStatus}>
-          {statusText}
-        </Text>
+        { vcStatus !== undefined && statusIcon}
+        {
+          vcStatus !== undefined && (
+            <Text
+              testID="verificationStatus"
+              color={display.getTextColor(Theme.Colors.Details)}
+              style={Theme.Styles.verificationStatus}>
+              {statusText}
+            </Text>
+          )
+        }
+
       </React.Fragment>
     </Row>
   );
@@ -50,4 +64,5 @@ export const VCVerification: React.FC<VCVerificationProps> = ({
 export interface VCVerificationProps {
   vcMetadata: VCMetadata;
   display: Display;
+  vcStatus?: string;
 }

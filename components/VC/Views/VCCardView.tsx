@@ -101,6 +101,7 @@ export const VCCardView: React.FC<VCItemProps> = props => {
       DISMISS={controller.DISMISS}
       KEBAB_POPUP={controller.KEBAB_POPUP}
       isInitialLaunch={props.isInitialLaunch}
+      vcStatus={props?.status}
     />
   );
 
@@ -149,6 +150,7 @@ export interface VCItemProps {
   flow?: string;
   isInitialLaunch?: boolean;
   isTopCard?: boolean;
+  status?: string;
 }
 
 VCCardView.defaultProps = {

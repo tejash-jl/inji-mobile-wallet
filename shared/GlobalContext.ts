@@ -11,10 +11,11 @@ import {backupMachine} from '../machines/backupAndRestore/backup';
 import {backupRestoreMachine} from '../machines/backupAndRestore/backupRestore';
 import {vcMetaMachine} from '../machines/VerifiableCredential/VCMetaMachine/VCMetaMachine';
 
-export const GlobalContext = createContext({} as GlobalServices);
+import {AppService} from './types/xstateTypes';
 
 export interface GlobalServices {
-  appService: InterpreterFrom<typeof appMachine>;
+  appService: AppService;
+  setAppService: React.Dispatch<React.SetStateAction<AppService>>;
 }
 
 export interface AppServices {
@@ -28,3 +29,5 @@ export interface AppServices {
   backup: ActorRefFrom<typeof backupMachine>;
   backupRestore: ActorRefFrom<typeof backupRestoreMachine>;
 }
+
+export const GlobalContext = createContext({} as GlobalServices);

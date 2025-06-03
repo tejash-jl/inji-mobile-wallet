@@ -8,7 +8,8 @@ import {
   selectVerifiableCredentialData,
   selectCredential,
 } from '../../machines/VerifiableCredential/VCItemMachine/VCItemSelectors';
-import {useInterpret, useSelector} from '@xstate/react';
+import {useInterpret} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {VCItemProps} from './Views/VCCardView';
 import {
   createVCItemMachine,
@@ -30,27 +31,27 @@ export function useVcItemController(props: VCItemProps) {
 
   return {
     VCItemService,
-    context: useSelector(VCItemService, selectContext),
-    credential: useSelector(VCItemService, selectCredential),
-    verifiableCredentialData: useSelector(
+    context: useSafeSelector(VCItemService, selectContext),
+    credential: useSafeSelector(VCItemService, selectCredential),
+    verifiableCredentialData: useSafeSelector(
       VCItemService,
       selectVerifiableCredentialData,
     ),
-    walletBindingResponse: useSelector(
+    walletBindingResponse: useSafeSelector(
       VCItemService,
       selectWalletBindingResponse,
     ),
-    isKebabPopUp: useSelector(VCItemService, selectKebabPopUp),
+    isKebabPopUp: useSafeSelector(VCItemService, selectKebabPopUp),
     DISMISS: () => VCItemService.send(VCItemEvents.DISMISS()),
     KEBAB_POPUP: () => VCItemService.send(VCItemEvents.KEBAB_POPUP()),
     UPDATE_VC_METADATA: vcMetadata =>
       VCItemService.send(VCItemEvents.UPDATE_VC_METADATA(vcMetadata)),
-    isSavingFailedInIdle: useSelector(
+    isSavingFailedInIdle: useSafeSelector(
       VCItemService,
       selectIsSavingFailedInIdle,
     ),
     storeErrorTranslationPath: 'errors.savingFailed',
-    generatedOn: useSelector(VCItemService, selectGeneratedOn),
-    isTourGuide: useSelector(authService, selectIsTourGuide),
+    generatedOn: useSafeSelector(VCItemService, selectGeneratedOn),
+    isTourGuide: useSafeSelector(authService, selectIsTourGuide),
   };
 }

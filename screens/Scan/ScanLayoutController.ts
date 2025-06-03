@@ -1,5 +1,5 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -72,19 +72,19 @@ export function useScanLayout() {
   const openID4VPService = scanService.getSnapshot().context.OpenId4VPRef;
   const navigation = useNavigation<ScanLayoutNavigation>();
 
-  const isLocationDisabled = useSelector(scanService, selectIsLocationDisabled);
-  const isLocationDenied = useSelector(scanService, selectIsLocationDenied);
-  const isBleError = useSelector(scanService, selectIsHandlingBleError);
-  const isInvalidIdentity = useSelector(scanService, selectIsInvalidIdentity);
-  const flowType = useSelector(scanService, selectFlowType);
-  const openID4VPFlowType = useSelector(scanService, selectOpenID4VPFlowType);
-  const isVerifyingIdentity = useSelector(
+  const isLocationDisabled = useSafeSelector(scanService, selectIsLocationDisabled);
+  const isLocationDenied = useSafeSelector(scanService, selectIsLocationDenied);
+  const isBleError = useSafeSelector(scanService, selectIsHandlingBleError);
+  const isInvalidIdentity = useSafeSelector(scanService, selectIsInvalidIdentity);
+  const flowType = useSafeSelector(scanService, selectFlowType);
+  const openID4VPFlowType = useSafeSelector(scanService, selectOpenID4VPFlowType);
+  const isVerifyingIdentity = useSafeSelector(
     scanService,
     selectIsVerifyingIdentity,
   );
-  const bleError = useSelector(scanService, selectBleError);
-  const credential = useSelector(scanService, selectCredential);
-  const verifiableCredentialData = useSelector(
+  const bleError = useSafeSelector(scanService, selectBleError);
+  const credential = useSafeSelector(scanService, selectCredential);
+  const verifiableCredentialData = useSafeSelector(
     scanService,
     selectVerifiableCredentialData,
   );
@@ -121,37 +121,37 @@ export function useScanLayout() {
   const RETRY_VERIFICATION = () =>
     scanService.send(ScanEvents.RETRY_VERIFICATION());
 
-  const isInvalid = useSelector(scanService, selectIsInvalid);
-  const isConnecting = useSelector(scanService, selectIsConnecting);
-  const isConnectingTimeout = useSelector(
+  const isInvalid = useSafeSelector(scanService, selectIsInvalid);
+  const isConnecting = useSafeSelector(scanService, selectIsConnecting);
+  const isConnectingTimeout = useSafeSelector(
     scanService,
     selectIsConnectingTimeout,
   );
-  const isExchangingDeviceInfo = useSelector(
+  const isExchangingDeviceInfo = useSafeSelector(
     scanService,
     selectIsExchangingDeviceInfo,
   );
-  const isExchangingDeviceInfoTimeout = useSelector(
+  const isExchangingDeviceInfoTimeout = useSafeSelector(
     scanService,
     selectIsExchangingDeviceInfoTimeout,
   );
-  const linkCode = useSelector(appService, selectIsLinkCode);
-  const isAccepted = useSelector(scanService, selectIsAccepted);
-  const isRejected = useSelector(scanService, selectIsRejected);
-  const isSent = useSelector(scanService, selectIsSent);
-  const isOffline = useSelector(scanService, selectIsOffline);
-  const isSendingVc = useSelector(scanService, selectIsSendingVc);
-  const isSendingVP = useSelector(scanService, selectIsSendingVP);
-  const isSendingVcTimeout = useSelector(scanService, selectIsSendingVcTimeout);
-  const isSendingVPTimeout = useSelector(scanService, selectIsSendingVPTimeout);
-  const isDisconnected = useSelector(scanService, selectIsDisconnected);
+  const linkCode = useSafeSelector(appService, selectIsLinkCode);
+  const isAccepted = useSafeSelector(scanService, selectIsAccepted);
+  const isRejected = useSafeSelector(scanService, selectIsRejected);
+  const isSent = useSafeSelector(scanService, selectIsSent);
+  const isOffline = useSafeSelector(scanService, selectIsOffline);
+  const isSendingVc = useSafeSelector(scanService, selectIsSendingVc);
+  const isSendingVP = useSafeSelector(scanService, selectIsSendingVP);
+  const isSendingVcTimeout = useSafeSelector(scanService, selectIsSendingVcTimeout);
+  const isSendingVPTimeout = useSafeSelector(scanService, selectIsSendingVPTimeout);
+  const isDisconnected = useSafeSelector(scanService, selectIsDisconnected);
   const isStayInProgress =
     isConnectingTimeout || isSendingVcTimeout || isSendingVPTimeout;
-  let isFaceIdentityVerified = useSelector(
+  let isFaceIdentityVerified = useSafeSelector(
     scanService,
     selectIsFaceIdentityVerified,
   );
-  let isFaceVerifiedInVPSharing = useSelector(
+  let isFaceVerifiedInVPSharing = useSafeSelector(
     openID4VPService,
     selectIsFaceVerifiedInVPSharing,
   );
@@ -275,11 +275,11 @@ export function useScanLayout() {
     };
   }, []);
 
-  const isDone = useSelector(scanService, selectIsDone);
-  const isReviewing = useSelector(scanService, selectIsReviewing);
-  const isScanning = useSelector(scanService, selectIsScanning);
-  const isQrLoginDone = useSelector(scanService, selectIsQrLoginDone);
-  const isQrLoginDoneViaDeeplink = useSelector(
+  const isDone = useSafeSelector(scanService, selectIsDone);
+  const isReviewing = useSafeSelector(scanService, selectIsReviewing);
+  const isScanning = useSafeSelector(scanService, selectIsScanning);
+  const isQrLoginDone = useSafeSelector(scanService, selectIsQrLoginDone);
+  const isQrLoginDoneViaDeeplink = useSafeSelector(
     scanService,
     selectIsQrLoginDoneViaDeeplink,
   );
@@ -345,8 +345,8 @@ export function useScanLayout() {
     CANCEL,
     isSendingVc,
     isSendingVP,
-    isVPSharingSuccess: useSelector(scanService, selectIsSendingVPSuccess),
-    vpVerifierName: useSelector(
+    isVPSharingSuccess: useSafeSelector(scanService, selectIsSendingVPSuccess),
+    vpVerifierName: useSafeSelector(
       openID4VPService,
       selectVerifierNameInVPSharing,
     ),

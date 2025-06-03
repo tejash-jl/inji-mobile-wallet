@@ -1,4 +1,5 @@
-import {useMachine, useSelector} from '@xstate/react';
+import {useMachine} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useState} from 'react';
 import {ActorRefFrom} from 'xstate';
 import NetInfo from '@react-native-community/netinfo';
@@ -41,9 +42,9 @@ export function useViewVcModal({vcItemActor, isVisible}: ViewVcModalProps) {
   const authService = appService.children.get('auth');
   const [, bioSend, bioService] = useMachine(biometricsMachine);
 
-  const isSuccessBio = useSelector(bioService, selectIsSuccess);
-  const vc = useSelector(vcItemActor, selectVc);
-  const otError = useSelector(vcItemActor, selectOtpError);
+  const isSuccessBio = useSafeSelector(bioService, selectIsSuccess);
+  const vc = useSafeSelector(vcItemActor, selectVc);
+  const otError = useSafeSelector(vcItemActor, selectOtpError);
   const onSuccess = () => {
     bioSend({type: 'SET_IS_AVAILABLE', data: true});
     setError('');
@@ -87,33 +88,33 @@ export function useViewVcModal({vcItemActor, isVisible}: ViewVcModalProps) {
     error,
     message,
     toastVisible,
-    credential: useSelector(vcItemActor, selectCredential),
-    verifiableCredentialData: useSelector(
+    credential: useSafeSelector(vcItemActor, selectCredential),
+    verifiableCredentialData: useSafeSelector(
       vcItemActor,
       selectVerifiableCredentialData,
     ),
-    otpError: useSelector(vcItemActor, selectOtpError),
-    bindingAuthFailedError: useSelector(
+    otpError: useSafeSelector(vcItemActor, selectOtpError),
+    bindingAuthFailedError: useSafeSelector(
       vcItemActor,
       selectBindingAuthFailedError,
     ),
     reAuthenticating,
-    isAcceptingOtpInput: useSelector(vcItemActor, selectIsAcceptingOtpInput),
-    storedPasscode: useSelector(authService, selectPasscode),
-    isAcceptingBindingOtp: useSelector(vcItemActor, selectAcceptingBindingOtp),
-    walletBindingResponse: useSelector(
+    isAcceptingOtpInput: useSafeSelector(vcItemActor, selectIsAcceptingOtpInput),
+    storedPasscode: useSafeSelector(authService, selectPasscode),
+    isAcceptingBindingOtp: useSafeSelector(vcItemActor, selectAcceptingBindingOtp),
+    walletBindingResponse: useSafeSelector(
       vcItemActor,
       selectWalletBindingResponse,
     ),
-    walletBindingError: useSelector(vcItemActor, selectWalletBindingError),
-    isWalletBindingInProgress: useSelector(
+    walletBindingError: useSafeSelector(vcItemActor, selectWalletBindingError),
+    isWalletBindingInProgress: useSafeSelector(
       vcItemActor,
       selectWalletBindingInProgress,
     ),
-    isBindingError: useSelector(vcItemActor, selectShowWalletBindingError),
-    isBindingSuccess: useSelector(vcItemActor, selectWalletBindingSuccess),
-    isBindingWarning: useSelector(vcItemActor, selectBindingWarning),
-    isCommunicationDetails: useSelector(
+    isBindingError: useSafeSelector(vcItemActor, selectShowWalletBindingError),
+    isBindingSuccess: useSafeSelector(vcItemActor, selectWalletBindingSuccess),
+    isBindingWarning: useSafeSelector(vcItemActor, selectBindingWarning),
+    isCommunicationDetails: useSafeSelector(
       vcItemActor,
       selectIsCommunicationDetails,
     ),
@@ -125,16 +126,16 @@ export function useViewVcModal({vcItemActor, isVisible}: ViewVcModalProps) {
     inputOtp: (otp: string) => {
       netInfoFetch(otp);
     },
-    verificationStatus: useSelector(vcItemActor, selectVerificationStatus),
-    isVerificationInProgress: useSelector(
+    verificationStatus: useSafeSelector(vcItemActor, selectVerificationStatus),
+    isVerificationInProgress: useSafeSelector(
       vcItemActor,
       selectIsVerificationInProgress,
     ),
-    isVerificationCompleted: useSelector(
+    isVerificationCompleted: useSafeSelector(
       vcItemActor,
       selectIsVerificationCompleted,
     ),
-    showVerificationStatusBanner: useSelector(
+    showVerificationStatusBanner: useSafeSelector(
       vcItemActor,
       selectShowVerificationStatusBanner,
     ),
@@ -159,4 +160,6 @@ export interface ViewVcModalProps extends ModalProps {
   onDismiss: () => void;
   activeTab: Number;
   flow: string;
+  navigation?: any;
+  vcStatus?: string;
 }

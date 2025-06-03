@@ -1,19 +1,27 @@
 import React from 'react';
-import {Text, Button, Row, Column} from './../components/ui';
-import {useTranslation} from 'react-i18next';
-import {UseCopilotTooltip} from './CopilotTooltipController';
-import {Theme} from './ui/styleUtils';
+import { Text, Button, Row, Column } from './../components/ui';
+import { useTranslation } from 'react-i18next';
+import { UseCopilotTooltip } from './CopilotTooltipController';
+import { Theme } from './ui/styleUtils';
 import {
   COPILOT_FINAL_STEP,
   COPILOT_PRE_FINAL_STEP,
   KEY_MANAGEMENT_STEP,
 } from '../shared/constants';
-import {useSettingsScreen} from '../screens/Settings/SettingScreenController';
+import { useSettingsScreen } from '../screens/Settings/SettingScreenController';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { MainBottomTabParamList } from '../routes/routeTypes';
+import { BOTTOM_TAB_ROUTES } from '../routes/routesConstants';
+
+type CopilotLayoutNavigation = NavigationProp<
+  MainBottomTabParamList
+>;
 
 export const CopilotTooltip = () => {
-  const {t} = useTranslation('copilot');
+  const { t } = useTranslation('copilot');
   const controller = UseCopilotTooltip();
   const settingsController = useSettingsScreen();
+  const navigation = useNavigation<CopilotLayoutNavigation>();
 
   controller.copilotEvents.on('stop', () => {
     controller.SET_TOUR_GUIDE(false);
@@ -49,8 +57,8 @@ export const CopilotTooltip = () => {
         </Text>
         <Row>
           {controller.isFirstStep ||
-          controller.CURRENT_STEP === KEY_MANAGEMENT_STEP ||
-          (controller.isFinalStep && controller.isInitialDownloading) ? null : (
+            controller.CURRENT_STEP === KEY_MANAGEMENT_STEP ||
+            (controller.isFinalStep && controller.isInitialDownloading) ? null : (
             <Button
               testID={`${controller.CURRENT_STEP}previous`}
               title={t('previous')}
@@ -59,14 +67,25 @@ export const CopilotTooltip = () => {
               onPress={controller.goToPrev}
             />
           )}
-          {controller.isLastStep ||
-          controller.CURRENT_STEP === KEY_MANAGEMENT_STEP ? (
+          {(controller.isLastStep) ||  // && controller.CURRENT_STEP !== 6
+            controller.CURRENT_STEP === KEY_MANAGEMENT_STEP ? (
             <Button
               testID={`${controller.CURRENT_STEP}done`}
               title={t('done')}
               type="gradient"
               styles={Theme.Styles.copilotButton}
               onPress={controller.stop}
+            />
+          ) : controller.CURRENT_STEP === 6 ? (
+            <Button
+              testID={`${controller.CURRENT_STEP}next`}
+              title={t('next')}
+              type="gradient"
+              styles={Theme.Styles.copilotButton}
+              onPress={() => {
+                controller.goToNext();
+                navigation.navigate(BOTTOM_TAB_ROUTES.settings);
+              }}
             />
           ) : (
             <Button

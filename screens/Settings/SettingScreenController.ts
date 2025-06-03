@@ -1,4 +1,5 @@
-import {useMachine, useSelector} from '@xstate/react';
+import {useMachine} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useState} from 'react';
 import * as LocalAuthentication from 'expo-local-authentication';
 import {
@@ -42,16 +43,16 @@ export function useSettingsScreen(props: RootRouteProps & RequestRouteProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   const [alertMsg, setHasAlertMsg] = useState('');
-  const authBiometrics = useSelector(authService, selectBiometrics);
+  const authBiometrics = useSafeSelector(authService, selectBiometrics);
   const [biometricState, biometricSend, bioService] =
     useMachine(biometricsMachine);
-  const passcode = useSelector(authService, selectPasscode);
+  const passcode = useSafeSelector(authService, selectPasscode);
   const isPasscodeSet = () => !!passcode;
-  const isSettingUp = useSelector(authService, selectSettingUp);
+  const isSettingUp = useSafeSelector(authService, selectSettingUp);
 
-  const isSuccessBio: boolean = useSelector(bioService, selectIsSuccess);
-  const errorMsgBio: string = useSelector(bioService, selectError);
-  const unEnrolledNoticeBio: string = useSelector(
+  const isSuccessBio: boolean = useSafeSelector(bioService, selectIsSuccess);
+  const errorMsgBio: string = useSafeSelector(bioService, selectError);
+  const unEnrolledNoticeBio: string = useSafeSelector(
     bioService,
     selectUnenrolledNotice,
   );
@@ -113,32 +114,32 @@ export function useSettingsScreen(props: RootRouteProps & RequestRouteProps) {
     hideAlert,
     isPasscodeSet,
     isSettingUp,
-    appId: useSelector(settingsService || {}, selectAppId),
-    name: useSelector(settingsService || {}, selectName),
-    vcLabel: useSelector(settingsService || {}, selectVcLabel),
-    credentialRegistry: useSelector(
+    appId: useSafeSelector(settingsService || {}, selectAppId),
+    name: useSafeSelector(settingsService || {}, selectName),
+    vcLabel: useSafeSelector(settingsService || {}, selectVcLabel),
+    credentialRegistry: useSafeSelector(
       settingsService || {},
       selectCredentialRegistry,
     ),
-    esignetHostUrl: useSelector(settingsService || {}, selectEsignetHostUrl),
-    credentialRegistryResponse: useSelector(
+    esignetHostUrl: useSafeSelector(settingsService || {}, selectEsignetHostUrl),
+    credentialRegistryResponse: useSafeSelector(
       settingsService || {},
       selectCredentialRegistryResponse,
     ),
-    isBiometricUnlockEnabled: useSelector(
+    isBiometricUnlockEnabled: useSafeSelector(
       settingsService || {},
       selectBiometricUnlockEnabled,
     ),
-    isKeyManagementExplored: useSelector(
+    isKeyManagementExplored: useSafeSelector(
       settingsService,
       selectIsKeymanagementExplored,
     ),
-    isKeyManagementTourGuideExplored: useSelector(
+    isKeyManagementTourGuideExplored: useSafeSelector(
       settingsService,
       selectIsKeymanagementTourGuideExplored,
     ),
-    isKeyOrderSet: useSelector(settingsService, selectIsKeyOrderSet),
-    canUseBiometrics: useSelector(authService || {}, selectCanUseBiometrics),
+    isKeyOrderSet: useSafeSelector(settingsService, selectIsKeyOrderSet),
+    canUseBiometrics: useSafeSelector(authService || {}, selectCanUseBiometrics),
     useBiometrics,
 
     UPDATE_NAME: (name: string) =>

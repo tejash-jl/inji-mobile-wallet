@@ -1,4 +1,5 @@
-import {useMachine, useSelector} from '@xstate/react';
+import {useMachine} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useState} from 'react';
 import * as LocalAuthentication from 'expo-local-authentication';
 
@@ -33,20 +34,20 @@ export function useAuthScreen(props: RootRouteProps) {
   const authService = appService.children.get('auth');
   const settingsService = appService.children.get('settings');
 
-  const isSettingUp = useSelector(authService, selectSettingUp);
-  const isAuthorized = useSelector(authService, selectAuthorized);
+  const isSettingUp = useSafeSelector(authService, selectSettingUp);
+  const isAuthorized = useSafeSelector(authService, selectAuthorized);
 
   const [alertMsg, setHasAlertMsg] = useState('');
   const [isBiometricsAvailable, setIsBiometricsAvailable] = useState(false);
   const [biometricState, biometricSend, bioService] =
     useMachine(biometricsMachine);
 
-  const isEnabledBio = useSelector(bioService, selectIsEnabled);
-  const isUnavailableBio = useSelector(bioService, selectIsUnvailable);
-  const isSuccessBio = useSelector(bioService, selectIsSuccess);
-  const errorMsgBio = useSelector(bioService, selectError);
-  const unEnrolledNoticeBio = useSelector(bioService, selectUnenrolledNotice);
-  const errorResponse = useSelector(bioService, selectErrorResponse);
+  const isEnabledBio = useSafeSelector(bioService, selectIsEnabled);
+  const isUnavailableBio = useSafeSelector(bioService, selectIsUnvailable);
+  const isSuccessBio = useSafeSelector(bioService, selectIsSuccess);
+  const errorMsgBio = useSafeSelector(bioService, selectError);
+  const unEnrolledNoticeBio = useSafeSelector(bioService, selectUnenrolledNotice);
+  const errorResponse = useSafeSelector(bioService, selectErrorResponse);
 
   const usePasscode = () => {
     props.navigation.navigate('Passcode', {setup: isSettingUp});

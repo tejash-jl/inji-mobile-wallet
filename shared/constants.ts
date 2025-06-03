@@ -159,7 +159,6 @@ export const copilotTestID = {
   '4': 'history',
   '5': 'settings',
   '6': 'cardView',
-  '7': 'backup',
 };
 
 export const FACE_SDK_MODEL_PATH = isAndroid()

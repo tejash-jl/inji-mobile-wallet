@@ -1,37 +1,47 @@
-import React, {useEffect, useState} from 'react';
-import {Icon} from 'react-native-elements';
-import {Column} from '../../components/ui';
-import {Theme} from '../../components/ui/styleUtils';
-import {HomeRouteProps} from '../../routes/routeTypes';
-import {MyVcsTab} from './MyVcsTab';
-import {ReceivedVcsTab} from './ReceivedVcsTab';
-import {ViewVcModal} from './ViewVcModal';
-import {useHomeScreen} from './HomeScreenController';
-import {TabRef} from './HomeScreenMachine';
-import {ActorRefFrom} from 'xstate';
+import React, { useEffect, useState } from 'react';
+import { Icon } from 'react-native-elements';
+import { Column } from '../../components/ui';
+import { Theme } from '../../components/ui/styleUtils';
+import { HomeRouteProps } from '../../routes/routeTypes';
+import { MyVcsTab } from './MyVcsTab';
+import { ReceivedVcsTab } from './ReceivedVcsTab';
+import { ViewVcModal } from './ViewVcModal';
+import { useHomeScreen } from './HomeScreenController';
+import { TabRef } from './HomeScreenMachine';
+import { ActorRefFrom } from 'xstate';
 import LinearGradient from 'react-native-linear-gradient';
-import {ErrorMessageOverlay} from '../../components/MessageOverlay';
-import {Pressable, TouchableOpacity} from 'react-native';
+import { ErrorMessageOverlay } from '../../components/MessageOverlay';
+import { Pressable, TouchableOpacity } from 'react-native';
 import testIDProps from '../../shared/commonUtil';
-import {BannerNotificationContainer} from '../../components/BannerNotificationContainer';
-import {VCItemMachine} from '../../machines/VerifiableCredential/VCItemMachine/VCItemMachine';
-import {VerifiableCredential} from '../../machines/VerifiableCredential/VCMetaMachine/vc';
-import {useTranslation} from 'react-i18next';
-import {Copilot} from '../../components/ui/Copilot';
+import { BannerNotificationContainer } from '../../components/BannerNotificationContainer';
+import { VCItemMachine } from '../../machines/VerifiableCredential/VCItemMachine/VCItemMachine';
+import { VerifiableCredential } from '../../machines/VerifiableCredential/VCMetaMachine/vc';
+import { useTranslation } from 'react-i18next';
+import { Copilot } from '../../components/ui/Copilot';
 import Modal from 'react-native-modal';
-import {Text} from '../../components/ui';
-import {useConsoleAuthData} from '../ResetPasscode/ResetPasscodeFunction';
-import {BOTTOM_TAB_ROUTES} from '../../routes/routesConstants';
+import { Text } from '../../components/ui';
+import { useConsoleAuthData } from '../ResetPasscode/ResetPasscodeFunction';
+import { BOTTOM_TAB_ROUTES } from '../../routes/routesConstants';
+import { useFocusEffect } from '@react-navigation/native';
+import Storage, { MMKV } from '../../shared/storage';
+import { decryptJson, encryptJson } from '../../shared/cryptoutil/cryptoUtil';
+import { GlobalContext } from '../../shared/GlobalContext';
 
 export const HomeScreen: React.FC<
-  HomeRouteProps & {navigationRef?: any}
+  HomeRouteProps & { navigationRef?: any }
 > = props => {
   const [activateBackupModalVisible, setActivateBackupModalVisible] =
     useState(false);
   const controller = useHomeScreen(props);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const logAuthData = useConsoleAuthData();
+  const [vcStatuses, setVcStatuses] = useState<Record<string, string>>({});
+
+  const selectedVcKey = controller.selectedVc?.getSnapshot?.()?.context?.vcMetadata?.getVcKey?.();
+  const selectedVcStatus = selectedVcKey ? vcStatuses[selectedVcKey] : undefined;
+
+  console.log("selectedVcStatus : ", selectedVcStatus);
 
   useEffect(() => {
     if (controller.IssuersService) {
@@ -43,7 +53,7 @@ export const HomeScreen: React.FC<
   useEffect(() => {
     if (!controller.IssuersService && !controller.backupRestoreService) return;
 
-    const subscriptions: Array<{unsubscribe: () => void}> = [];
+    const subscriptions: Array<{ unsubscribe: () => void }> = [];
 
     if (controller.IssuersService && controller.backupRestoreService) {
       const combinedSubscription = controller.IssuersService.subscribe(
@@ -65,6 +75,73 @@ export const HomeScreen: React.FC<
       subscriptions.forEach(sub => sub.unsubscribe());
     };
   }, [controller.IssuersService, controller.backupRestoreService]);
+
+
+  const useSetVCsStatus = () => {
+    const { appService } = React.useContext(GlobalContext);
+    const storeService = appService.children.get('store');
+    const encryptionKey = storeService?.getSnapshot()?.context?.encryptionKey || '';
+
+    const setVCsStatus = async () => {
+      try {
+        const keys = await MMKV.indexer.strings.getKeys();
+        const filteredKeys = keys.filter(key => key.startsWith('VC_'));
+        const statusMap: Record<string, string> = {};
+        if (filteredKeys.length > 0) {
+          for (const key of filteredKeys) {
+            const vcData = await Storage.getItem(key, encryptionKey);
+            if (vcData) {
+              const decryptedValue = await decryptJson(encryptionKey, vcData);
+
+              console.log(`Decrypted value for key '${key}':`, decryptedValue);
+              const credentialStatus = await checkCredentialStatus(decryptedValue);
+              console.log("checkCredentialStatus : ", credentialStatus?.status);
+              statusMap[key] = credentialStatus?.status || 'unknown';
+            }
+          }
+          setVcStatuses(statusMap);
+        }
+      } catch (error) {
+        console.error('Error fetching MMKV keys or values:', error);
+      }
+    };
+
+    return setVCsStatus;
+  };
+
+
+  const checkCredentialStatus = async (decryptedValue: string) => {
+    const credentialStatus = JSON.parse(decryptedValue)?.verifiableCredential?.credential?.credentialStatus;
+
+    if (!credentialStatus) {
+      throw new Error('Credential status information is not available');
+    }
+    const url = `${credentialStatus.statusListCredential}?statusListIndex=${credentialStatus.statusListIndex}&statusPurpose=${credentialStatus.statusPurpose}&type=${credentialStatus.type}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error checking credential status:', error);
+      throw error;
+    }
+  };
+
+
+  const setVCsStatus = useSetVCsStatus();
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('---------------------------------HomeScreen focused------------------------------');
+
+      setVCsStatus();
+      const timeoutId = setTimeout(() => { setVCsStatus(); }, 3000);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }, [])
+  );
+
 
   const navigateToIssuers = () => {
     props.navigation.navigate('IssuersScreen', {
@@ -90,7 +167,7 @@ export const HomeScreen: React.FC<
         end={Theme.LinearGradientDirection.end}
         style={Theme.Styles.downloadFabIconContainer}>
         <Pressable
-          onPress={() => {
+          onPress={async () => {
             //console.log('Download button pressed');
             //props.navigation.navigate('BackupAndRestore');
             // props.navigation.navigate('Setting');
@@ -98,10 +175,11 @@ export const HomeScreen: React.FC<
             //props.navigationRef?.current?.navigate('Settings');
             //await logAuthData();
             controller.GOTO_ISSUERS();
+            //resetMachinesToInitialState();
           }}
           {...testIDProps('downloadCardButton')}
           accessible={false}
-          style={({pressed}) =>
+          style={({ pressed }) =>
             pressed
               ? Theme.Styles.downloadFabIconPressed
               : Theme.Styles.downloadFabIconNormal
@@ -123,6 +201,7 @@ export const HomeScreen: React.FC<
                 isVisible={controller.activeTab === 0}
                 service={controller.tabRefs.myVcs}
                 vcItemActor={controller.selectedVc}
+                vcStatuses={vcStatuses}
               />
               <ReceivedVcsTab
                 isVisible={controller.activeTab === 1}
@@ -154,6 +233,8 @@ export const HomeScreen: React.FC<
             vcItemActor={controller.selectedVc}
             activeTab={controller.activeTab}
             flow="downloadedVc"
+            navigation={props.navigation}
+            vcStatus={selectedVcStatus}
           />
         )}
       </React.Fragment>
@@ -236,4 +317,5 @@ export interface HomeScreenTabProps {
   service: TabRef;
   vcItemActor: ActorRefFrom<typeof VCItemMachine>;
   vc: VerifiableCredential | Credential;
+  vcStatuses: Record<string, string>
 }

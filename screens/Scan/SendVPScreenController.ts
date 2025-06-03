@@ -1,5 +1,5 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ActorRefFrom} from 'xstate';
@@ -63,11 +63,11 @@ export function useSendVPScreen() {
   const [selectedVCKeys, setSelectedVCKeys] = useState<Record<string, string>>(
     {},
   );
-  const shareableVcs = useSelector(vcMetaService, selectShareableVcs);
+  const shareableVcs = useSafeSelector(vcMetaService, selectShareableVcs);
 
-  const myVcs = useSelector(vcMetaService, selectMyVcs);
+  const myVcs = useSafeSelector(vcMetaService, selectMyVcs);
 
-  const isGetVCsSatisfyingAuthRequest = useSelector(
+  const isGetVCsSatisfyingAuthRequest = useSafeSelector(
     openID4VPService,
     selectIsGetVCsSatisfyingAuthRequest,
   );
@@ -76,11 +76,11 @@ export function useSendVPScreen() {
     openID4VPService.send('DOWNLOADED_VCS', {vcs: shareableVcs});
   }
 
-  const areAllVCsChecked = useSelector(
+  const areAllVCsChecked = useSafeSelector(
     openID4VPService,
     selectAreAllVCsChecked,
   );
-  const vcsMatchingAuthRequest = useSelector(
+  const vcsMatchingAuthRequest = useSafeSelector(
     openID4VPService,
     selectVCsMatchingAuthRequest,
   );
@@ -111,13 +111,13 @@ export function useSendVPScreen() {
     return selectedVcsData;
   };
 
-  const showConfirmationPopup = useSelector(
+  const showConfirmationPopup = useSafeSelector(
     openID4VPService,
     selectShowConfirmationPopup,
   );
-  const isSelectingVCs = useSelector(openID4VPService, selectIsSelectingVcs);
-  const error = useSelector(openID4VPService, selectIsError);
-  const isVPSharingConsent = useSelector(
+  const isSelectingVCs = useSafeSelector(openID4VPService, selectIsSelectingVcs);
+  const error = useSafeSelector(openID4VPService, selectIsError);
+  const isVPSharingConsent = useSafeSelector(
     openID4VPService,
     selectIsGetVPSharingConsent,
   );
@@ -131,7 +131,7 @@ export function useSendVPScreen() {
 
   const DISMISS_POPUP = () =>
     openID4VPService.send(OpenID4VPEvents.DISMISS_POPUP());
-  const openID4VPRetryCount = useSelector(
+  const openID4VPRetryCount = useSafeSelector(
     openID4VPService,
     selectOpenID4VPRetryCount,
   );
@@ -155,7 +155,7 @@ export function useSendVPScreen() {
       ),
     );
   }
-  const requestedClaimsByVerifier = useSelector(
+  const requestedClaimsByVerifier = useSafeSelector(
     openID4VPService,
     selectRequestedClaimsByVerifier,
   );
@@ -204,7 +204,7 @@ export function useSendVPScreen() {
   }
 
   let overlayDetails: Omit<VPShareOverlayProps, 'isVisible'> | null = null;
-  let vpVerifierName = useSelector(
+  let vpVerifierName = useSafeSelector(
     openID4VPService,
     selectVerifierNameInVPSharing,
   );
@@ -242,10 +242,10 @@ export function useSendVPScreen() {
   }
 
   return {
-    isSendingVP: useSelector(openID4VPService, selectIsSharingVP),
-    showLoadingScreen: useSelector(openID4VPService, selectIsShowLoadingScreen),
+    isSendingVP: useSafeSelector(openID4VPService, selectIsSharingVP),
+    showLoadingScreen: useSafeSelector(openID4VPService, selectIsShowLoadingScreen),
     vpVerifierName,
-    flowType: useSelector(openID4VPService, selectFlowType),
+    flowType: useSafeSelector(openID4VPService, selectFlowType),
     showConfirmationPopup,
     isSelectingVCs,
     checkIfAnyVCHasImage,
@@ -253,24 +253,24 @@ export function useSendVPScreen() {
     getSelectedVCs,
     errorModal,
     overlayDetails,
-    scanScreenError: useSelector(scanService, selectIsSendingVPError),
+    scanScreenError: useSafeSelector(scanService, selectIsSendingVPError),
     vcsMatchingAuthRequest,
-    userSelectedVCs: useSelector(openID4VPService, selectSelectedVCs),
+    userSelectedVCs: useSafeSelector(openID4VPService, selectSelectedVCs),
     areAllVCsChecked,
     selectedVCKeys,
-    isVerifyingIdentity: useSelector(
+    isVerifyingIdentity: useSafeSelector(
       openID4VPService,
       selectIsVerifyingIdentity,
     ),
-    purpose: useSelector(openID4VPService, selectPurpose),
-    isInvalidIdentity: useSelector(openID4VPService, selectIsInvalidIdentity),
-    isCancelling: useSelector(scanService, selectIsCancelling),
-    isFaceVerificationConsent: useSelector(
+    purpose: useSafeSelector(openID4VPService, selectPurpose),
+    isInvalidIdentity: useSafeSelector(openID4VPService, selectIsInvalidIdentity),
+    isCancelling: useSafeSelector(scanService, selectIsCancelling),
+    isFaceVerificationConsent: useSafeSelector(
       openID4VPService,
       selectIsFaceVerificationConsent,
     ),
-    credentials: useSelector(openID4VPService, selectCredentials),
-    verifiableCredentialsData: useSelector(
+    credentials: useSafeSelector(openID4VPService, selectCredentials),
+    verifiableCredentialsData: useSafeSelector(
       openID4VPService,
       selectVerifiableCredentialsData,
     ),

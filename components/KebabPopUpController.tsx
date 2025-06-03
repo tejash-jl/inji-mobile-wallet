@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {ActorRefFrom} from 'xstate';
 import {
   selectAcceptingBindingOtp,
@@ -43,21 +43,21 @@ export function useKebabPopUp(props) {
   return {
     service: props.service as ActorRefFrom<typeof VCItemMachine>,
     navigation: useNavigation<ScanLayoutNavigation>(),
-    isScanning: useSelector(scanService, selectIsScanning),
-    activities: useSelector(activityLogService, selectActivities),
-    isPinned: useSelector(service, selectIsPinned),
-    isBindingWarning: useSelector(service, selectBindingWarning),
-    isRemoveWalletWarning: useSelector(service, selectRemoveWalletWarning),
-    isAcceptingOtpInput: useSelector(service, selectAcceptingBindingOtp),
-    isWalletBindingError: useSelector(service, selectShowWalletBindingError),
-    walletBindingResponse: useSelector(service, selectWalletBindingResponse),
-    otpError: useSelector(service, selectOtpError),
-    walletBindingError: useSelector(service, selectWalletBindingError),
-    bindingAuthFailedError: useSelector(service, selectBindingAuthFailedError),
-    isKebabPopUp: useSelector(service, selectKebabPopUp),
-    isShowActivities: useSelector(service, selectShowActivities),
-    communicationDetails: useSelector(service, selectIsCommunicationDetails),
-    walletBindingInProgress: useSelector(
+    isScanning: useSafeSelector(scanService, selectIsScanning),
+    activities: useSafeSelector(activityLogService, selectActivities),
+    isPinned: useSafeSelector(service, selectIsPinned),
+    isBindingWarning: useSafeSelector(service, selectBindingWarning),
+    isRemoveWalletWarning: useSafeSelector(service, selectRemoveWalletWarning),
+    isAcceptingOtpInput: useSafeSelector(service, selectAcceptingBindingOtp),
+    isWalletBindingError: useSafeSelector(service, selectShowWalletBindingError),
+    walletBindingResponse: useSafeSelector(service, selectWalletBindingResponse),
+    otpError: useSafeSelector(service, selectOtpError),
+    walletBindingError: useSafeSelector(service, selectWalletBindingError),
+    bindingAuthFailedError: useSafeSelector(service, selectBindingAuthFailedError),
+    isKebabPopUp: useSafeSelector(service, selectKebabPopUp),
+    isShowActivities: useSafeSelector(service, selectShowActivities),
+    communicationDetails: useSafeSelector(service, selectIsCommunicationDetails),
+    walletBindingInProgress: useSafeSelector(
       service,
       selectWalletBindingInProgress,
     ),

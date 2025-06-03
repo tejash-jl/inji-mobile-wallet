@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect} from 'react';
 import {selectIsActive, selectIsFocused} from '../../machines/app';
 import {GlobalContext} from '../../shared/GlobalContext';
@@ -29,27 +29,27 @@ export function useRequestScreen() {
   const {appService} = useContext(GlobalContext);
 
   const requestService = appService.children.get('request');
-  const isActive = useSelector(appService, selectIsActive);
-  const isFocused = useSelector(appService, selectIsFocused);
-  const isReadyForBluetoothStateCheck = useSelector(
+  const isActive = useSafeSelector(appService, selectIsActive);
+  const isFocused = useSafeSelector(appService, selectIsFocused);
+  const isReadyForBluetoothStateCheck = useSafeSelector(
     requestService,
     selectReadyForBluetoothStateCheck,
   );
-  const isBluetoothDenied = useSelector(
+  const isBluetoothDenied = useSafeSelector(
     requestService,
     selectIsBluetoothDenied,
   );
-  const isNearByDevicesPermissionDenied = useSelector(
+  const isNearByDevicesPermissionDenied = useSafeSelector(
     requestService,
     selectIsNearByDevicesPermissionDenied,
   );
-  const isWaitingForConnection = useSelector(
+  const isWaitingForConnection = useSafeSelector(
     requestService,
     selectIsWaitingForConnection,
   );
 
-  const isWaitingForVc = useSelector(requestService, selectIsWaitingForVc);
-  const isWaitingForVcTimeout = useSelector(
+  const isWaitingForVc = useSafeSelector(requestService, selectIsWaitingForVc);
+  const isWaitingForVcTimeout = useSafeSelector(
     requestService,
     selectIsWaitingForVcTimeout,
   );
@@ -86,18 +86,18 @@ export function useRequestScreen() {
     isBluetoothDenied,
     isNearByDevicesPermissionDenied,
     isReadyForBluetoothStateCheck,
-    isCheckingBluetoothService: useSelector(
+    isCheckingBluetoothService: useSafeSelector(
       requestService,
       selectIsCheckingBluetoothService,
     ),
-    isMinimumStorageLimitReached: useSelector(
+    isMinimumStorageLimitReached: useSafeSelector(
       requestService,
       selectIsMinimumStorageLimitReached,
     ),
-    openId4VpUri: useSelector(requestService, selectOpenId4VpUri),
-    senderInfo: useSelector(requestService, selectSenderInfo),
-    isReviewing: useSelector(requestService, selectIsReviewing),
-    isCancelling: useSelector(requestService, selectIsCancelling),
+    openId4VpUri: useSafeSelector(requestService, selectOpenId4VpUri),
+    senderInfo: useSafeSelector(requestService, selectSenderInfo),
+    isReviewing: useSafeSelector(requestService, selectIsReviewing),
+    isCancelling: useSafeSelector(requestService, selectIsCancelling),
 
     CANCEL: () => requestService.send(RequestEvents.CANCEL()),
     DISMISS: () => requestService.send(RequestEvents.DISMISS()),

@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {
   AuthEvents,
@@ -26,14 +26,14 @@ export function useWelcomeScreen(props: RootRouteProps) {
   const authService = appService.children.get('auth');
   const settingsService = appService.children.get('settings');
 
-  const isSettingUp = useSelector(authService, selectSettingUp);
-  const passcode = useSelector(authService, selectPasscode);
+  const isSettingUp = useSafeSelector(authService, selectSettingUp);
+  const passcode = useSafeSelector(authService, selectPasscode);
 
   const isPasscodeSet = () => !!passcode;
 
-  const biometrics = useSelector(authService, selectBiometrics);
-  const isLanguagesetup = useSelector(authService, selectLanguagesetup);
-  const isBiometricUnlockEnabled = useSelector(
+  const biometrics = useSafeSelector(authService, selectBiometrics);
+  const isLanguagesetup = useSafeSelector(authService, selectLanguagesetup);
+  const isBiometricUnlockEnabled = useSafeSelector(
     settingsService,
     selectBiometricUnlockEnabled,
   );

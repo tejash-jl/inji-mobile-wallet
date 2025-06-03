@@ -27,7 +27,6 @@ export class VCMetadata {
   mosipIndividualId: string = '';
   format: string = '';
   isExpired: boolean = false;
-
   downloadKeyType: string = '';
   credentialType: string = '';
   constructor({

@@ -1,28 +1,28 @@
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Row, Text} from '../components/ui';
-import {Header} from '../components/ui/Header';
-import {Theme} from '../components/ui/styleUtils';
-import {RootRouteProps} from '../routes';
-import {HomeScreen} from './Home/HomeScreen';
-import {IssuersScreen} from './Issuers/IssuersScreen';
-import {SvgImage} from '../components/ui/svg';
-import {HelpScreen} from '../components/HelpScreen';
-import {I18nManager, View} from 'react-native';
-import {isIOS} from '../shared/constants';
-import {Copilot} from '../components/ui/Copilot';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Row, Text } from '../components/ui';
+import { Header } from '../components/ui/Header';
+import { Theme } from '../components/ui/styleUtils';
+import { RootRouteProps } from '../routes';
+import { HomeScreen } from './Home/HomeScreen';
+import { IssuersScreen } from './Issuers/IssuersScreen';
+import { SvgImage } from '../components/ui/svg';
+import { HelpScreen } from '../components/HelpScreen';
+import { I18nManager, View } from 'react-native';
+import { isIOS } from '../shared/constants';
+import { Copilot } from '../components/ui/Copilot';
 import LinearGradient from 'react-native-linear-gradient';
 
 export const HomeScreenLayout: React.FC<RootRouteProps> = props => {
-  const {t} = useTranslation('IssuersScreen');
-  const {Navigator, Screen} = createNativeStackNavigator();
+  const { t } = useTranslation('IssuersScreen');
+  const { Navigator, Screen } = createNativeStackNavigator();
 
   React.useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(props.route);
     if (routeName === 'IssuersScreen') {
-      props.navigation.setOptions({tabBarStyle: {display: 'none'}});
+      props.navigation.setOptions({ tabBarStyle: { display: 'none' } });
     } else {
       props.navigation.setOptions({
         tabBarShowLabel: true,
@@ -53,7 +53,7 @@ export const HomeScreenLayout: React.FC<RootRouteProps> = props => {
           order={1}
           children={
             <LinearGradient
-              style={{borderRadius: 8}}
+              style={{ borderRadius: 8 }}
               colors={Theme.Colors.GradientColorsLight}
               start={Theme.LinearGradientDirection.start}
               end={Theme.LinearGradientDirection.end}>

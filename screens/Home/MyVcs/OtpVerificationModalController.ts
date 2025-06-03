@@ -5,12 +5,12 @@ import {
 } from './AddVcModalMachine';
 import {ActorRefFrom} from 'xstate';
 import {ModalProps} from '../../../components/ui/Modal';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../../shared/hooks/useSafeSelector';
 import {VCItemMachine} from '../../../machines/VerifiableCredential/VCItemMachine/VCItemMachine';
 
 export function useOtpVerificationModal({service}: OtpVerificationModalProps) {
   return {
-    isDownloadCancelled: useSelector(service, selectIsCancellingDownload),
+    isDownloadCancelled: useSafeSelector(service, selectIsCancellingDownload),
 
     WAIT: () => service.send(AddVcModalEvents.WAIT()),
 

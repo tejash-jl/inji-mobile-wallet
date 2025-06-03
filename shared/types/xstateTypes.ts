@@ -1,0 +1,26 @@
+import { InterpreterFrom } from 'xstate';
+import { appMachine } from '../../machines/app';
+import { authMachine } from '../../machines/auth';
+import { settingsMachine } from '../../machines/settings';
+import { storeMachine } from '../../machines/store';
+import { activityLogMachine } from '../../machines/activityLog';
+import { backupMachine } from '../../machines/backupAndRestore/backup';
+import { backupRestoreMachine } from '../../machines/backupAndRestore/backupRestore';
+import { scanMachine } from '../../machines/bleShare/scan/scanMachine';
+import { requestMachine } from '../../machines/bleShare/request/requestMachine';
+import { vcMetaMachine } from '../../machines/VerifiableCredential/VCMetaMachine/VCMetaMachine';
+import { biometricsMachine } from '../../machines/biometrics';
+import { pinInputMachine } from '../../machines/pinInput';
+
+export type AppService = InterpreterFrom<typeof appMachine>;
+export type AuthService = InterpreterFrom<typeof authMachine>;
+export type SettingsService = InterpreterFrom<typeof settingsMachine>;
+export type StoreService = InterpreterFrom<typeof storeMachine>;
+export type ActivityLogService = InterpreterFrom<typeof activityLogMachine>;
+export type BackupService = InterpreterFrom<typeof backupMachine>;
+export type BackupRestoreService = InterpreterFrom<typeof backupRestoreMachine>;
+export type ScanService = InterpreterFrom<typeof scanMachine>;
+export type RequestService = InterpreterFrom<typeof requestMachine>;
+export type VcMetaService = InterpreterFrom<typeof vcMetaMachine>;
+export type BiometricsService = InterpreterFrom<typeof biometricsMachine>;
+export type PinInputService = InterpreterFrom<typeof pinInputMachine>;

@@ -1,4 +1,4 @@
-import { useSelector } from '@xstate/react';
+import { useSafeSelector } from '../../../shared/hooks/useSafeSelector';
 import { ActorRefFrom } from 'xstate';
 import { TextInput } from 'react-native';
 import { ModalProps } from '../../../components/ui/Modal';
@@ -17,15 +17,15 @@ import {
 
 export function useGetIdInputModal({ service }: GetIdInputModalProps) {
   return {
-    id: useSelector(service, selectId),
-    idInputRef: useSelector(service, selectIdInputRef),
-    idError: useSelector(service, selectIdError),
-    otpError: useSelector(service, selectOtpError),
-    iconColor: useSelector(service, selectIconColor),
+    id: useSafeSelector(service, selectId),
+    idInputRef: useSafeSelector(service, selectIdInputRef),
+    idError: useSafeSelector(service, selectIdError),
+    otpError: useSafeSelector(service, selectOtpError),
+    iconColor: useSafeSelector(service, selectIconColor),
 
-    isInvalid: useSelector(service, selectIsInvalid),
-    isAcceptingOtpInput: useSelector(service, selectIsAcceptingOtpInput),
-    isRequestingOtp: useSelector(service, selectIsRequestingOtp),
+    isInvalid: useSafeSelector(service, selectIsInvalid),
+    isAcceptingOtpInput: useSafeSelector(service, selectIsAcceptingOtpInput),
+    isRequestingOtp: useSafeSelector(service, selectIsRequestingOtp),
 
     INPUT_ID: (id: string) => service.send(GetVcModalEvents.INPUT_ID(id)),
     VALIDATE_INPUT: () => service.send(GetVcModalEvents.VALIDATE_INPUT()),
