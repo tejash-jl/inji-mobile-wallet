@@ -2,6 +2,7 @@
 import {
   Dimensions,
   I18nManager,
+  Platform,
   StatusBar,
   StyleSheet,
   ViewStyle,
@@ -68,6 +69,7 @@ const Colors = {
   Mercury: '#E6E6E6',
   Yellow: '#E8A94F',
   selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
+  forgotPin: '#004C92',
 };
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -152,7 +154,7 @@ export const DefaultTheme = {
     PendingIcon: Colors.Yellow,
     RevokedIcon: Colors.Red,
     selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
-    forgotPin: Colors.Blue,
+    forgotPin: Colors.forgotPin,
   },
   Styles: StyleSheet.create({
     title: {
@@ -420,8 +422,8 @@ export const DefaultTheme = {
       height: 50,
     },
     injiHomeLogo: {
-      marginLeft: -5,
-      marginTop: 0,
+      marginLeft: Platform.OS === 'android' ? -5 : 0,
+      marginTop: Platform.OS === 'android' ? 0 : -5,
       //marginBottom: isAndroid() ? -30 : 0,
     },
     logo: {

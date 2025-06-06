@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Column, Row, Text } from '../../components/ui';
-import { Theme } from '../../components/ui/styleUtils';
-import { Pressable, RefreshControl, View } from 'react-native';
-import { useMyVcsTab } from './MyVcsTabController';
-import { HomeScreenTabProps } from './HomeScreen';
-import { AddVcModal } from './MyVcs/AddVcModal';
-import { GetVcModal } from './MyVcs/GetVcModal';
-import { useTranslation } from 'react-i18next';
-import { GET_INDIVIDUAL_ID } from '../../shared/constants';
-import { MessageOverlay } from '../../components/MessageOverlay';
-import { VcItemContainer } from '../../components/VC/VcItemContainer';
+import React, {useEffect, useState} from 'react';
+import {Button, Column, Row, Text} from '../../components/ui';
+import {Theme} from '../../components/ui/styleUtils';
+import {Pressable, RefreshControl, View} from 'react-native';
+import {useMyVcsTab} from './MyVcsTabController';
+import {HomeScreenTabProps} from './HomeScreen';
+import {AddVcModal} from './MyVcs/AddVcModal';
+import {GetVcModal} from './MyVcs/GetVcModal';
+import {useTranslation} from 'react-i18next';
+import {GET_INDIVIDUAL_ID} from '../../shared/constants';
+import {MessageOverlay} from '../../components/MessageOverlay';
+import {VcItemContainer} from '../../components/VC/VcItemContainer';
 import {
   BannerNotification,
   BannerStatusType,
@@ -18,19 +18,23 @@ import {
   getErrorEventData,
   sendErrorEvent,
 } from '../../shared/telemetry/TelemetryUtils';
-import { TelemetryConstants } from '../../shared/telemetry/TelemetryConstants';
-import { Error } from '../../components/ui/Error';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { getVCsOrderedByPinStatus } from '../../shared/Utils';
-import { SvgImage } from '../../components/ui/svg';
-import { SearchBar } from '../../components/ui/SearchBar';
-import { Icon } from 'react-native-elements';
-import { VCMetadata } from '../../shared/VCMetadata';
-import { useCopilot } from 'react-native-copilot';
-import { isTranslationKeyFound } from '../../shared/commonUtil';
+import {TelemetryConstants} from '../../shared/telemetry/TelemetryConstants';
+import {Error} from '../../components/ui/Error';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import {getVCsOrderedByPinStatus} from '../../shared/Utils';
+import {SvgImage} from '../../components/ui/svg';
+import {SearchBar} from '../../components/ui/SearchBar';
+import {Icon} from 'react-native-elements';
+import {VCMetadata} from '../../shared/VCMetadata';
+import {useCopilot} from 'react-native-copilot';
+import {isTranslationKeyFound} from '../../shared/commonUtil';
 
-export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props }) => {
-  const { t } = useTranslation('MyVcsTab');
+export const MyVcsTab: React.FC<HomeScreenTabProps> = ({
+  vcStatuses,
+  setVCsStatus,
+  ...props
+}) => {
+  const {t} = useTranslation('MyVcsTab');
   const controller = useMyVcsTab(props);
   const vcMetadataOrderedByPinStatus = getVCsOrderedByPinStatus(
     controller.vcMetadatas,
@@ -48,7 +52,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
   };
 
   const clearIndividualId = () => {
-    GET_INDIVIDUAL_ID({ id: '', idType: 'UIN' });
+    GET_INDIVIDUAL_ID({id: '', idType: 'UIN'});
   };
 
   const onFocusSearch = () => {
@@ -60,7 +64,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
     setClearSearchIcon(false);
     setShowPinVc(true);
   };
-  const { start } = useCopilot();
+  const {start} = useCopilot();
 
   useEffect(() => {
     if (controller.isInitialDownloading) {
@@ -71,6 +75,13 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
   useEffect(() => {
     filterVcs(search);
   }, [controller.vcData]);
+
+  useEffect(() => {
+    //console.log(`MyVcsTab: isRefreshingVcs changed to ${controller.isRefreshingVcs}`);
+    if (controller.isRefreshingVcs) {
+      setVCsStatus();
+    }
+  }, [controller.isRefreshingVcs]);
 
   const filterVcs = (searchText: string) => {
     setSearch(searchText);
@@ -85,7 +96,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
           vc.verifiableCredential.credentialSubject ||
           vc.verifiableCredential.credential.credentialSubject;
         if (isStringAndContains(searchText, vc['vcMetadata'].credentialType))
-          isVcFound = true
+          isVcFound = true;
         else if (credentialSubject) {
           isVcFound = searchNestedCredentialFields(
             searchTextLower,
@@ -94,7 +105,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
         }
 
         if (isVcFound) {
-          filteredData.push({ [vcKey]: vc['vcMetadata'] });
+          filteredData.push({[vcKey]: vc['vcMetadata']});
         }
       }
     }
@@ -216,7 +227,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
 
   return (
     <React.Fragment>
-      <Column fill style={{ display: props.isVisible ? 'flex' : 'none' }}>
+      <Column fill style={{display: props.isVisible ? 'flex' : 'none'}}>
         {controller.isRequestSuccessful && (
           <BannerNotification
             type={BannerStatusType.SUCCESS}
@@ -270,14 +281,18 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
                 </Row>
                 <Row pY={11} pX={8}>
                   {numberOfCardsAvailable > 0 && (
-                    <Text style={{ fontFamily: 'Inter_500Medium' }}>
+                    <Text style={{fontFamily: 'Inter_500Medium'}}>
                       {cardsAvailableText}
                     </Text>
                   )}
                 </Row>
                 {showPinVc &&
                   vcMetadataOrderedByPinStatus.map((vcMetadata, index) => {
-                    console.log(`Rendering VC: ${JSON.stringify(vcMetadata)} at index ${index}`);
+                    console.log(
+                      `Rendering VC: ${JSON.stringify(
+                        vcMetadata,
+                      )} at index ${index}`,
+                    );
                     const vcKey = vcMetadata.getVcKey();
                     const status = vcStatuses[vcKey]; // get status for this VC
 
@@ -300,51 +315,51 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
 
                 {filteredSearchData.length > 0 && !showPinVc
                   ? filteredSearchData.map(vcMetadataObj => {
-                    const [vcKey, vcMetadata] =
-                      Object.entries(vcMetadataObj)[0];
-                    return (
-                      <VcItemContainer
-                        key={vcKey}
-                        vcMetadata={vcMetadata}
-                        margin="0 2 8 2"
-                        onPress={controller.VIEW_VC}
-                        isDownloading={controller.inProgressVcDownloads?.has(
-                          vcKey,
-                        )}
-                      />
-                    );
-                  })
+                      const [vcKey, vcMetadata] =
+                        Object.entries(vcMetadataObj)[0];
+                      return (
+                        <VcItemContainer
+                          key={vcKey}
+                          vcMetadata={vcMetadata}
+                          margin="0 2 8 2"
+                          onPress={controller.VIEW_VC}
+                          isDownloading={controller.inProgressVcDownloads?.has(
+                            vcKey,
+                          )}
+                        />
+                      );
+                    })
                   : filteredSearchData.length === 0 &&
-                  search &&
-                  !showPinVc && (
-                    <Column
-                      fill
-                      style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        paddingTop: 170,
-                      }}>
-                      <Text
+                    search &&
+                    !showPinVc && (
+                      <Column
+                        fill
                         style={{
-                          fontWeight: 'bold',
-                          textAlign: 'center',
-                          fontSize: 18,
-                          fontFamily: 'Inter_600SemiBold',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          paddingTop: 170,
                         }}>
-                        {t('noCardsTitle')}
-                      </Text>
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          lineHeight: 17,
-                          paddingTop: 10,
-                          fontSize: 14,
-                          fontFamily: 'Inter_400Regular',
-                        }}>
-                        {t('noCardsDescription')}
-                      </Text>
-                    </Column>
-                  )}
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            fontSize: 18,
+                            fontFamily: 'Inter_600SemiBold',
+                          }}>
+                          {t('noCardsTitle')}
+                        </Text>
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            lineHeight: 17,
+                            paddingTop: 10,
+                            fontSize: 14,
+                            fontFamily: 'Inter_400Regular',
+                          }}>
+                          {t('noCardsDescription')}
+                        </Text>
+                      </Column>
+                    )}
               </Column>
             </React.Fragment>
           )}
@@ -368,7 +383,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
                   {SvgImage.DigitalIdentity()}
                   <Text
                     testID="bringYourDigitalID"
-                    style={{ paddingTop: 3 }}
+                    style={{paddingTop: 3}}
                     align="center"
                     weight="bold"
                     margin="33 0 6 0"
@@ -456,7 +471,7 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({ vcStatuses, ...props })
           primaryButtonText="goBack"
           primaryButtonEvent={controller.RESET_VERIFY_ERROR}
           primaryButtonTestID="goBack"
-          customStyles={{ marginTop: '30%' }}
+          customStyles={{marginTop: '30%'}}
         />
       )}
 

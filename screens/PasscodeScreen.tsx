@@ -6,6 +6,8 @@ import {
   KeyboardAvoidingView,
   View,
   TouchableOpacity,
+  SafeAreaView,
+  Platform,
 } from 'react-native';
 import {MAX_PIN, PasscodeVerify} from '../components/PasscodeVerify';
 import {PinInput} from '../components/PinInput';
@@ -40,7 +42,8 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
   const [resetPinModalVisible, setResetPinModalVisible] = useState(false);
 
   const resetAuthToDefault = useResetAuthToDefault();
-  const { resetAppStorageToDefault, resetMachinesToInitialState } = useResetAppStorageToDefault();
+  const {resetAppStorageToDefault, resetMachinesToInitialState} =
+    useResetAppStorageToDefault();
 
   const {appService} = useContext(GlobalContext);
 
@@ -233,9 +236,9 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
         onBackButtonPress={() => {
           setResetPinModalVisible(false);
         }}>
-        <Column
+        <SafeAreaView
           style={{
-            height: '33%',
+            height: Platform.OS === 'android' ? '35%' : 'auto',
             backgroundColor: 'white',
             width: '100%',
             borderRadius: 10,
@@ -300,13 +303,13 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
               style={{width: 1, height: '100%', backgroundColor: '#A7A7A7'}}
             />
             <TouchableOpacity
-              onPress={async() => {
+              onPress={async () => {
                 //const storeService = appService.children.get('store');
                 //storeService?.send('CLEAR');
 
                 //controller.RESET_AUTH();
                 //await resetAuthToDefault();
-                await resetAppStorageToDefault();  // Resetting app storage to default
+                await resetAppStorageToDefault(); // Resetting app storage to default
                 resetMachinesToInitialState(); // Resetting machines to initial state
 
                 setResetPinModalVisible(false);
@@ -338,7 +341,7 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
               </Text>
             </TouchableOpacity>
           </View>
-        </Column>
+        </SafeAreaView>
       </Modal>
     </KeyboardAvoidingView>
   );

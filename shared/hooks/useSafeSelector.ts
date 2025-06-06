@@ -9,11 +9,11 @@ import {useSelector as xstateUseSelector} from '@xstate/react';
  * @param compare Optional compare function
  * @returns Selected state or undefined if actor is invalid
  */
-export function useSafeSelector(actor, selector, compare) {
+export function useSafeSelector(actor, selector) {
   if (!actor || typeof actor !== 'object') {
     console.warn('useSafeSelector: actor is invalid:', actor);
     // Return undefined or a safe default value
     return undefined;
   }
-  return xstateUseSelector(actor, selector, compare);
+  return xstateUseSelector(actor, selector);
 }
