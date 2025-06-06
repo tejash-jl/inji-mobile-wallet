@@ -68,7 +68,7 @@ fileignoreconfig:
   - filename: screens/MainLayout.tsx
     checksum: dd31361997111c28461239e986112a30ee986e99432ac3016033508863b90ddd
   - filename: android/app/build.gradle
-    checksum: 251ac12b49cf226d40931a02eb1b362a1d29e74cfe8f7a60ed128d66b0fea838
+    checksum: e3b79add825174ffb9f81655cc062e7183852661c97bd500191f7e828364f157
   - filename: .github/workflows/push-triggers.yml
     checksum: abc19ea38c8d7b79f15695d015709cc88a34a995181aaf12bc8344f940f3cbc4
   - filename: android/fastlane/Fastfile
@@ -363,7 +363,7 @@ fileignoreconfig:
   - filename: android/app/src/main/AndroidManifest.xml
     checksum: 8f4bd61770b8bb0a28859ca0f3b4b095aed4e3fb5adef435cb74b9389ff13e09
   - filename: ios/Inji.xcworkspace/xcshareddata/swiftpm/Package.resolved
-    checksum: 1f5cf15c5093ec6d873a60bf8e7a19288d7f77707bf1b2f08a1c371c08fcf47b
+    checksum: c256e072839989a64e45280d759237882dd940a84d1946d9c2b125cfe5c43810
   - filename: ios/Inji.xcodeproj/project.pbxproj
     checksum: 6e83472f832f71f75aa82ed06eb677d865195755074144e4bf832d6adb30e959
   - filename: screens/Settings/ReceivedCardsModal.tsx
