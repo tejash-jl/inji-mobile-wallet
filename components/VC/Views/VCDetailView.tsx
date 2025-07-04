@@ -36,12 +36,16 @@ const getProfileImage = (face: any) => {
   );
 };
 
-export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
+export const VCDetailView: React.FC<
+  VCItemDetailsProps & {onModalDismissWithCleanup?: () => void}
+> = props => {
   const {t} = useTranslation('VcDetails');
   const logo = props.verifiableCredentialData.issuerLogo;
   const face = props.verifiableCredentialData.face;
   const verifiableCredential = props.credential;
   const wellknownDisplayProperty = new Display(props.wellknown);
+
+  console.log("VCStatus in VCDetailView:", props.vcStatus);
 
   const shouldShowHrLine = verifiableCredential => {
     let availableFieldNames: string[] = [];
@@ -78,18 +82,18 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
         <Column fill>
           <Column
             padding="10 10 3 10"
-            backgroundColor={Theme.Colors.DetailedViewBackground}>
+            //backgroundColor={Theme.Colors.DetailedViewBackground}
+          >
             <ImageBackground
               imageStyle={Theme.Styles.vcDetailBg}
               resizeMethod="scale"
               resizeMode="stretch"
               style={[
                 Theme.Styles.openCardBgContainer,
-                wellknownDisplayProperty.getBackgroundColor(),
+                //wellknownDisplayProperty.getBackgroundColor(),
               ]}
-              source={wellknownDisplayProperty.getBackgroundImage(
-                Theme.OpenCard,
-              )}>
+              //source={wellknownDisplayProperty.getBackgroundImage(Theme.OpenCard)}
+            >
               <Row padding="14 14 0 14" margin="0 0 0 0">
                 <Column crossAlign="center">
                   {getProfileImage(face)}
@@ -98,6 +102,8 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                       props.credentialWrapper as unknown as VerifiableCredential
                     }
                     meta={props.verifiableCredentialData.vcMetadata}
+                    onModalDismissWithCleanup={props.onModalDismissWithCleanup}
+                    navigation={props.navigation}
                   />
                   <Column
                     width={80}
@@ -136,7 +142,7 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                       ),
                     },
                   ]}></View>
-                <Column padding="0 14 14 14">
+                <Column padding="0 14 0 14">
                   {shouldShowHrLine(verifiableCredential) &&
                     fieldItemIterator(
                       DETAIL_VIEW_BOTTOM_SECTION_FIELDS,
@@ -147,6 +153,71 @@ export const VCDetailView: React.FC<VCItemDetailsProps> = props => {
                     )}
                 </Column>
               </>
+              {props.credential?.credentialSubject?.courses && (
+                <>
+                  <View
+                    style={[
+                      Theme.Styles.hrLine,
+                      {
+                        borderBottomColor:
+                          wellknownDisplayProperty.getTextColor(
+                            Theme.Styles.hrLine.borderBottomColor,
+                          ),
+                      },
+                    ]}
+                  />
+                  <Column margin="5 14 10 14">
+                    <Text
+                      style={{
+                        fontFamily: 'Inter_400Regular',
+                        fontSize: 11,
+                        color: wellknownDisplayProperty.getTextColor(
+                          Theme.Colors.DetailsLabel,
+                        ),
+                        marginBottom: 6,
+                      }}>
+                      {t('courses')}
+                    </Text>
+                    {props.credential.credentialSubject?.courses.map(
+                      (course, index) => (
+                        <Column
+                          key={index}
+                          margin="0 0 16 0"
+                          style={{
+                            borderBottomWidth:
+                              index !==
+                              props.credential.credentialSubject.courses
+                                .length -
+                                1
+                                ? 1
+                                : 0,
+                            borderBottomColor:
+                              Theme.Colors.borderColor || '#ccc',
+                            paddingBottom: 16,
+                          }}>
+                          {Object.entries(course).map(([key, value]) => (
+                            <Text
+                              key={key}
+                              style={{
+                                fontFamily: 'Inter_600SemiBold',
+                                fontSize: 12,
+                                color: wellknownDisplayProperty.getTextColor(
+                                  Theme.Colors.Details,
+                                ),
+                                marginBottom: 4,
+                              }}>
+                              {`${
+                                key.charAt(0).toUpperCase() +
+                                key.slice(1).replace(/([A-Z])/g, ' $1')
+                              }: ${value ?? 'N/A'}`}
+                            </Text>
+                          ))}
+                        </Column>
+                      ),
+                    )}
+                  </Column>
+                </>
+              )}
             </ImageBackground>
           </Column>
         </Column>
@@ -246,4 +317,6 @@ export interface VCItemDetailsProps {
   onBinding?: () => void;
   activeTab?: Number;
   vcHasImage: boolean;
+  navigation?: any;
+  vcStatus?: string;
 }

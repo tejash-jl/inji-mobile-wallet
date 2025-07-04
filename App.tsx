@@ -3,7 +3,7 @@ import {AppLayout} from './screens/AppLayout';
 import {useFont} from './shared/hooks/useFont';
 import {GlobalContextProvider} from './components/GlobalContextProvider';
 import {GlobalContext} from './shared/GlobalContext';
-import {useSelector} from '@xstate/react';
+import {useSafeSelector} from './shared/hooks/useSafeSelector';
 import {useTranslation} from 'react-i18next';
 import {
   APP_EVENTS,
@@ -49,7 +49,7 @@ const DecryptErrorAlert = (controller, t) => {
 
 const AppLayoutWrapper: React.FC = () => {
   const {appService} = useContext(GlobalContext);
-  const isDecryptError = useSelector(appService, selectIsDecryptError);
+  const isDecryptError = useSafeSelector(appService, selectIsDecryptError);
   const controller = useApp();
   const {t} = useTranslation('WelcomeScreen');
 
@@ -70,8 +70,8 @@ const AppLayoutWrapper: React.FC = () => {
 
 const AppLoadingWrapper: React.FC = () => {
   const {appService} = useContext(GlobalContext);
-  const isReadError = useSelector(appService, selectIsReadError);
-  const isKeyInvalidateError = useSelector(
+  const isReadError = useSafeSelector(appService, selectIsReadError);
+  const isKeyInvalidateError = useSafeSelector(
     appService,
     selectIsKeyInvalidateError,
   );
@@ -115,7 +115,7 @@ const AppLoadingWrapper: React.FC = () => {
 
 const AppInitialization: React.FC = () => {
   const {appService} = useContext(GlobalContext);
-  const isReady = useSelector(appService, selectIsReady);
+  const isReady = useSafeSelector(appService, selectIsReady);
   const hasFontsLoaded = useFont();
   const {t} = useTranslation('common');
 

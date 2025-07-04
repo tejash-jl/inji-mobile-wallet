@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {selectShareableVcsMetadata} from '../../machines/VerifiableCredential/VCMetaMachine/VCMetaSelectors';
@@ -34,32 +34,32 @@ export function useScanScreen() {
   const scanService = appService.children.get('scan')!!;
   const vcMetaService = appService.children.get('vcMeta')!!;
 
-  const shareableVcsMetadata = useSelector(
+  const shareableVcsMetadata = useSafeSelector(
     vcMetaService,
     selectShareableVcsMetadata,
   );
 
-  const isLocationDisabled = useSelector(scanService, selectIsLocationDisabled);
-  const isLocationDenied = useSelector(scanService, selectIsLocationDenied);
-  const isReadyForBluetoothStateCheck = useSelector(
+  const isLocationDisabled = useSafeSelector(scanService, selectIsLocationDisabled);
+  const isLocationDenied = useSafeSelector(scanService, selectIsLocationDenied);
+  const isReadyForBluetoothStateCheck = useSafeSelector(
     scanService,
     selectReadyForBluetoothStateCheck,
   );
-  const isStartPermissionCheck = useSelector(
+  const isStartPermissionCheck = useSafeSelector(
     scanService,
     selectIsStartPermissionCheck,
   );
-  const isNearByDevicesPermissionDenied = useSelector(
+  const isNearByDevicesPermissionDenied = useSafeSelector(
     scanService,
     selectIsNearByDevicesPermissionDenied,
   );
-  const isBluetoothPermissionDenied = useSelector(
+  const isBluetoothPermissionDenied = useSafeSelector(
     scanService,
     selectIsBluetoothPermissionDenied,
   );
-  const isBluetoothDenied = useSelector(scanService, selectIsBluetoothDenied);
+  const isBluetoothDenied = useSafeSelector(scanService, selectIsBluetoothDenied);
   const locationError = {message: '', button: ''};
-  const isMinimumStorageRequiredForAuditEntryLimitReached = useSelector(
+  const isMinimumStorageRequiredForAuditEntryLimitReached = useSafeSelector(
     scanService,
     selectIsMinimumStorageRequiredForAuditEntryLimitReached,
   );
@@ -76,7 +76,7 @@ export function useScanScreen() {
   const GOTO_HOME = () => navigation.navigate(BOTTOM_TAB_ROUTES.home);
   const ALLOWED = () => scanService.send(ScanEvents.ALLOWED());
   const DENIED = () => scanService.send(ScanEvents.DENIED());
-  const isLocalPermissionRational = useSelector(
+  const isLocalPermissionRational = useSafeSelector(
     scanService,
     selectIsLocationPermissionRationale,
   );
@@ -91,16 +91,16 @@ export function useScanScreen() {
     isStartPermissionCheck,
     isReadyForBluetoothStateCheck,
     isMinimumStorageRequiredForAuditEntryLimitReached,
-    isScanning: useSelector(scanService, selectIsScanning),
-    isQuickShareDone: useSelector(scanService, selectIsQuickShareDone),
-    showQuickShareSuccessBanner: useSelector(
+    isScanning: useSafeSelector(scanService, selectIsScanning),
+    isQuickShareDone: useSafeSelector(scanService, selectIsQuickShareDone),
+    showQuickShareSuccessBanner: useSafeSelector(
       scanService,
       selectShowQuickShareSuccessBanner,
     ),
-    selectIsInvalid: useSelector(scanService, selectIsInvalid),
-    isQrLogin: useSelector(scanService, selectIsShowQrLogin),
-    isQrLoginstoring: useSelector(scanService, selectIsQrLoginStoring),
-    isQrRef: useSelector(scanService, selectQrLoginRef),
+    selectIsInvalid: useSafeSelector(scanService, selectIsInvalid),
+    isQrLogin: useSafeSelector(scanService, selectIsShowQrLogin),
+    isQrLoginstoring: useSafeSelector(scanService, selectIsQrLoginStoring),
+    isQrRef: useSafeSelector(scanService, selectQrLoginRef),
     LOCATION_REQUEST: () => scanService.send(ScanEvents.LOCATION_REQUEST()),
     GOTO_SETTINGS: () => scanService.send(ScanEvents.GOTO_SETTINGS()),
     DISMISS: () => scanService.send(ScanEvents.DISMISS()),

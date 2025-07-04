@@ -1,4 +1,5 @@
-import {useInterpret, useSelector} from '@xstate/react';
+import {useInterpret} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useRef} from 'react';
 import {HomeRouteProps} from '../../routes/routeTypes';
 import {GlobalContext} from '../../shared/GlobalContext';
@@ -12,6 +13,7 @@ import {
   selectViewingVc,
   selectIssuersMachine,
   selectIsMinimumStorageLimitReached,
+  selectBackupRestoreMachine,
 } from './HomeScreenMachine';
 import {selectVc} from '../../machines/VerifiableCredential/VCItemMachine/VCItemSelectors';
 
@@ -42,14 +44,15 @@ export function useHomeScreen(props: HomeRouteProps) {
 
   return {
     service,
-    activeTab: useSelector(service, selectActiveTab),
-    selectedVc: useSelector(service, selectSelectedVc),
-    vc: useSelector(service, selectVc),
-    tabRefs: useSelector(service, selectTabRefs),
-    isViewingVc: useSelector(service, selectViewingVc),
-    haveTabsLoaded: useSelector(service, selectTabsLoaded),
-    IssuersService: useSelector(service, selectIssuersMachine),
-    isMinimumStorageLimitReached: useSelector(
+    activeTab: useSafeSelector(service, selectActiveTab),
+    selectedVc: useSafeSelector(service, selectSelectedVc),
+    vc: useSafeSelector(service, selectVc),
+    tabRefs: useSafeSelector(service, selectTabRefs),
+    isViewingVc: useSafeSelector(service, selectViewingVc),
+    haveTabsLoaded: useSafeSelector(service, selectTabsLoaded),
+    IssuersService: useSafeSelector(service, selectIssuersMachine),
+    backupRestoreService: useSafeSelector(service, selectBackupRestoreMachine),
+    isMinimumStorageLimitReached: useSafeSelector(
       service,
       selectIsMinimumStorageLimitReached,
     ),

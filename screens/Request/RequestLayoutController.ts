@@ -1,5 +1,5 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useEffect} from 'react';
 
 import {MainBottomTabParamList} from '../../routes/routeTypes';
@@ -53,20 +53,20 @@ export function useRequestLayout() {
     };
   }, []);
 
-  const isReviewing = useSelector(requestService, selectIsReviewing);
-  const isDone = useSelector(requestService, selectIsDone);
-  const isBleError = useSelector(requestService, selectIsHandlingBleError);
-  const bleError = useSelector(requestService, selectBleError);
-  const isDisconnected = useSelector(requestService, selectIsDisconnected);
-  const isWaitingForConnection = useSelector(
+  const isReviewing = useSafeSelector(requestService, selectIsReviewing);
+  const isDone = useSafeSelector(requestService, selectIsDone);
+  const isBleError = useSafeSelector(requestService, selectIsHandlingBleError);
+  const bleError = useSafeSelector(requestService, selectBleError);
+  const isDisconnected = useSafeSelector(requestService, selectIsDisconnected);
+  const isWaitingForConnection = useSafeSelector(
     requestService,
     selectIsWaitingForConnection,
   );
-  const isNavigatingToReceivedCards = useSelector(
+  const isNavigatingToReceivedCards = useSafeSelector(
     requestService,
     selectIsNavigatingToReceivedCards,
   );
-  const isNavigationToHome = useSelector(
+  const isNavigationToHome = useSafeSelector(
     requestService,
     selectIsNavigatingToHome,
   );
@@ -98,10 +98,10 @@ export function useRequestLayout() {
   }, [isNavigationToHome, isReviewing, isWaitingForConnection]);
 
   return {
-    senderInfo: useSelector(requestService, selectSenderInfo),
+    senderInfo: useSafeSelector(requestService, selectSenderInfo),
 
-    isAccepted: useSelector(requestService, selectIsAccepted),
-    isRejected: useSelector(requestService, selectIsRejected),
+    isAccepted: useSafeSelector(requestService, selectIsAccepted),
+    isRejected: useSafeSelector(requestService, selectIsRejected),
     isDisconnected,
     isBleError,
     bleError,

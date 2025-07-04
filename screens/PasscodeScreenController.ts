@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useState} from 'react';
 import {
   AuthEvents,
@@ -21,7 +21,7 @@ export function usePasscodeScreen(props: PasscodeRouteProps) {
   const {appService} = useContext(GlobalContext);
   const authService = appService.children.get('auth');
   const settingsService = appService.children.get('settings');
-  const isAuthorized = useSelector(authService, selectAuthorized);
+  const isAuthorized = useSafeSelector(authService, selectAuthorized);
   const isPasscodeSet = () => !!passcode;
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
@@ -48,20 +48,25 @@ export function usePasscodeScreen(props: PasscodeRouteProps) {
     error,
     setError,
 
-    storedPasscode: useSelector(authService, selectPasscode),
-    toggleUnlock: useSelector(authService, selectIsBiometricToggleFromSettings),
+    storedPasscode: useSafeSelector(authService, selectPasscode),
+    toggleUnlock: useSafeSelector(authService, selectIsBiometricToggleFromSettings),
 
     LOGIN: () => {
       authService.send(AuthEvents.LOGIN());
     },
 
     SETUP_PASSCODE: () => {
+      console.log('Pintu Kumar Setting up passcode...', passcode);
       authService.send(AuthEvents.SETUP_PASSCODE(passcode));
       settingsService?.send(
         SettingsEvents.TOGGLE_BIOMETRIC_UNLOCK(false, true),
       );
     },
 
-    storedSalt: useSelector(authService, selectPasscodeSalt),
+    RESET_AUTH: () => {
+      authService.send(AuthEvents.RESET_AUTH());
+    },
+
+    storedSalt: useSafeSelector(authService, selectPasscodeSalt),
   };
 }

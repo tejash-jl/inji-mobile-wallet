@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../../shared/hooks/useSafeSelector';
 import {ActorRefFrom} from 'xstate';
 import {TextInput} from 'react-native';
 import {ModalProps} from '../../../components/ui/Modal';
@@ -19,15 +19,15 @@ import {IndividualId} from '../../../shared/constants';
 
 export function useIdInputModal({service}: IdInputModalProps) {
   return {
-    id: useSelector(service, selectId),
-    idType: useSelector(service, selectIdType),
-    idInputRef: useSelector(service, selectIdInputRef),
-    idError: useSelector(service, selectIdError),
-    otpError: useSelector(service, selectOtpError),
+    id: useSafeSelector(service, selectId),
+    idType: useSafeSelector(service, selectIdType),
+    idInputRef: useSafeSelector(service, selectIdInputRef),
+    idError: useSafeSelector(service, selectIdError),
+    otpError: useSafeSelector(service, selectOtpError),
 
-    isInvalid: useSelector(service, selectIsInvalid),
-    isAcceptingOtpInput: useSelector(service, selectIsAcceptingOtpInput),
-    isRequestingOtp: useSelector(service, selectIsRequestingOtp),
+    isInvalid: useSafeSelector(service, selectIsInvalid),
+    isAcceptingOtpInput: useSafeSelector(service, selectIsAcceptingOtpInput),
+    isRequestingOtp: useSafeSelector(service, selectIsRequestingOtp),
 
     SET_INDIVIDUAL_ID: (individualId: IndividualId) =>
       service.send(AddVcModalEvents.SET_INDIVIDUAL_ID(individualId)),

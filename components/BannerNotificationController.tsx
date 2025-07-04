@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {
   selectIsPasscodeUnlock,
   selectIsBiometricUnlock,
@@ -20,13 +20,13 @@ export const UseBannerNotification = () => {
   const vcMetaService = appService.children.get('vcMeta')!!;
 
   return {
-    isBindingSuccess: useSelector(vcMetaService, selectWalletBindingSuccess),
-    verificationStatus: useSelector(vcMetaService, selectVerificationStatus),
-    isPasscodeUnlock: useSelector(settingsService, selectIsPasscodeUnlock),
+    isBindingSuccess: useSafeSelector(vcMetaService, selectWalletBindingSuccess),
+    verificationStatus: useSafeSelector(vcMetaService, selectVerificationStatus),
+    isPasscodeUnlock: useSafeSelector(settingsService, selectIsPasscodeUnlock),
 
-    isBiometricUnlock: useSelector(settingsService, selectIsBiometricUnlock),
-    isDownloadingSuccess: useSelector(vcMetaService, selectIsDownloadingSuccess),
-    isDownloadingFailed: useSelector(vcMetaService, selectIsDownloadingFailed),
+    isBiometricUnlock: useSafeSelector(settingsService, selectIsBiometricUnlock),
+    isDownloadingSuccess: useSafeSelector(vcMetaService, selectIsDownloadingSuccess),
+    isDownloadingFailed: useSafeSelector(vcMetaService, selectIsDownloadingFailed),
     DISMISS: () => {
       settingsService.send(SettingsEvents.DISMISS());
     },

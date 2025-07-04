@@ -9,10 +9,10 @@ public class AndroidUtil {
             ProcessBuilder processBuilder;
             String osName = System.getProperty("os.name");
             if (osName.contains("Windows")) {
-                processBuilder = new ProcessBuilder("cmd.exe", "/c", "adb shell am start -n io.mosip.residentapp/io.mosip.residentapp.MainActivity");
+                processBuilder = new ProcessBuilder("cmd.exe", "/c", "adb shell am start -n tt.gov.verifytt/tt.gov.verifytt.MainActivity");
 
             } else {
-                processBuilder = new ProcessBuilder("/bin/bash", "-c", "adb shell am start -n io.mosip.residentapp/io.mosip.residentapp.MainActivity");
+                processBuilder = new ProcessBuilder("/bin/bash", "-c", "adb shell am start -n tt.gov.verifytt/tt.gov.verifytt.MainActivity");
             }
             processBuilder.redirectErrorStream(true);
             processBuilder.start();
@@ -60,10 +60,10 @@ public class AndroidUtil {
             ProcessBuilder processBuilder;
             String osName = System.getProperty("os.name");
             if (osName.contains("Windows")) {
-                processBuilder = new ProcessBuilder("cmd.exe", "/c", "adb shell am force-stop io.mosip.residentapp");
+                processBuilder = new ProcessBuilder("cmd.exe", "/c", "adb shell am force-stop tt.gov.verifytt");
 
             } else {
-                processBuilder = new ProcessBuilder("/bin/bash", "-c", "adb shell am force-stop io.mosip.residentapp");
+                processBuilder = new ProcessBuilder("/bin/bash", "-c", "adb shell am force-stop tt.gov.verifytt");
             }
             processBuilder.redirectErrorStream(true);
             processBuilder.start();

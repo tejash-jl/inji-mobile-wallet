@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="io.mosip.residentapp">
+    package="tt.gov.verifytt">
 
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION"
@@ -36,9 +36,9 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round_logo"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
         tools:replace="usesCleartextTraffic">
@@ -74,7 +74,7 @@
 
                 <data
                     android:host="wla-auth"
-                    android:scheme="io.mosip.residentapp.inji" />
+                    android:scheme="tt.gov.verifytt.inji" />
             </intent-filter>
 
             <intent-filter>

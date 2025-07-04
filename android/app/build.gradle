@@ -107,17 +107,17 @@ android {
         APP_NAME = "@string/app_name"
     }
 
-    namespace 'io.mosip.residentapp'
+    namespace 'tt.gov.verifytt'
 
     defaultConfig {
-        applicationId 'io.mosip.residentapp'
+        applicationId 'tt.gov.verifytt'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionName "0.15.1"
-        versionCode 1
+        versionName "0.15.9"
+        versionCode 9
         manifestPlaceholders = [
                 APP_NAME             : APP_NAME,
-                appAuthRedirectScheme: 'io.mosip.residentapp.inji'
+                appAuthRedirectScheme: 'tt.gov.verifytt.inji'
         ]
     }
 
@@ -130,11 +130,17 @@ android {
         }
     }
 
+    repositories {
+       flatDir { 
+          dirs 'libs'
+        }
+    }
+
     signingConfigs {
         release {
             // for sonarqube job we will generate dummy release keystore to sign the app as we are not doing it in workflow
             def hasSonarqube = System.properties.containsKey("sonarqube")
-            def keystore = file('release.keystore').exists() ? file('release.keystore') : file('dummyrelease.keystore')
+            def keystore = file('debug.keystore').exists() ? file('debug.keystore') : file('dummyrelease.keystore')
             storeFile file("$keystore")
             if (hasSonarqube && !keystore.exists()) {
                 exec {
@@ -155,8 +161,8 @@ android {
                 keyAlias "androidreleasekey"
                 keyPassword "password"
             } else {
-                def keystoreAlias = System.getenv("RELEASE_KEYSTORE_ALIAS")
-                def keystorePass = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                def keystoreAlias = System.getenv("DEBUG_KEYSTORE_ALIAS")
+                def keystorePass = System.getenv("DEBUG_KEYSTORE_PASSWORD")
                 storePassword "$keystorePass"
                 keyAlias "$keystoreAlias"
                 keyPassword "$keystorePass"
@@ -193,6 +199,8 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
+            //minifyEnabled true
+            //shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -203,7 +211,7 @@ android {
         residentapp {
             versionName defaultConfig.versionName
             dimension "inji"
-            resValue "string", "app_name", "Inji"
+            resValue "string", "app_name", "VerifyTT"
         }
         inji {
             applicationId "io.mosip.inji.wallet"
@@ -264,15 +272,20 @@ android {
 dependencies {
     implementation("io.mosip:inji-openid4vp:0.1.0")
     implementation("com.facebook.react:react-android")
-    implementation 'com.facebook.soloader:soloader:0.10.1+'
+    //implementation 'com.facebook.soloader:soloader:0.10.1+'
+    implementation 'com.facebook.soloader:soloader:0.11.0'
     implementation("io.mosip:pixelpass-aar:0.6.0")
     implementation("io.mosip:secure-keystore:0.3.0")
     implementation("io.mosip:tuvali:0.5.1")
-    implementation("io.mosip:inji-vci-client:0.2.0")
+    //implementation("io.mosip:inji-vci-client:0.2.0")
+    implementation("io.mosip:inji-vci-client-jar:1.1.0-SNAPSHOT")
+    
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("io.mosip:vcverifier-aar:1.1.0"){
         exclude group: 'org.bouncycastle', module: 'bcpkix-jdk15on'
     }
+    //implementation(name: 'inji-vci-client-0.2.0-release', ext: 'aar')
+    //implementation ("io.mosip:inji-vci-client:0.2.0-SNAPSHOT")
 
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";

@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {
   ActivityLogEvents,
@@ -11,15 +11,15 @@ import {GlobalContext} from '../../shared/GlobalContext';
 export function useHistoryTab() {
   const {appService} = useContext(GlobalContext);
   const activityLogService = appService.children.get('activityLog')!!;
-  const wellknownIssuerMap = useSelector(
+  const wellknownIssuerMap = useSafeSelector(
     activityLogService,
     selectWellknownIssuerMap,
   );
 
   return {
-    activities: useSelector(activityLogService, selectActivities),
+    activities: useSafeSelector(activityLogService, selectActivities),
 
-    isRefreshing: useSelector(activityLogService, selectIsRefreshing),
+    isRefreshing: useSafeSelector(activityLogService, selectIsRefreshing),
 
     getWellKnownIssuerMap: (issuerName: string) => {
       return wellknownIssuerMap[issuerName] ?? null;

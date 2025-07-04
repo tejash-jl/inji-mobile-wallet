@@ -5,30 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Inji</string>
+	<string>VerifyTT</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>MaterialIcons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>FontAwesome.ttf</string>
-        <string>FontAwesome.ttf</string>
-        <string>FontAwesome5_Regular.ttf</string>
-        <string>FontAwesome6_Brands.ttf</string>
-        <string>FontAwesome6_Solid.ttf</string>
-        <string>FontAwesome5_Brands.ttf</string>
-        <string>FontAwesome5_Solid.ttf</string>
-        <string>FontAwesome6_Regular.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-        <string>Entypo.ttf</string>
-        <string>Feather.ttf</string>
-        <string>AntDesign.ttf</string>
-	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -42,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>io.mosip.residentapp</string>
+				<string>tt.gov.verifytt</string>
 			</array>
 		</dict>
 	</array>

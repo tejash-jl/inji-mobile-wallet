@@ -1,4 +1,5 @@
-import {useMachine, useSelector} from '@xstate/react';
+import {useMachine} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {useContext, useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import RNFingerprintChange from 'react-native-biometrics-changed';
@@ -41,14 +42,14 @@ export function useBiometricScreen(props: RootRouteProps) {
   const [initAuthBio, updateInitAuthBio] = useState(true);
   const [, bioSend, bioService] = useMachine(biometricsMachine);
 
-  const isAuthorized = useSelector(authService, selectAuthorized);
-  const isAvailable = useSelector(bioService, selectIsAvailable);
-  const isUnavailable = useSelector(bioService, selectIsUnvailable);
-  const isSuccessBio = useSelector(bioService, selectIsSuccess);
-  const isUnenrolled = useSelector(bioService, selectIsUnenrolled);
-  const errorMsgBio = useSelector(bioService, selectError);
-  const errorResponse = useSelector(bioService, selectErrorResponse);
-  const passcodeSalt = useSelector(authService, selectPasscodeSalt);
+  const isAuthorized = useSafeSelector(authService, selectAuthorized);
+  const isAvailable = useSafeSelector(bioService, selectIsAvailable);
+  const isUnavailable = useSafeSelector(bioService, selectIsUnvailable);
+  const isSuccessBio = useSafeSelector(bioService, selectIsSuccess);
+  const isUnenrolled = useSafeSelector(bioService, selectIsUnenrolled);
+  const errorMsgBio = useSafeSelector(bioService, selectError);
+  const errorResponse = useSafeSelector(bioService, selectErrorResponse);
+  const passcodeSalt = useSafeSelector(authService, selectPasscodeSalt);
 
   useEffect(() => {
     if (isAvailable) {
@@ -186,7 +187,7 @@ export function useBiometricScreen(props: RootRouteProps) {
     isReEnabling,
     isSuccessBio,
     passcodeSalt,
-    storedPasscode: useSelector(authService, selectPasscode),
+    storedPasscode: useSafeSelector(authService, selectPasscode),
     useBiometrics,
 
     onSuccess,

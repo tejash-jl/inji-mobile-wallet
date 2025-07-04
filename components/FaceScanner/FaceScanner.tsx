@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 import {Camera} from 'expo-camera';
 import {Column, Text, Button} from '.././ui';
-import {useInterpret, useSelector} from '@xstate/react';
+import {useInterpret} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useTranslation} from 'react-i18next';
 import {
   FaceScannerEvents,
@@ -39,21 +40,21 @@ import {LIVENESS_CHECK} from '../../shared/constants';
 export const FaceScanner: React.FC<FaceScannerProps> = props => {
   const {t} = useTranslation('FaceScanner');
   const {appService} = useContext(GlobalContext);
-  const isActive = useSelector(appService, selectIsActive);
+  const isActive = useSafeSelector(appService, selectIsActive);
 
   const machine = useRef(createFaceScannerMachine(props.vcImages));
   const service = useInterpret(machine.current);
 
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.front);
-  const cameraRef = useSelector(service, selectCameraRef);
+  const cameraRef = useSafeSelector(service, selectCameraRef);
 
-  const isPermissionDenied = useSelector(service, selectIsPermissionDenied);
-  const isValid = useSelector(service, selectIsValid);
-  const isInvalid = useSelector(service, selectIsInvalid);
-  const isCheckingPermission = useSelector(service, selectIsCheckingPermission);
-  const isScanning = useSelector(service, selectIsScanning);
-  const isCapturing = useSelector(service, selectIsCapturing);
-  const isVerifying = useSelector(service, selectIsVerifying);
+  const isPermissionDenied = useSafeSelector(service, selectIsPermissionDenied);
+  const isValid = useSafeSelector(service, selectIsValid);
+  const isInvalid = useSafeSelector(service, selectIsInvalid);
+  const isCheckingPermission = useSafeSelector(service, selectIsCheckingPermission);
+  const isScanning = useSafeSelector(service, selectIsScanning);
+  const isCapturing = useSafeSelector(service, selectIsCapturing);
+  const isVerifying = useSafeSelector(service, selectIsVerifying);
 
   const [counter, setCounter] = useState(0);
   const [screenColor, setScreenColor] = useState('#0000ff');

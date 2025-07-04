@@ -6,7 +6,7 @@ import {Linking, TouchableOpacity, View, Pressable} from 'react-native';
 import {Theme} from './ui/styleUtils';
 import {Column, Text, Row} from './ui';
 import {GlobalContext} from '../shared/GlobalContext';
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../shared/hooks/useSafeSelector';
 import {selectIsActive} from '../machines/app';
 import {useTranslation} from 'react-i18next';
 import testIDProps from '../shared/commonUtil';
@@ -26,7 +26,7 @@ export const QrScanner: React.FC<QrScannerProps> = props => {
     setShowCameraPermissionDeniedBanner,
   ] = useState(false);
 
-  const isActive = useSelector(appService, selectIsActive);
+  const isActive = useSafeSelector(appService, selectIsActive);
 
   const openSettings = () => {
     if (isAndroid()) {

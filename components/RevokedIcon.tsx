@@ -11,6 +11,9 @@ const RevokedIcon: React.FC = () => {
           name="close-circle"
           type="material-community"
           color="red"
+          name="file-cancel"
+          type="material-community"
+          color={Theme.Colors.RevokedIcon}
           size={12}
         />
       </View>

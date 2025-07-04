@@ -1,20 +1,26 @@
-import React from 'react';
-import {useInterpret} from '@xstate/react';
-import {appMachine} from '../machines/app';
+import React, { useState, useEffect } from 'react';
+import { GlobalContext, GlobalServices } from '../shared/GlobalContext';
+import { interpret } from 'xstate';
+import { appMachine } from '../machines/app';
+import { AppService } from '../shared/types/xstateTypes';
 
-import {GlobalContext} from '../shared/GlobalContext';
-import {logState} from '../shared/commonUtil';
+export const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [appService, setAppService] = useState<AppService>(() => interpret(appMachine).start());
 
-export const GlobalContextProvider: React.FC = props => {
-  const appService = useInterpret(appMachine, {devTools: __DEV__});
+  useEffect(() => {
+    return () => {
+      appService.stop();
+    };
+  }, [appService]);
 
-  if (__DEV__) {
-    appService.subscribe(logState);
-  }
+  const contextValue: GlobalServices = {
+    appService,
+    setAppService,
+  };
 
   return (
-    <GlobalContext.Provider value={{appService}}>
-      {props.children}
+    <GlobalContext.Provider value={contextValue}>
+      {children}
     </GlobalContext.Provider>
   );
 };

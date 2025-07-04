@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useState} from 'react';
 import {ActorRefFrom} from 'xstate';
 import {selectShareableVcsMetadata} from '../../machines/VerifiableCredential/VCMetaMachine/VCMetaSelectors';
@@ -40,22 +40,22 @@ export function useSendVcScreen() {
 
   return {
     selectedIndex,
-    receiverInfo: useSelector(scanService, selectReceiverInfo),
-    vcName: useSelector(scanService, selectVcName),
-    shareableVcsMetadata: useSelector(
+    receiverInfo: useSafeSelector(scanService, selectReceiverInfo),
+    vcName: useSafeSelector(scanService, selectVcName),
+    shareableVcsMetadata: useSafeSelector(
       vcMetaService,
       selectShareableVcsMetadata,
     ),
-    isSelectingVc: useSelector(scanService, selectIsSelectingVc),
-    isVerifyingIdentity: useSelector(scanService, selectIsVerifyingIdentity),
-    isInvalidIdentity: useSelector(scanService, selectIsInvalidIdentity),
-    isCancelling: useSelector(scanService, selectIsCancelling),
-    isFaceVerificationConsent: useSelector(
+    isSelectingVc: useSafeSelector(scanService, selectIsSelectingVc),
+    isVerifyingIdentity: useSafeSelector(scanService, selectIsVerifyingIdentity),
+    isInvalidIdentity: useSafeSelector(scanService, selectIsInvalidIdentity),
+    isCancelling: useSafeSelector(scanService, selectIsCancelling),
+    isFaceVerificationConsent: useSafeSelector(
       scanService,
       selectIsFaceVerificationConsent,
     ),
-    credential: useSelector(scanService, selectCredential),
-    verifiableCredentialData: useSelector(
+    credential: useSafeSelector(scanService, selectCredential),
+    verifiableCredentialData: useSafeSelector(
       scanService,
       selectVerifiableCredentialData,
     ),

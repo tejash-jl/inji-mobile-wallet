@@ -71,6 +71,7 @@
     "valid": "Valid",
     "pending": "Pending",
     "expired": "Expired",
+    "revoked": "Revoked",
     "photo": "Photo",
     "fullName": "Full Name",
     "gender": "Gender",
@@ -83,10 +84,10 @@
     "id": "ID",
     "qrCodeHeader": "QR Code",
     "nationalCard": "National ID",
-    "identityCard": "Identity Card",
-    "insuranceCard": "Insurance Card",
-    "beneficiaryCard": "Beneficiary Card",
-    "socialRegistryCard": "Social Registry Card",
+    "identityCard": "Identity Credential",
+    "insuranceCard": "Insurance Credential",
+    "beneficiaryCard": "Beneficiary Credential",
+    "socialRegistryCard": "Social Registry Credential",
     "uin": "UIN",
     "vid": "VID",
     "enableVerification": "Activate",
@@ -104,11 +105,14 @@
     "credentialRegistry": "Credential Registry",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the Card",
-        "message": "Something went wrong while saving Card to the store."
+        "title": "Failed to save the Credential",
+        "message": "Something went wrong while saving Credential to the store."
       }
     },
-    "shareQRCode": "Share QR Code"
+    "shareQRCode": "Share QR Code",
+    "courses": "Courses",
+    "failedLoadingQRReaction": "Oops!",
+    "failedLoadingQRMessage": "This VC is too big for a QR code"
   },
   "HomeScreenKebabPopUp": {
     "title": "More Options",
@@ -134,13 +138,13 @@
   },
   "RemoveVcWarningOverlay": {
     "alert": "Remove from Wallet?",
-    "removeWarning": "You're going to remove the card from the wallet. Once removed, this action cannot be undone.\nHowever, you can download the card again to your wallet.",
+    "removeWarning": "You're going to remove the credential from the wallet. Once removed, this action cannot be undone.\nHowever, you can download the credential again to your wallet.",
     "confirm": "Yes, I confirm",
     "cancel": "Cancel"
   },
   "AuthScreen": {
-    "header": "Select App Unlock Method",
-    "Description": "To unlock the app securely, you can set up either biometric authentication, such as fingerprint or facial recognition or opt for a 6-digit Passcode for quick access.",
+    "header": "Select Unlock Method",
+    "Description": "To unlock the application securely, you can set up either biometric authentication, such as fingerprint or facial recognition or opt for a 6-digit Passcode for quick access.",
     "PasswordTypeDescription": "Choose ‘Use Biometrics’ to enable biometric authentication or ‘I’ll Do Later’ to set up a 6-digit passcode.",
     "useBiometrics": "Use Biometrics",
     "usePasscode": "I'll Do Later",
@@ -164,40 +168,40 @@
   },
   "SettingScreen": {
     "header": "Settings",
-    "injiAsVerifierApp": "Inji as verifier app",
-    "receiveCard": "Receive Card",
+    "injiAsVerifierApp": "VerifyTT as verifier application",
+    "receiveCard": "Receive Credential",
     "basicSettings": "Basic settings",
     "bioUnlock": "Unlock with Biometric",
     "language": "Language",
-    "aboutInji": "About Inji",
+    "aboutInji": "About VerifyTT",
     "credentialRegistry": "Credential Registry",
     "esignethosturl": "Esignet Host",
     "errorMessage": "Incorrect URL entered. Please enter a valid URL to proceed.",
-    "injiTourGuide": "Inji Tour Guide",
+    "injiTourGuide": "VerifyTT Tour Guide",
     "logout": "Logout",
-    "resetInjiProps": "Resetting Inji Props..."
+    "resetInjiProps": "Resetting VerifyTT Props..."
   },
   "BannerNotification": {
-    "alternatePasscodeSuccess": "Success! You can now use passcode to unlock Inji app.",
-    "alternateBiometricSuccess": "Success! You can now use biometrics to unlock Inji app.",
+    "alternatePasscodeSuccess": "Success! You can now use passcode to unlock VerifyTT application.",
+    "alternateBiometricSuccess": "Success! You can now use biometrics to unlock VerifyTT application.",
     "activated": "Credentials are enabled for online authentication.",
     "keyPreferenceSuccess": "Your key preferences have been saved successfully!",
     "keyPreferenceError": "Sorry! Error setting your key preferences"
   },
   "AboutInji": {
-    "aboutInji": "About Inji Wallet",
-    "header": "ABOUT INJI WALLET",
-    "appID": "App ID",
-    "aboutDetails": "Inji Wallet makes data trustworthy and portable, featuring two main interfaces that cater to diverse user needs, with Inji Mobile being one of them. As a mobile-based wallet app, Inji Mobile is a secure, decentralized solution that allows users to download, manage, share, and verify verifiable credentials directly from their smartphones, providing a seamless and trustworthy way to handle credentials on the go.",
+    "aboutInji": "About VerifyTT Wallet",
+    "header": "ABOUT VERIFYTT WALLET",
+    "appID": "Application ID",
+    "aboutDetails": "VerifyTT Wallet makes data trustworthy and portable, featuring two main interfaces that cater to diverse user needs, with VerifyTT Mobile being one of them. As a mobile-based wallet application, VerifyTT Mobile is a secure, decentralized solution that allows users to download, manage, share, and verify verifiable credentials directly from their smartphones, providing a seamless and trustworthy way to handle credentials on the go.",
     "forMoreDetails": "For more details",
     "clickHere": "Click here",
     "version": "Version",
     "tuvaliVersion": "Tuvali-version",
-    "poweredBy": "Powered by Inji, A MOSIP Product"
+    "poweredBy": "Powered by VerifyTT, A MOSIP Product"
   },
   "IssuersScreen": {
-    "title": "Add new card",
-    "description": "Please choose your preferred issuer from the options below to add a new card.",
+    "title": "List of Issuers",
+    "description": "Please choose your preferred issuer from the options below to add a new credential.",
     "searchByIssuersName": "Search by Issuer’s name",
     "credentialTypeDescription": "Please select a credential",
     "help": "Help?",
@@ -216,7 +220,7 @@
       },
       "biometricsCancelled": {
         "title": "Do you want to cancel download?",
-        "message": "Biometric confirmation is required to continue downloading the card."
+        "message": "Biometric confirmation is required to continue downloading the credential."
       },
       "generic": {
         "title": "Something went wrong!",
@@ -233,8 +237,8 @@
       "verificationFailed": {
         "title": "An Error Occurred!",
         "goBackButton": "Go Back",
-        "ERR_GENERIC": "Due to Technical Error, we were unable to download the card.",
-        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the card. Please check your internet connection.",
+        "ERR_GENERIC": "Due to Technical Error, we were unable to download the credential.",
+        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the credential. Please check your internet connection.",
         "ERR_MISSING_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
         "ERR_INVALID_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
         "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "Issuance date is invalid or set in the future. Check for a valid date.",
@@ -256,13 +260,13 @@
         "four": "What is a digital credential?",
         "five": "What can we do with digital credentials?",
         "six": "What is a Verifiable Credential?",
-        "seven": "How to add a card?",
-        "eight": "Can I add multiple cards?",
+        "seven": "How to add a credential?",
+        "eight": "Can I add multiple credentials?",
         "nine": "Why does my VC say Activation is pending?",
         "ten": "What do you mean by Activated for Online login?",
-        "eleven": "How to activate a card for online login?",
-        "twelve": "How to share a card?",
-        "thirteen": "How to remove a card from the wallet?",
+        "eleven": "How to activate a credential for online login?",
+        "twelve": "How to share a credential?",
+        "thirteen": "How to remove a credential from the wallet?",
         "fourteen": "How to view activity logs?",
         "fifteen": "What happens when Android keystore biometric is changed?",
         "sixteen": "What is Share?",
@@ -276,7 +280,7 @@
         "five": "Should I always give the same email ID?",
         "six": "How can I restore the backup which I have taken?",
         "seven": "Why do I get an error \"no backup file found\"?",
-        "eight": "What happens when I Clear Storage of INJI app from device settings?"
+        "eight": "What happens when I Clear Storage of VERIFYTT application from device settings?"
       },
       "KeyManagement": {
         "one": "What are the different types of keys I can choose from?",
@@ -289,26 +293,26 @@
     },
     "answers": {
       "inji": {
-        "one": "An ID is any document that can prove a person’s identity. In the context of MOSIP, identifiers are alphanumeric digital handles for identities in the system. While a person's identity is represented as a collection of biographic and biometric attributes that can uniquely identify the person, the identity is referred to using identifiers.",
-        "two": "In the context of MOSIP, different IDs are UIN, VID, and AID. Read more about them",
-        "three-a": "As part of the enrolment (registration) process, upon registering the demographic information and biometrics of the resident successfully, a registration ID (AID) is allocated to the resident. An acknowledgment slip containing the captured details and the AID is also issued (printed) to the resident as proof of registration.",
-        "three-b": "Upon successful processing, a Unique Identification Number (UIN) is allocated to the resident and a notification is sent to the resident on the registered phone number and/or email.",
-        "three-c": "VID / Virtual ID is an alias identifier configured for one-time usage and is not linkable. Since these are used for authentication transactions, such identifiers are to be known to the user only or generated with their participation.",
-        "four": "A digital credential is the digital version of your physical Identity card",
+        "one": "An ID is any document that can prove a person’s identity. In the context of Trinidad & Tobago, identifiers are alphanumeric digital handles for identities in the system. While a person's identity is represented as a collection of biographic and biometric attributes that can uniquely identify the person, the identity is referred to using identifiers.",
+        "two": "In the context of VerifyTT, different IDs are National ID, Passport Number, and Digital Credential IDs. Read more about them",
+        "three-a": "As part of the enrolment (registration) process, upon registering the demographic information and biometrics of the resident successfully, a registration ID is allocated to the resident. An acknowledgment slip containing the captured details and the registration ID is also issued (printed) to the resident as proof of registration.",
+        "three-b": "Upon successful processing, a Digital Credential is allocated to the resident and a notification is sent to the resident on the registered phone number and/or email.",
+        "three-c": "Virtual IDs are temporary alias identifiers configured for one-time usage and are not linkable. Since these are used for authentication transactions, such identifiers are to be known to the user only or generated with their participation.",
+        "four": "A digital credential is the digital version of your physical Identity credential",
         "five": "You can avail various Government and private services using your digital credentials.",
         "six": "A Verifiable Credential is a digitally signed piece of information that represents a statement made by the issuer about a subject and typically includes demographic details. VCs are secure and trustworthy in various online interactions.",
-        "seven": "IDs can be downloaded to INJI Mobile Wallet as Verifiable Credentials. To know how to download VCs with various IDs please read",
-        "eight": "Yes, you can add multiple cards to the wallet by clicking on '+' button on the Home page.",
+        "seven": "IDs can be downloaded to VerifyTT Mobile Wallet as Verifiable Credentials. To know how to download VCs with various IDs please read",
+        "eight": "Yes, you can add multiple credentials to the wallet by clicking on '+' button on the Home page.",
         "nine": "Once VC is downloaded to your wallet, it is not yet bound with the user’s identity which is why your VC says Activation Pending. Binding your VC to your wallet (with your passcode or biometrics) is crucial to ensure the highest level of security. To activate your VC, please follow the steps",
         "ten-a": "1. Once the VC is successfully binded with the wallet, you can see that it is Activated for Online login which means this VC can now be used for the QR login process. To know more about QR code login, please read",
-        "ten-b": "2. The Q&A should be readable and understandable even when the user changes the language in the INJI app.",
-        "eleven": "After successfully adding a card to the wallet, click on 'Activation pending for Online login' on the card. On clicking on 'Activate', the card will be ready to be used for online login.",
-        "twelve": "Click on 'Share' button and scan the QR code from the requesting party. Once the connection is established, the card will be shared.",
-        "thirteen-a": "You can click on ...(meatballs menu) on a card in the Home page and choose Remove from Wallet option to remove a card from the wallet. To know more, please read",
-        "thirteen-b": " Please note that, the same card can be downloaded again.",
+        "ten-b": "2. The Q&A should be readable and understandable even when the user changes the language in the VerifyTT application.",
+        "eleven": "After successfully adding a credential to the wallet, click on 'Activation pending for Online login' on the credential. On clicking on 'Activate', the credential will be ready to be used for online login.",
+        "twelve": "Click on 'Share' button and scan the QR code from the requesting party. Once the connection is established, the credential will be shared.",
+        "thirteen-a": "You can click on ...(meatballs menu) on a credential in the Home page and choose Remove from Wallet option to remove a credential from the wallet. To know more, please read",
+        "thirteen-b": " Please note that, the same credential can be downloaded again.",
         "fourteen": "On the Home page, click on 'History' to view the details of the user's activitie.",
         "fifteen": "The Android keystore holds important information like private keys for identity proofs. When you change your biometrics, old keys are no longer safe. To keep things secure, we remove identity proofs signed by those old keys. You can simply download your identity proofs again, and they will be signed with the latest, safer keys.",
-        "sixteen": "Sharing a credential refers to the process of securely transferring a verifiable credential by the holder from the INJI wallet to the relying party. This enables individuals to prove their identity verification in a digital way, facilitating efficient and trusted interactions in various contexts.",
+        "sixteen": "Sharing a credential refers to the process of securely transferring a verifiable credential by the holder from the VerifyTT wallet to the relying party. This enables individuals to prove their identity verification in a digital way, facilitating efficient and trusted interactions in various contexts.",
         "seventeen": "Sharing a VC with selfie involves an additional layer of security in the credential-sharing process. In addition to transmitting the verifiable credential, the user is required to provide a selfie (a photograph of themselves) for facial verification. This enhances the security and integrity of the credential transfer by ensuring that the individual presenting the credential is the legitimate owner. It helps prevent impersonation and unauthorized use of the credential, thereby increasing trust and reliability in digital transactions."
       },
       "backup": {
@@ -317,9 +321,9 @@
         "three": " Firstly, ensure a Google Account is activated on your device. Secondly, strong and stable internet connection is required. Now, you can take a backup by accessing the app's settings, selecting the backup & restore option, and following the prompts. Specify the storage location and initiate the backup process.",
         "four": "Firstly, ensure your iOS device is associated with an apple account. Secondly, strong and stable internet connection is required. Additionally, your available iCloud account and iPhone storage is at least 2.05 times bigger than the size of your backup. Now, you can take a backup by accessing the app's settings, selecting the backup & restore option, and following the prompts. Specify the storage location and initiate the backup process.",
         "five": "For consistency and security, it's advisable to use the same email ID for backups. This helps in easily identifying and accessing your backup files.",
-        "six": "To restore a backup, go to the app settings, choose the restore option, and select the backup file. Follow the on-screen instructions to complete the restoration process.",
+        "six": "To restore a backup, go to the application settings, choose the restore option, and select the backup file. Follow the on-screen instructions to complete the restoration process.",
         "seven": "This error may occur if there are no backup files associated with the provided email ID or if the backup files are stored in a different location. Ensure you are using the correct email ID and storage location, or consider creating a new backup if none exists.",
-        "eight": "Please note this action is taken cautiously as it clears app data which means all your downloaded VCs will be cleared. Ensure to take a backup of the data before triggering clear storage."
+        "eight": "Please note this action is taken cautiously as it clears application data which means all your downloaded VCs will be cleared. Ensure to take a backup of the data before triggering clear storage."
       },
       "KeyManagement": {
         "one": "You can choose from Ed25519, ECC K1, ECC R1, and RSA keys. Each type has its own strengths in terms of security and performance.",
@@ -327,7 +331,7 @@
         "three": "Different keys offer different levels of security. For example, Ed25519 and ECC keys are known for their high security with smaller key sizes, while RSA is widely trusted for its robust security in various systems.",
         "four": "Yes, you can change your key type, but it’s important to note that this might affect how your credentials interact with different systems. Always ensure that your chosen key type is compatible with your use case.",
         "five": "The order of your keys determines their priority in usage. You can drag and arrange your keys, with the top one being your first choice.",
-        "six": "If you don’t select a specific key type, the app will automatically choose the most suitable one based on what is supported by the credential issuer. This ensures compatibility and security, even if you don't make a manual selection."
+        "six": "If you don’t select a specific key type, the application will automatically choose the most suitable one based on what is supported by the credential issuer. This ensures compatibility and security, even if you don't make a manual selection."
       }
     }
   },
@@ -371,8 +375,8 @@
     }
   },
   "DownloadingVcModal": {
-    "header": "Downloading your card",
-    "bodyText": "This may take sometime, we will notify you when your card has been downloaded and is available",
+    "header": "Downloading your credential",
+    "bodyText": "This may take sometime, we will notify you when your credential has been downloaded and is available",
     "backButton": "Back home"
   },
   "GetIdInputModal": {
@@ -387,7 +391,7 @@
   "IdInputModal": {
     "header": "Download your ID",
     "guideLabel": "Select ID type and enter the MOSIP provided UIN or VID you wish to download. In the next step, you will be asked to enter OTP.",
-    "generateVc": "Generate Card",
+    "generateVc": "Generate Credential",
     "downloadID": "Download ID",
     "enterId": "Enter {{idType}}",
     "noUIN/VID": "Don’t have UIN/VID? ",
@@ -404,7 +408,7 @@
     "resendOtp": "Resend OTP",
     "confirmationDialog": {
       "title": "Do you want to cancel downloading?",
-      "message": "Once cancelled, your card will not be downloaded and you need to reinitiate the download.",
+      "message": "Once cancelled, your credential will not be downloaded and you need to reinitiate the download.",
       "wait": "No, I’ll wait",
       "cancel": "Yes, Cancel"
     }
@@ -412,27 +416,27 @@
   "MyVcsTab": {
     "searchByName": "Search",
     "bringYourDigitalID": "Bring your digital identity",
-    "generateVcDescription": "Tap on \"Download card\" below to download your card",
-    "generateVcFABDescription": "Tap on  \"+\" below to download your card",
-    "downloadCard": "Download Card",
-    "downloadingYourCard": "Downloading your card, this can take upto 5 minutes",
-    "downloadingVcSuccess": "Your Card has been downloaded successfully",
-    "downloadingVcFailed": "Sorry! Due to technical error we are unable to download your card now. Please try again later.",
+    "generateVcDescription": "Tap on \"Download credential\" below to download your credential",
+    "generateVcFABDescription": "Tap on  \"+\" below to download your credential",
+    "downloadCard": "Download Credential",
+    "downloadingYourCard": "Downloading your credential, this can take upto 5 minutes",
+    "downloadingVcSuccess": "Your Credential has been downloaded successfully",
+    "downloadingVcFailed": "Sorry! Due to technical error we are unable to download your credential now. Please try again later.",
     "activated": "Credentials are enabled for online authentication.",
-    "noCardsTitle": "No Cards Found!",
+    "noCardsTitle": "No Credentials Found!",
     "noCardsDescription": "Sorry, we couldn’t find any results. Please try entering another search keyword.",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the Card",
-        "message": "Something went wrong while saving Card to the store."
+        "title": "Failed to save the Credential",
+        "message": "Something went wrong while saving Credential to the store."
       },
       "storageLimitReached": {
         "title": "Insufficient Appdata",
-        "message": "You cannot add or receive cards since the Appdata is full. Clear Appdata to proceed."
+        "message": "You cannot add or receive credentials since the Appdata is full. Clear Appdata to proceed."
       },
       "vcIsTampered": {
-        "title": "Cards removed due to malicious activity",
-        "message": "Tampered cards detected and removed for security reasons. Please download again."
+        "title": "Credentials removed due to malicious activity",
+        "message": "Tampered credentials detected and removed for security reasons. Please download again."
       },
       "keystoreNotExists": {
         "title": "Some security features will be unavailable",
@@ -445,13 +449,13 @@
       },
       "downloadLimitExpires": {
         "title": "Download Error",
-        "message": "There was an issue downloading following cards. Please try again"
+        "message": "There was an issue downloading following credentials. Please try again"
       },
       "verificationFailed": {
         "title": "An Error Occurred!",
         "goBackButton": "Go Back",
-        "ERR_GENERIC": "Due to Technical Error, we were unable to download the card.",
-        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the card. Please check your internet connection.",
+        "ERR_GENERIC": "Due to Technical Error, we were unable to download the credential.",
+        "ERR_NETWORK": "Due to unstable internet connection, we were unable to download the credential. Please check your internet connection.",
         "ERR_MISSING_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
         "ERR_INVALID_ISSUANCEDATE": "Issuance date is invalid or set in the future. Check for a valid date.",
         "ERR_ISSUANCE_DATE_IS_FUTURE_DATE": "Issuance date is invalid or set in the future. Check for a valid date.",
@@ -464,15 +468,15 @@
   },
   "OnboardingOverlay": {
     "stepOneTitle": "Welcome!",
-    "stepOneText": "Keep your digital credential with you at all times. Inji helps you manage and use them effectively. To get started, add cards to your profile.",
+    "stepOneText": "Keep your digital credential with you at all times. Verifytt helps you manage and use them effectively. To get started, add Credentials to your profile.",
     "stepTwoTitle": "Secure Sharing",
-    "stepTwoText": "Share your cards securely in a hassle free way and avail various services.",
+    "stepTwoText": "Share your credentials securely in a hassle free way and avail various services.",
     "stepThreeTitle": "Trusted Digital Wallet",
-    "stepThreeText": "Store and carry all your important cards in a single trusted wallet.",
+    "stepThreeText": "Store and carry all your important credentials in a single trusted wallet.",
     "stepFourTitle": "Quick Access",
-    "stepFourText": "Authenticate yourself with ease using the stored digital credential.",
+    "stepFourText": "Authenticate your Credentials with ease using the stored digital credential.",
     "stepFiveTitle": "Backup & Restore",
-    "stepFiveText": "Protect your data with ease using our Backup & Restore feature. Safely store your VCs against loss or accidents by creating regular backups and recover it effortlessly whenever needed for seamless continuity.",
+    "stepFiveText": "Protect your data with ease using Backup & Restore feature. Safely store your VCs against loss by creating regular backups and recover it effortlessly whenever needed for seamless continuity.",
     "getStarted": "Get Started",
     "goBack": "Go Back",
     "back": "Back",
@@ -480,15 +484,15 @@
     "next": "Next"
   },
   "ReceivedVcsTab": {
-    "receivedCards": "Received Cards",
-    "header": "Received Cards",
-    "noReceivedVcsTitle": "No card available yet",
-    "noReceivedVcsText": "Tap on Request below to receive card"
+    "receivedCards": "Received Credentials",
+    "header": "Received Credentials",
+    "noReceivedVcsTitle": "No credential available yet",
+    "noReceivedVcsText": "Tap on Request below to receive credential"
   },
   "VcVerificationBanner": {
-    "inProgress": "We are validating your card, this may take sometime. Once verified, you’ll be able to activate your card.",
+    "inProgress": "We are validating your credential, this may take sometime. Once verified, you’ll be able to activate your credential.",
     "success": "{{vcDetails}} is verified successfully and now available for activation.",
-    "error": "Sorry, we are unable to verify the {{vcDetails}} right now. Please try again later. Until then, you won't be able to activate or share your card."
+    "error": "Sorry, we are unable to verify the {{vcDetails}} right now. Please try again later. Until then, you won't be able to activate or share your credential."
   },
   "ViewVcModal": {
     "title": "ID Details",
@@ -505,6 +509,10 @@
       "expired": {
         "title": "Expired Status:",
         "description": "The credential has expired."
+      },
+      "revoked": {
+        "title": "Revoked Status:",
+        "description": "The credential has revoked."
       }
     }
   },
@@ -519,10 +527,15 @@
     "header": "Set Passcode",
     "enterNewPassword": "Enter a new passcode",
     "reEnterPassword": "Re-enter the new passcode",
-    "enterAlternateNewPassword": "Your passcode is your key to access the app securely. Choose a 6-digit passcode which is unique and memorable, ensuring the safety of your data and privacy within the app.",
-    "reEnterAlternatePassword": "Confirm your passcode by entering it again. Once confirmed, your passcode will be securely set for accessing the app.",
+    "enterAlternateNewPassword": "Your passcode is your key to access the application securely. Choose a 6-digit passcode which is unique and memorable, ensuring the safety of your data and privacy within the app.",
+    "reEnterAlternatePassword": "Confirm your passcode by entering it again. Once confirmed, your passcode will be securely set for accessing the application.",
     "confirmPasscode": "Confirm passcode",
-    "enterPasscode": "Enter your passcode"
+    "enterPasscode": "Enter your passcode",
+    "forgotPassword": "Forgot PIN?",
+    "resetPinConfirmation": "Reset PIN Confirmation",
+    "resetPinConfirmationText": "Resetting your PIN will erase all your data from this application and reset the application to its initial state. This action cannot be undone. Do you want to proceed?",
+    "resetPinCancel": "Cancel",
+    "resetPinReset": "Reset"
   },
   "QrLogin": {
     "title": "QR Login",
@@ -531,7 +544,7 @@
     "checkDomain": "Also, check for a lock icon in the address bar.",
     "domainHead": "https://",
     "selectId": "Select an ID",
-    "noBindedVc": "There is no binded card available to verify",
+    "noBindedVc": "There is no binded credential available to verify",
     "back": "Come back",
     "confirm": "Confirm",
     "verify": "Verify",
@@ -553,17 +566,17 @@
     }
   },
   "ReceiveVcScreen": {
-    "header": "Card details",
-    "save": "Save card",
+    "header": "Credential details",
+    "save": "Save credential",
     "verifyAndSave": "Verify and save",
     "reject": "Reject",
     "discard": "Discard",
-    "goToReceivedVCTab": "View Received card",
-    "saving": "Card is being saved",
+    "goToReceivedVCTab": "View Received credential",
+    "saving": "Credential is being saved",
     "errors": {
       "savingFailed": {
-        "title": "Failed to save the card!",
-        "message": "Due to technical error, we were unable to save the card. Please request the sender to transfer again."
+        "title": "Failed to save the credential!",
+        "message": "Due to technical error, we were unable to save the credential. Please request the sender to transfer again."
       }
     }
   },
@@ -571,21 +584,21 @@
     "enablePermission": "Enable Permission"
   },
   "RequestScreen": {
-    "receiveCard": "Receive Card",
-    "bluetoothDenied": "Please enable Bluetooth to be able to request card",
+    "receiveCard": "Receive Credential",
+    "bluetoothDenied": "Please enable Bluetooth to be able to request credential",
     "bluetoothStateIos": "Bluetooth is turned OFF, please turn it ON from Control center",
     "bluetoothStateAndroid": "Bluetooth is turned OFF, please turn it ON from Quick settings menu",
-    "showQrCode": "Display this QR code to request resident Card",
-    "incomingVc": "Incoming Card",
+    "showQrCode": "Display this QR code to request resident Credential",
+    "incomingVc": "Incoming Credential",
     "request": "Request",
     "errors": {
       "nearbyDevicesPermissionDenied": {
-        "message": "Nearby Devices permission is required to be able to request Card",
+        "message": "Nearby Devices permission is required to be able to request Credential",
         "button": "Allow Permission"
       },
       "storageLimitReached": {
         "title": "Insufficient Appdata",
-        "message": "You cannot add or receive cards since the Appdata is full. Clear Appdata to proceed."
+        "message": "You cannot add or receive credentials since the Appdata is full. Clear Appdata to proceed."
       }
     },
     "status": {
@@ -595,11 +608,11 @@
       },
       "accepted": {
         "title": "Success!",
-        "message": "Card has been successfully received from Wallet"
+        "message": "Credential has been successfully received from Wallet"
       },
       "rejected": {
         "title": "Notice",
-        "message": "You discarded Wallet's Card"
+        "message": "You discarded Wallet's Credential"
       },
       "disconnected": {
         "title": "Bluetooth connection lost!",
@@ -611,7 +624,7 @@
         "timeoutHint": "It's taking too long to exchange device info..."
       },
       "connected": {
-        "message": "Connected to the device. Waiting for card...",
+        "message": "Connected to the device. Waiting for credential...",
         "timeoutHint": "No data received yet. Is sending device still connected?"
       },
       "offline": {
@@ -644,7 +657,7 @@
         },
         "TUV_UNK_001": {
           "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to receive the card. Please try again"
+          "message": "Due to technical error, we were unable to receive the credential. Please try again"
         },
         "TVW_UNK_001": {
           "title": "Connection Failed!",
@@ -660,15 +673,15 @@
         },
         "TVV_UNK_001": {
           "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the credential."
         },
         "TVV_UNK_002": {
           "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the credential."
         },
         "TVV_UNK_003": {
           "title": "An Error Occured!",
-          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the card."
+          "message": "An unexpected error occurred while processing the received data. Please check your connection and request the sender to resend the credential."
         }
       }
     },
@@ -679,17 +692,17 @@
   "ScanScreen": {
     "shareWithSelfie": "Share with Selfie",
     "shareWithSelfieQrLogin": "QR Code Login",
-    "shareWithSelfieMessage": "To share your Verifiable Credentials, we’ll securely verify your identity using face verification. By continuing, you consent to INJI using your camera for this purpose. \n\n Your facial data will only be used for verification and will not be shared with any third parties.",
-    "shareWithSelfieMessageQrLogin": "In order to access the portal, you’ll need to share your Verifiable Credentials and verify your identity securely using face verification. By continuing, you consent to Inji using your camera for this purpose. \n\n Your facial data will only be used for verification and will not be shared. After successful verification, you can choose which details to share.",
+    "shareWithSelfieMessage": "To share your Verifiable Credentials, we’ll securely verify your identity using face verification. By continuing, you consent to VERIFYTT using your camera for this purpose. \n\n Your facial data will only be used for verification and will not be shared with any third parties.",
+    "shareWithSelfieMessageQrLogin": "In order to access the portal, you’ll need to share your Verifiable Credentials and verify your identity securely using face verification. By continuing, you consent to VerifyTT using your camera for this purpose. \n\n Your facial data will only be used for verification and will not be shared. After successful verification, you can choose which details to share.",
     "ConfirmButton": "I Understand",
     "doNotAskMessage": "Don't ask me again",
-    "noShareableVcs": "No shareable cards are available.",
-    "sharingVc": "Sharing card",
+    "noShareableVcs": "No shareable credentials are available.",
+    "sharingVc": "Sharing credential",
     "bluetoothStateIos": "Bluetooth is turned OFF, please turn it ON from Control center",
     "bluetoothStateAndroid": "Bluetooth is turned OFF, please turn it ON from Quick settings menu",
     "enableBluetoothMessage": "Please enable bluetooth permissions to support local sharing",
     "enableBluetoothButtonText": "Allow bluetooth permissions",
-    "scanningGuide": "Hold the phone steady and scan the QR code to share your card.",
+    "scanningGuide": "Hold the phone steady and scan the QR code to share your credential.",
     "invalidQR": "Please scan a valid QR",
     "errors": {
       "locationDisabled": {
@@ -697,16 +710,16 @@
         "button": "Enable location services"
       },
       "locationDenied": {
-        "message": "Location permission is required to share card",
+        "message": "Location permission is required to share credential",
         "button": "Allow access to location"
       },
       "nearbyDevicesPermissionDenied": {
-        "message": "Nearby Devices permission is required to be able to share card",
+        "message": "Nearby Devices permission is required to be able to share credential",
         "button": "Allow Permission"
       },
       "storageLimitReached": {
         "title": "Insufficient Appdata",
-        "message": "You cannot share cards since the Appdata is full. Clear Appdata to proceed."
+        "message": "You cannot share credentials since the Appdata is full. Clear Appdata to proceed."
       }
     },
     "status": {
@@ -723,11 +736,11 @@
       "exchangingDeviceInfoTimeout": "It's taking a while to exchange device info. You may have to reconnect.",
       "invalid": "Invalid QR Code",
       "offline": "Please connect to the internet to scan QR codes using Online sharing mode",
-      "sent": "Card has been sent...",
-      "sentHint": "Waiting for receiver to save or discard your Card",
+      "sent": "Credential has been sent...",
+      "sentHint": "Waiting for receiver to save or discard your Credential",
       "sharing": {
         "title": "Sharing in progress...",
-        "hint": "Please wait while we share the chosen card...",
+        "hint": "Please wait while we share the chosen credential...",
         "timeoutHint": "Sharing is delayed, possibly due to a connection issue."
       },
       "accepted": {
@@ -738,7 +751,7 @@
       },
       "rejected": {
         "title": "An error occurred!",
-        "message": "Due to technical error, we were unable to share the card with the relying party. Please share again."
+        "message": "Due to technical error, we were unable to share the credential with the relying party. Please share again."
       },
       "disconnected": {
         "title": "Bluetooth connection lost!",
@@ -769,39 +782,39 @@
         },
         "TVV_TRA_001": {
           "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "message": "Something went wrong while transferring the credential. Please try again."
         },
         "TVV_TRA_002": {
           "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "message": "Something went wrong while transferring the credential. Please try again."
         },
         "TUV_UNK_001": {
           "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "message": "Due to technical error, we were unable to share the credential with the relying party. Please try again."
         },
         "TVW_UNK_001": {
           "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "message": "Due to technical error, we were unable to share the credential with the relying party. Please try again."
         },
         "TVW_UNK_002": {
           "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "message": "Due to technical error, we were unable to share the credential with the relying party. Please try again."
         },
         "TVW_UNK_003": {
           "title": "An Error Occured!",
-          "message": "Due to technical error, we were unable to share the card with the relying party. Please try again."
+          "message": "Due to technical error, we were unable to share the credential with the relying party. Please try again."
         },
         "TVV_UNK_001": {
           "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "message": "Something went wrong while transferring the credential. Please try again."
         },
         "TVV_UNK_002": {
           "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "message": "Something went wrong while transferring the credential. Please try again."
         },
         "TVV_UNK_003": {
           "title": "An Error Occured!",
-          "message": "Something went wrong while transferring the card. Please try again."
+          "message": "Something went wrong while transferring the credential. Please try again."
         }
       }
     },
@@ -812,14 +825,14 @@
     },
     "rational": {
       "title": "Turn on your location",
-      "message": "This app needs your location to search for nearby systems to receive your data.",
+      "message": "This application needs your location to search for nearby systems to receive your data.",
       "accept": "OK",
       "cancel": "Cancel"
     }
   },
   "SelectVcOverlay": {
-    "header": "Share Card",
-    "chooseVc": "Choose the Card you'd like to share with",
+    "header": "Share Credential",
+    "chooseVc": "Choose the Credential you'd like to share with",
     "share": "Share",
     "verifyAndShare": "Verify Identity & Share"
   },
@@ -838,18 +851,18 @@
       },
       "accepted": {
         "title": "Success!",
-        "message": "Your card has been successfully shared with {{receiver}}"
+        "message": "Your credential has been successfully shared with {{receiver}}"
       },
       "rejected": {
         "title": "Pay attention",
-        "message": "Your card has been declined by {{receiver}}"
+        "message": "Your credential has been declined by {{receiver}}"
       }
     }
   },
   "SendVPScreen": {
     "requester": "Verification Entity",
-    "cardsSelected": "cards selected",
-    "cardSelected": "card selected",
+    "cardsSelected": "credentials selected",
+    "cardSelected": "credential selected",
     "unCheck": "Uncheck",
     "checkAll": "Check All",
     "consentDialog": {
@@ -879,7 +892,7 @@
       },
       "genericError": {
         "title": "Oops! An Error Occured.",
-        "message": "Due to technical error, we are unable to share the card. Click on retry to re-share or click on Home to exit the sharing process."
+        "message": "Due to technical error, we are unable to share the credential. Click on retry to re-share or click on Home to exit the sharing process."
       },
       "invalidQrCode": {
         "title": "Invalid QR code",
@@ -905,7 +918,7 @@
     "errors": {
       "invalidIdentity": {
         "title": "Face recognition failed",
-        "message": "The scanned face does not match with the photo on the card. Please try again.",
+        "message": "The scanned face does not match with the photo on the credential. Please try again.",
         "messageNoRetry": "Face not recognised."
       }
     }
@@ -936,7 +949,7 @@
     "backupFailure": {
       "networkError": "Due to unstable internet connection, we were unable to perform data backup. Please try again later.",
       "technicalError": "Due to technical error, we were unable to perform data backup. Please try again later.",
-      "iCloudSignInError": "We're sorry that data backup couldn't be completed. Please ensure that you have logged into your Apple account and iCloud access is enabled for the app.",
+      "iCloudSignInError": "We're sorry that data backup couldn't be completed. Please ensure that you have logged into your Apple account and iCloud access is enabled for the application.",
       "noDataForBackup": "We're sorry, but there is no data available to back up at the moment.",
       "storageLimitReached": "We're unable to complete the backup process due to insufficient storage space on your device. Please free up space by deleting unnecessary files or apps, and try again."
     },
@@ -950,7 +963,7 @@
   },
   "AccountSelection": {
     "backupProcessInfo": "You’re just a few steps away from backing up your data",
-    "cloudInfo": "To initiate the data backup, please tap on the “Proceed” button to link your {{driveName}} with Inji.",
+    "cloudInfo": "To initiate the data backup, please tap on the “Proceed” button to link your {{driveName}} with VerifyTT.",
     "googleDriveTitle": "Google Drive",
     "loadingSubtitle": "Loading...",
     "proceed": "Proceed",
@@ -961,8 +974,8 @@
     "title": "Backup & Restore",
     "backupProgressState": "Backup in progress...",
     "lastBackupDetails": "Last Backup Details",
-    "backupInProgress": "You can still use the application while data backup is in progress. Closing the app will terminate the data backup process.",
-    "noBackup": "Backup your Data to {{driveName}}. You can restore them when you reinstall INJI.",
+    "backupInProgress": "You can still use the application while data backup is in progress. Closing the application will terminate the data backup process.",
+    "noBackup": "Backup your Data to {{driveName}}. You can restore them when you reinstall VERIFYTT.",
     "storage": "The backup will be stored in the {{driveName}} associated to your chosen {{accountType}} account.",
     "backup": "Backup",
     "size": "Size: ",
@@ -983,8 +996,8 @@
     "errors": {
       "decryptionFailed": "Failed to decrypt data",
       "invalidateKeyError": {
-        "title": "App was Reset",
-        "message": "Due to the fingerprint / facial recognition update, app security was impacted, and downloaded cards were removed. Please download again."
+        "title": "Application was Reset",
+        "message": "Due to the fingerprint / facial recognition update, application security was impacted, and downloaded credentials were removed. Please download again."
       }
     },
     "ignore": "Ignore"
@@ -1001,8 +1014,8 @@
     "skip": "I'll do later"
   },
   "common": {
-    "card": "card",
-    "cards": "cards",
+    "card": "credential",
+    "cards": "credentials",
     "cancel": "Cancel",
     "accept": "Accept",
     "save": "Save",
@@ -1014,7 +1027,7 @@
     "ignore": "Ignore",
     "camera": {
       "errors": {
-        "missingPermission": "This app uses the camera to scan the QR code of another device."
+        "missingPermission": "This application uses the camera to scan the QR code of another device."
       },
       "allowAccess": "Allow access to the camera"
     },
@@ -1026,28 +1039,31 @@
       "copied": "Copied"
     },
     "biometricPopup": {
-      "title": "Unlock App",
-      "description": "Please use fingerprint to unlock the app"
+      "title": "Unlock Application",
+      "description": "Please use fingerprint to unlock the application"
     }
   },
   "copilot": {
     "helpTitle": "Help/FAQs",
     "helpMessage": "Find answers to common questions and access helpful resources in our FAQ section, ensuring you have the support whenever you need it.",
-    "downloadTitle": "Download Card",
-    "downloadMessage": "Easily download and securely store your card in the app for convenient access whenever you need them.",
-    "shareTitle": "Share Card",
-    "shareMessage": "Share your card with ease in offline mode using bluetooth, empowering you to provide verified information whenever required.",
+    "downloadTitle": "Download Credential",
+    "downloadMessage": "Easily download and securely store your credential in the application for convenient access whenever you need them.",
+    "shareTitle": "Share Credential",
+    "shareMessage": "Share your credential with ease in offline mode using bluetooth, empowering you to provide verified information whenever required.",
     "historyTitle": "Access to History",
-    "historyMessage": "View your activity history to track your interactions and stay informed about your past actions within the app.",
-    "settingsTitle": "App Settings",
-    "settingsMessage": "Customize your app experience with personalized settings as per your preferences.",
-    "cardTitle": "Card",
-    "cardMessage": "Your card displays your verified identity information. Tap for a detailed view or click on … for additional options.",
+    "historyMessage": "View your activity history to track your interactions and stay informed about your past actions within the application.",
+    "settingsTitle": "Application Settings",
+    "settingsMessage": "Customize your application experience with personalized settings as per your preferences.",
+    "cardTitle": "Credential",
+    "cardMessage": "Your credential displays your verified identity information. Tap for a detailed view or click on … for additional options.",
     "next": "Next",
     "previous": "Previous",
     "skip": "Skip",
     "done": "Done",
     "keyManagementTitle": "Key Management",
-    "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority."
+    "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority.",
+    "backupCard": "Credential",
+    "backupSuggestionTitle": "Since you have not enabled backup, please enable it or you will lose your data when you reset the application or switch to a new device",
+    "goToBackupBtnTitle": "Go To Backup"
   }
 }

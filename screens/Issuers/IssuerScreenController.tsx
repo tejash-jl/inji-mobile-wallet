@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {
   selectSupportedCredentialTypes,
   selectErrorMessageType,
@@ -30,29 +30,29 @@ export function useIssuerScreenController({route, navigation}) {
   service.subscribe(logState);
 
   return {
-    issuers: useSelector(service, selectIssuers),
-    selectedIssuer: useSelector(service, selectSelectedIssuer),
-    errorMessageType: useSelector(service, selectErrorMessageType),
-    isDownloadingCredentials: useSelector(service, selectIsDownloadCredentials),
-    isBiometricsCancelled: useSelector(service, selectIsBiometricCancelled),
-    isDone: useSelector(service, selectIsDone),
-    isIdle: useSelector(service, selectIsIdle),
-    isNonGenericError: useSelector(service, selectIsNonGenericError),
-    loadingReason: useSelector(service, selectLoadingReason),
-    isStoring: useSelector(service, selectStoring),
-    isSelectingCredentialType: useSelector(
+    issuers: useSafeSelector(service, selectIssuers),
+    selectedIssuer: useSafeSelector(service, selectSelectedIssuer),
+    errorMessageType: useSafeSelector(service, selectErrorMessageType),
+    isDownloadingCredentials: useSafeSelector(service, selectIsDownloadCredentials),
+    isBiometricsCancelled: useSafeSelector(service, selectIsBiometricCancelled),
+    isDone: useSafeSelector(service, selectIsDone),
+    isIdle: useSafeSelector(service, selectIsIdle),
+    isNonGenericError: useSafeSelector(service, selectIsNonGenericError),
+    loadingReason: useSafeSelector(service, selectLoadingReason),
+    isStoring: useSafeSelector(service, selectStoring),
+    isSelectingCredentialType: useSafeSelector(
       service,
       selectSelectingCredentialType,
     ),
-    supportedCredentialTypes: useSelector(
+    supportedCredentialTypes: useSafeSelector(
       service,
       selectSupportedCredentialTypes,
     ),
-    verificationErrorMessage: useSelector(
+    verificationErrorMessage: useSafeSelector(
       service,
       selectVerificationErrorMessage,
     ),
-    isError: useSelector(service, selectIsError),
+    isError: useSafeSelector(service, selectIsError),
 
     CANCEL: () => service.send(IssuerScreenTabEvents.CANCEL()),
     SELECTED_ISSUER: id =>

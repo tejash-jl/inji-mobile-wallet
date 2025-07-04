@@ -20,11 +20,11 @@ const languageCodeMap = {} as {[key: string]: string};
 
 export const SUPPORTED_LANGUAGES = {
   en: 'English',
-  fil: 'Filipino',
-  ar: 'عربى',
-  hi: 'हिंदी',
-  kn: 'ಕನ್ನಡ',
-  ta: 'தமிழ்',
+  //fil: 'Filipino',
+  //ar: 'عربى',
+  //hi: 'हिंदी',
+  //kn: 'ಕನ್ನಡ',
+  //ta: 'தமிழ்',
 };
 
 i18next

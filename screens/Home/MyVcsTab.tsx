@@ -29,7 +29,11 @@ import {VCMetadata} from '../../shared/VCMetadata';
 import {useCopilot} from 'react-native-copilot';
 import {isTranslationKeyFound} from '../../shared/commonUtil';
 
-export const MyVcsTab: React.FC<HomeScreenTabProps> = props => {
+export const MyVcsTab: React.FC<HomeScreenTabProps> = ({
+  vcStatuses,
+  setVCsStatus,
+  ...props
+}) => {
   const {t} = useTranslation('MyVcsTab');
   const controller = useMyVcsTab(props);
   const vcMetadataOrderedByPinStatus = getVCsOrderedByPinStatus(
@@ -72,6 +76,13 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = props => {
     filterVcs(search);
   }, [controller.vcData]);
 
+  useEffect(() => {
+    //console.log(`MyVcsTab: isRefreshingVcs changed to ${controller.isRefreshingVcs}`);
+    if (controller.isRefreshingVcs) {
+      setVCsStatus();
+    }
+  }, [controller.isRefreshingVcs]);
+
   const filterVcs = (searchText: string) => {
     setSearch(searchText);
     setFilteredSearchData([]);
@@ -84,8 +95,8 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = props => {
         const credentialSubject =
           vc.verifiableCredential.credentialSubject ||
           vc.verifiableCredential.credential.credentialSubject;
-        if(isStringAndContains(searchText,vc['vcMetadata'].credentialType))
-          isVcFound=true
+        if (isStringAndContains(searchText, vc['vcMetadata'].credentialType))
+          isVcFound = true;
         else if (credentialSubject) {
           isVcFound = searchNestedCredentialFields(
             searchTextLower,
@@ -277,10 +288,19 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = props => {
                 </Row>
                 {showPinVc &&
                   vcMetadataOrderedByPinStatus.map((vcMetadata, index) => {
+                    console.log(
+                      `Rendering VC: ${JSON.stringify(
+                        vcMetadata,
+                      )} at index ${index}`,
+                    );
+                    const vcKey = vcMetadata.getVcKey();
+                    const status = vcStatuses[vcKey]; // get status for this VC
+
                     return (
                       <VcItemContainer
                         key={vcMetadata.getVcKey()}
                         vcMetadata={vcMetadata}
+                        status={status} // pass status as a prop
                         margin="0 2 8 2"
                         onPress={controller.VIEW_VC}
                         isDownloading={controller.inProgressVcDownloads?.has(

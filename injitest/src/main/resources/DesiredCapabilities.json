@@ -4,8 +4,8 @@
     "caps": {
       "appium:automationName": "UiAutomator2",
       "platformName": "android",
-      "appium:appPackage": "io.mosip.residentapp",
-      "appium:appActivity": "io.mosip.residentapp.MainActivity",
+      "appium:appPackage": "tt.gov.verifytt",
+      "appium:appActivity": "tt.gov.verifytt.MainActivity",
       "appium:noReset": false,
       "appium:autoGrantPermissions": true
     }
@@ -14,8 +14,8 @@
     "name": "iosDevice",
     "caps": {
       "appium:automationName": "XCUITest",
-      "appium:appPackage": "io.mosip.residentapp",
-      "appium:appActivity": "io.mosip.residentapp.MainActivity",
+      "appium:appPackage": "tt.gov.verifytt",
+      "appium:appActivity": "tt.gov.verifytt.MainActivity",
       "platformName": "iOS",
       "appium:noReset": false,
       "maxTypingFrequency": 30

@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {
   BackupEvents,
@@ -17,16 +17,16 @@ export function useBackupScreen() {
   const backupService = appService.children.get('backup')!!;
 
   return {
-    lastBackupDetails: useSelector(backupService, lastBackupDetails),
-    isLoadingBackupDetails: useSelector(
+    lastBackupDetails: useSafeSelector(backupService, lastBackupDetails),
+    isLoadingBackupDetails: useSafeSelector(
       backupService,
       selectIsLoadingBackupDetails,
     ),
-    backupErrorReason: useSelector(backupService, selectBackupErrorReason),
-    isBackingUpSuccess: useSelector(backupService, selectIsBackingUpSuccess),
-    isBackingUpFailure: useSelector(backupService, selectIsBackingUpFailure),
-    isBackupInProgress: useSelector(backupService, selectIsBackupInprogress),
-    showBackupInProgress: useSelector(
+    backupErrorReason: useSafeSelector(backupService, selectBackupErrorReason),
+    isBackingUpSuccess: useSafeSelector(backupService, selectIsBackingUpSuccess),
+    isBackingUpFailure: useSafeSelector(backupService, selectIsBackingUpFailure),
+    isBackupInProgress: useSafeSelector(backupService, selectIsBackupInprogress),
+    showBackupInProgress: useSafeSelector(
       backupService!,
       selectShowBackupInProgress,
     ),

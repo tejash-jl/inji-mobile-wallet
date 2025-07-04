@@ -79,6 +79,7 @@ export const getFieldValue = (
         <VCVerification
           display={display}
           vcMetadata={props.verifiableCredentialData.vcMetadata}
+          vcStatus={props.vcStatus}
         />
       );
     case 'idType':
@@ -117,6 +118,8 @@ export const getFieldName = (
   wellknown: any,
   format: string,
 ): string => {
+
+  //console.error('getFieldName: field:', field, "wellknown:", wellknown, "format:", format);
   if (wellknown) {
     if (format === VCFormat.ldp_vc) {
       const credentialDefinition = wellknown.credential_definition;
@@ -183,6 +186,7 @@ export const fieldItemIterator = (
 ) => {
   const fieldNameColor = display.getTextColor(Theme.Colors.DetailsLabel);
   const fieldValueColor = display.getTextColor(Theme.Colors.Details);
+  //console.error("VCvDetails: fieldItemIterator: Pintu ", fields, props.credential.credentialSubject.courses);
   return fields.map(field => {
     const fieldName = getFieldName(
       field,
@@ -203,12 +207,14 @@ export const fieldItemIterator = (
       !fieldValue
     )
       return;
+
+      //console.error("Field Value: fieldItemIterator: Pintu 2 :", fieldValue);
     return (
       <Row
         key={field}
         style={{flexDirection: 'row', flex: 1}}
         align="space-between"
-        margin="0 8 15 0">
+        margin="0 8 10 0">
         <VCItemField
           key={field}
           fieldName={fieldName}

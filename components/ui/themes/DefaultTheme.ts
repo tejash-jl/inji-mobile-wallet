@@ -2,6 +2,7 @@
 import {
   Dimensions,
   I18nManager,
+  Platform,
   StatusBar,
   StyleSheet,
   ViewStyle,
@@ -49,17 +50,17 @@ const Colors = {
   plainText: '#FFFFFF',
   walletbindingLabel: '#000000',
   LightOrange: '#F7EDF3',
-  GradientColors: ['#FF5300', '#5B03AD'],
-  GradientColorsLight: ['#FF5300' + 14, '#5B03AD' + 14],
+  GradientColors: ['#004C92', '#FF0009'],
+  GradientColorsLight: ['#004C92' + 14, '#FF0009' + 14],
   DisabledColors: ['#C7C7C7', '#C7C7C7'],
   TimeoutHintBoxColor: '#FFF7E5',
   TimeoutHintBoxBorder: '#FFF2D6',
   TimeoutHintText: '#8B6105',
   resendCodeTimer: '#555555',
   uncheckedIcon: '#DBDBDB',
-  startColor: '#ff5300',
-  endColor: '#5b03ad',
-  stroke: '#ee8123',
+  startColor: '#004C92',
+  endColor: '#FF0009',
+  stroke: '',
   iconBg: '#ffa85a',
   warningLogoBg: '#FFF7E5',
   toolTip: '#B7B7B7',
@@ -68,6 +69,7 @@ const Colors = {
   Mercury: '#E6E6E6',
   Yellow: '#E8A94F',
   selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
+  forgotPin: '#004C92',
 };
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -120,7 +122,7 @@ export const DefaultTheme = {
     DefaultToggle: Colors.LightOrange,
     GrayText: Colors.GrayText,
     errorGrayText: Colors.mediumDarkGrey,
-    gradientBtn: ['#FF5300', '#5B03AD'],
+    gradientBtn: ['#004C92', '#FF0009'],
     dotColor: Colors.dorColor,
     plainText: Colors.plainText,
     IconBackground: Colors.LightOrange,
@@ -150,7 +152,9 @@ export const DefaultTheme = {
     urlLink: Colors.Orange,
     warningText: Colors.Red,
     PendingIcon: Colors.Yellow,
+    RevokedIcon: Colors.Red,
     selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
+    forgotPin: Colors.forgotPin,
   },
   Styles: StyleSheet.create({
     title: {
@@ -414,13 +418,13 @@ export const DefaultTheme = {
       height: 100,
     },
     injiLogo: {
-      width: 191.58,
-      height: 84,
+      width: 150,
+      height: 50,
     },
     injiHomeLogo: {
-      marginLeft: -30,
-      marginTop: -12,
-      marginBottom: isAndroid() ? -30 : 0,
+      marginLeft: Platform.OS === 'android' ? -5 : 0,
+      marginTop: Platform.OS === 'android' ? 0 : -5,
+      //marginBottom: isAndroid() ? -30 : 0,
     },
     logo: {
       height: 35,
@@ -465,8 +469,8 @@ export const DefaultTheme = {
     ProfileIconContainer: {
       alignSelf: 'center',
       justifyContent: 'center',
-      width: 40,
-      height: 53,
+      width: 45,
+      height: 45,
       borderRadius: 10,
       borderWidth: 1,
       borderColor: Colors.Mercury,
@@ -522,8 +526,8 @@ export const DefaultTheme = {
       width: 40,
     },
     closeCardImage: {
-      width: 40,
-      height: 53,
+      width: 45,
+      height: 45,
       borderRadius: 100,
     },
     detailedViewImage: {
@@ -616,7 +620,7 @@ export const DefaultTheme = {
       marginTop: 10,
       marginLeft: 14,
       marginRight: 14,
-      marginBottom: 20,
+      marginBottom: 10,
       opacity: 0.2,
     },
     hrLineFill: {
@@ -836,8 +840,8 @@ export const DefaultTheme = {
       fontSize: 18,
     },
     QrView: {
-      width: 80,
-      height: 80,
+      width: 100,
+      height: 100,
       padding: 8,
       backgroundColor: Colors.White,
       alignItems: 'center',
@@ -845,6 +849,23 @@ export const DefaultTheme = {
       borderRadius: 5,
       elevation: 6,
       shadowColor: '#000',
+      shadowOffset: {width: -1, height: 1},
+      shadowOpacity: 0.4,
+      shadowRadius: 3,
+      marginTop: 14,
+    },
+    VCShareDetailView: {
+      width: 115,
+      height: 120,
+      padding: 0,
+      backgroundColor: Colors.White,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderRadius: 8,
+      borderColor: '#FF0009',
+      elevation: 6,
+      shadowColor: '#FF0009',
       shadowOffset: {width: -1, height: 1},
       shadowOpacity: 0.4,
       shadowRadius: 3,
@@ -1870,8 +1891,8 @@ export const DefaultTheme = {
     };
   },
   LinearGradientDirection: {
-    start: {x: 0.5, y: 0.5},
-    end: {x: 1, y: 0.5},
+    start: {x: 0, y: 0},
+    end: {x: 1, y: 1},
   },
 };
 

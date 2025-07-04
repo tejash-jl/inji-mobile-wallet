@@ -6,8 +6,8 @@ const adaptiveImage =
     : './assets/orangeSplashScreen.png';
 
 export default {
-  name: 'Inji',
-  slug: 'inji',
+  name: 'VerifyTT',
+  slug: 'VerifyTT',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -21,12 +21,12 @@ export default {
   },
   assetBundlePatterns: ['**/*'],
   ios: {
-    bundleIdentifier: 'io.mosip.inji.mobileid',
+    bundleIdentifier: 'tt.gov.verifytt',
     buildNumber: '1.0.0',
     supportsTablet: true,
   },
   android: {
-    package: 'io.mosip.residentapp',
+    package: 'tt.gov.verifytt',
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: adaptiveImage,

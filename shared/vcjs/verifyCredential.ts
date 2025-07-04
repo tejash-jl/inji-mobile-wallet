@@ -37,13 +37,15 @@ export async function verifyCredential(
   try {
     //ToDo - Have to remove else part once Vc Verifier Library is built for Swift
     if (isAndroid()) {
+      const orderedCredential = reorderFields(verifiableCredential);
+      const updatedCredential = removeNullJws(orderedCredential);
       let vcVerifierResult = await vcVerifier.verifyCredentials(
-        typeof verifiableCredential === 'string'
-          ? verifiableCredential
-          : JSON.stringify(verifiableCredential),
+        typeof orderedCredential === 'string'
+          ? orderedCredential
+          : JSON.stringify(updatedCredential),
         credentialFormat,
       );
-      return handleVcVerifierResponse(vcVerifierResult, verifiableCredential);
+      return handleVcVerifierResponse(vcVerifierResult, updatedCredential);
     } else {
       //ToDo - Have to remove the condition once Vc Verifier Library is built for Swift to validate mso_mdoc
       if (credentialFormat == VCFormat.mso_mdoc) {
@@ -115,6 +117,46 @@ export async function verifyCredential(
       verificationErrorCode: VerificationErrorType.GENERIC_TECHNICAL_ERROR,
     };
   }
+}
+
+function reorderFields(vc: any) {
+  const fieldOrder = [
+    'credentialSubject',
+    'validUntil',
+    'validFrom',
+    'id',
+    'type',
+    '@context',
+    'issuer',
+    'credentialStatus',
+    'proof',
+  ];
+
+  // Create an array of key-value pairs from the original object
+  const orderedVc: any[] = [];
+
+  // Loop through the fieldOrder and push the respective field and its value
+  for (let field of fieldOrder) {
+    if (vc.hasOwnProperty(field)) {
+      orderedVc.push({key: field, value: vc[field]});
+    }
+  }
+
+  // Now reconstruct the object, preserving the order of the keys
+  const orderedObject: any = {};
+  orderedVc.forEach(item => {
+    orderedObject[item.key] = item.value;
+  });
+
+  return orderedObject;
+}
+
+function removeNullJws(vc: any) {
+  // Check if the proof object exists and has a jws field with a null value
+  if (vc.proof && vc.proof.jws === null) {
+    delete vc.proof.jws; // Remove the jws field
+  }
+  return vc;
 }
 
 function handleResponse(

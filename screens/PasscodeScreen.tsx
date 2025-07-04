@@ -1,14 +1,23 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Dimensions, Image, KeyboardAvoidingView} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  KeyboardAvoidingView,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 import {MAX_PIN, PasscodeVerify} from '../components/PasscodeVerify';
 import {PinInput} from '../components/PinInput';
-import {Column, Text} from '../components/ui';
+import {Column, Row, Text} from '../components/ui';
 import {Theme} from '../components/ui/styleUtils';
 import {PasscodeRouteProps} from '../routes';
 import {usePasscodeScreen} from './PasscodeScreenController';
 import {hashData} from '../shared/commonUtil';
 import {argon2iConfig, isIOS} from '../shared/constants';
+import Modal from 'react-native-modal';
 import {
   getEndEventData,
   getEventType,
@@ -22,11 +31,33 @@ import {TelemetryConstants} from '../shared/telemetry/TelemetryConstants';
 import {BackHandler} from 'react-native';
 import {incrementRetryCount} from '../shared/telemetry/TelemetryUtils';
 import {SvgImage} from '../components/ui/svg';
+import {useResetAuthToDefault} from './ResetPasscode/ResetPasscodeFunction';
+import {useResetAppStorageToDefault} from './ResetPasscode/ResetApp';
+import {GlobalContext} from '../shared/GlobalContext';
 
 export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
   const {t} = useTranslation('PasscodeScreen');
   const controller = usePasscodeScreen(props);
   const isSettingUp = props.route.params?.setup;
+  const [resetPinModalVisible, setResetPinModalVisible] = useState(false);
+
+  const resetAuthToDefault = useResetAuthToDefault();
+  const {resetAppStorageToDefault, resetMachinesToInitialState} =
+    useResetAppStorageToDefault();
+
+  const {appService} = useContext(GlobalContext);
+
+  console.log(
+    'Pintu Kumar Whole Object-----------------------------',
+    controller,
+  );
+
+  console.log(
+    'Pintu Kumar Stored Passcode & Stored Salt-----------------------------',
+    controller.storedPasscode,
+    '\t',
+    controller.storedSalt,
+  );
 
   useEffect(() => {
     sendImpressionEvent(
@@ -179,7 +210,139 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
           color={Theme.Colors.errorMessage}>
           {controller.error}
         </Text>
+        {!isSettingUp && (
+          <TouchableOpacity
+            onPress={() => {
+              setResetPinModalVisible(true);
+            }}>
+            <Text
+              testID="ForgotPasscode"
+              style={{
+                marginTop: 30,
+              }}
+              align="center"
+              color={Theme.Colors.forgotPin}
+              weight="semibold">
+              {t('forgotPassword')}
+            </Text>
+          </TouchableOpacity>
+        )}
       </Column>
+      <Modal
+        isVisible={resetPinModalVisible}
+        onBackdropPress={() => {
+          setResetPinModalVisible(false);
+        }}
+        onBackButtonPress={() => {
+          setResetPinModalVisible(false);
+        }}>
+        <SafeAreaView
+          style={{
+            height: Platform.OS === 'android' ? '35%' : 'auto',
+            backgroundColor: 'white',
+            width: '100%',
+            borderRadius: 10,
+          }}>
+          <Text
+            testID="ResetPinConfirm"
+            style={{
+              marginTop: 30,
+            }}
+            align="center"
+            color={Theme.Colors.blackIcon}
+            weight="semibold"
+            size="large">
+            {t('resetPinConfirmation')}
+          </Text>
+          <Text
+            testID="ResetPinConfirmText"
+            style={{
+              marginTop: 20,
+              paddingHorizontal: 30,
+            }}
+            align="left"
+            color={Theme.Colors.blackIcon}
+            weight="regular"
+            size="mediumSmall">
+            {t('resetPinConfirmationText')}
+          </Text>
+          <View
+            style={{
+              width: '100%',
+              height: 0.5,
+              backgroundColor: '#A7A7A7',
+              marginTop: 20,
+            }}
+          />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              borderBottomLeftRadius: 10,
+              borderBottomRightRadius: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                setResetPinModalVisible(false);
+              }}
+              style={{
+                width: '49.5%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                testID="ResetPinCancel"
+                align="center"
+                color={Theme.Colors.forgotPin}
+                weight="semibold"
+                size="large">
+                {t('resetPinCancel')}
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{width: 1, height: '100%', backgroundColor: '#A7A7A7'}}
+            />
+            <TouchableOpacity
+              onPress={async () => {
+                //const storeService = appService.children.get('store');
+                //storeService?.send('CLEAR');
+
+                //controller.RESET_AUTH();
+                //await resetAuthToDefault();
+                await resetAppStorageToDefault(); // Resetting app storage to default
+                resetMachinesToInitialState(); // Resetting machines to initial state
+
+                setResetPinModalVisible(false);
+
+                props.navigation.reset({
+                  index: 0,
+                  routes: [{name: 'SplashScreen'}], //params: { setup: true }
+                });
+
+                // setTimeout(() => {
+                //   props.navigation.reset({
+                //     index: 0,
+                //     routes: [{ name: 'SplashScreen' }],
+                //   });
+                // }, 2000);
+              }}
+              style={{
+                width: '49.5%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                testID="ResetPinReset"
+                align="center"
+                color={Theme.Colors.errorMessage}
+                weight="semibold"
+                size="large">
+                {t('resetPinReset')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };

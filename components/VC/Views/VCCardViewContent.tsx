@@ -57,9 +57,12 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
   const {start} = useCopilot();
   const {t} = useTranslation();
 
+
+  console.log('VCCardViewContent props:', props.vcStatus);
+
   return (
     <ImageBackground
-      source={wellknownDisplayProperty.getBackgroundImage(Theme.CloseCard)}
+      //source={wellknownDisplayProperty.getBackgroundImage(Theme.CloseCard)}
       resizeMode="stretch"
       imageStyle={Theme.Styles.vcBg}
       style={[
@@ -87,6 +90,7 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
               <VCVerification
                 display={wellknownDisplayProperty}
                 vcMetadata={props.verifiableCredentialData?.vcMetadata}
+                vcStatus={props.vcStatus}
               />
             </Row>
           </Column>
@@ -164,6 +168,7 @@ export interface VCItemContentProps {
   isKebabPopUp: boolean;
   vcMetadata: VCMetadata;
   isInitialLaunch?: boolean;
+  vcStatus?: string;
 }
 
 VCCardViewContent.defaultProps = {

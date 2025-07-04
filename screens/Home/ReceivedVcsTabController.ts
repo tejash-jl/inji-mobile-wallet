@@ -1,4 +1,5 @@
-import {useInterpret, useSelector} from '@xstate/react';
+import {useInterpret} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext, useRef, useState} from 'react';
 import {ActorRefFrom} from 'xstate';
 import {
@@ -33,13 +34,13 @@ export function useReceivedVcsTab() {
   );
   const service = useInterpret(machine.current);
 
-  const tabRefs = useSelector(service, selectTabRefs);
+  const tabRefs = useSafeSelector(service, selectTabRefs);
 
-  const selectedVc = useSelector(service, selectSelectedVc);
+  const selectedVc = useSafeSelector(service, selectSelectedVc);
 
-  const vc = useSelector(service, selectVc);
+  const vc = useSafeSelector(service, selectVc);
 
-  const isViewingVc = useSelector(service, selectViewingVc);
+  const isViewingVc = useSafeSelector(service, selectViewingVc);
 
   const ReceivedVcsService = tabRefs.receivedVcs as ActorRefFrom<
     typeof ReceivedVcsTabMachine
@@ -50,9 +51,9 @@ export function useReceivedVcsTab() {
 
   return {
     isVisible,
-    receivedVcsMetadata: useSelector(vcMetaService, selectReceivedVcsMetadata),
+    receivedVcsMetadata: useSafeSelector(vcMetaService, selectReceivedVcsMetadata),
 
-    isRefreshingVcs: useSelector(vcMetaService, selectIsRefreshingReceivedVcs),
+    isRefreshingVcs: useSafeSelector(vcMetaService, selectIsRefreshingReceivedVcs),
 
     TOGGLE_RECEIVED_CARDS: () => setIsVisible(!isVisible),
 

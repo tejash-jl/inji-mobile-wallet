@@ -1,4 +1,4 @@
-import {useSelector} from '@xstate/react';
+import { useSafeSelector } from '../../shared/hooks/useSafeSelector';
 import {useContext} from 'react';
 import {GlobalContext} from '../../shared/GlobalContext';
 import {
@@ -23,24 +23,24 @@ export function useReceiveVcScreen() {
   const activityService = appService.children.get('activityLog')!!;
 
   return {
-    senderInfo: useSelector(requestService, selectSenderInfo),
-    credential: useSelector(requestService, selectCredential),
-    verifiableCredentialData: useSelector(
+    senderInfo: useSafeSelector(requestService, selectSenderInfo),
+    credential: useSafeSelector(requestService, selectCredential),
+    verifiableCredentialData: useSafeSelector(
       requestService,
       selectVerifiableCredentialData,
     ),
-    isReviewingInIdle: useSelector(requestService, selectIsReviewingInIdle),
-    isAccepting: useSelector(requestService, selectIsAccepting),
-    isDisplayingIncomingVC: useSelector(
+    isReviewingInIdle: useSafeSelector(requestService, selectIsReviewingInIdle),
+    isAccepting: useSafeSelector(requestService, selectIsAccepting),
+    isDisplayingIncomingVC: useSafeSelector(
       requestService,
       selectIsDisplayingIncomingVC,
     ),
-    isSavingFailedInIdle: useSelector(
+    isSavingFailedInIdle: useSafeSelector(
       requestService,
       selectIsSavingFailedInIdle,
     ),
-    isVerifyingIdentity: useSelector(requestService, selectIsVerifyingIdentity),
-    isInvalidIdentity: useSelector(requestService, selectIsInvalidIdentity),
+    isVerifyingIdentity: useSafeSelector(requestService, selectIsVerifyingIdentity),
+    isInvalidIdentity: useSafeSelector(requestService, selectIsInvalidIdentity),
 
     ACCEPT: () => requestService.send(RequestEvents.ACCEPT()),
     ACCEPT_AND_VERIFY: () =>

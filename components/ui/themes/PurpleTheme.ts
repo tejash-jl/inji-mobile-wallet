@@ -70,6 +70,7 @@ const Colors = {
   Mercury: '#E6E6E6',
   Yellow: '#E8A94F',
   selectIDTextGradient: ['#F5F5F5', '#FFFFFF'],
+  forgotPin: '#004C92',
 };
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -153,6 +154,8 @@ export const PurpleTheme = {
     urlLink: Colors.Purple,
     warningText: Colors.Red,
     PendingIcon: Colors.Yellow,
+    RevokedIcon: Colors.Red,
+    forgotPin: Colors.forgotPin,
   },
   Styles: StyleSheet.create({
     title: {
@@ -844,8 +847,8 @@ export const PurpleTheme = {
       fontSize: 18,
     },
     QrView: {
-      width: 80,
-      height: 80,
+      width: 100,
+      height: 100,
       padding: 8,
       backgroundColor: Colors.White,
       alignItems: 'center',
@@ -853,6 +856,23 @@ export const PurpleTheme = {
       borderRadius: 5,
       elevation: 6,
       shadowColor: '#000',
+      shadowOffset: {width: -1, height: 1},
+      shadowOpacity: 0.4,
+      shadowRadius: 3,
+      marginTop: 14,
+    },
+    VCShareDetailView: {
+      width: 115,
+      height: 120,
+      padding: 0,
+      backgroundColor: Colors.White,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderRadius: 8,
+      borderColor: '#FF0009',
+      elevation: 6,
+      shadowColor: '#FF0009',
       shadowOffset: {width: -1, height: 1},
       shadowOpacity: 0.4,
       shadowRadius: 3,
