@@ -16,6 +16,22 @@ export const VCVerification: React.FC<VCVerificationProps> = ({
   display,
   vcStatus
 }) => {
+  const {t} = useTranslation('VcDetails');
+  const statusText = !vcMetadata.isVerified
+    ? vcMetadata.verificationErrorCode === 'REVOKED'
+      ? t('Revoked')
+      : t('pending')
+    : vcMetadata.isExpired
+      ? t('expired')
+      : t('valid');
+
+  const statusIcon = vcMetadata.isVerified
+    ? (vcMetadata.isExpired
+        ? <PendingIcon />
+        : <VerifiedIcon />)
+    : (vcMetadata.verificationErrorCode === 'REVOKED'
+        ? <RevokedIcon />
+        : <PendingIcon />);
   const { t } = useTranslation('VcDetails');
   console.log("vcStatus VCVerification:", vcStatus);
   const statusText = vcMetadata.isVerified

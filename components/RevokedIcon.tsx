@@ -8,6 +8,9 @@ const RevokedIcon: React.FC = () => {
     <View style={Theme.Styles.verificationStatusIconContainer}>
       <View style={Theme.Styles.verificationStatusIconInner}>
         <Icon
+          name="close-circle"
+          type="material-community"
+          color="red"
           name="file-cancel"
           type="material-community"
           color={Theme.Colors.RevokedIcon}
