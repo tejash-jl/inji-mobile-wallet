@@ -1,6 +1,13 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, Pressable} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  View,
+} from 'react-native';
 import {Issuer} from '../../components/openId4VCI/Issuer';
 import {Error} from '../../components/ui/Error';
 import {Header} from '../../components/ui/Header';
@@ -29,6 +36,7 @@ import {SvgImage} from '../../components/ui/svg';
 import {Icon} from 'react-native-elements';
 import {BannerNotificationContainer} from '../../components/BannerNotificationContainer';
 import {CredentialTypeSelectionScreen} from './CredentialTypeSelectionScreen';
+import Modal from 'react-native-modal';
 
 export const IssuersScreen: React.FC<
   HomeRouteProps | RootRouteProps
@@ -41,6 +49,7 @@ export const IssuersScreen: React.FC<
   const [search, setSearch] = useState('');
   const [tapToSearch, setTapToSearch] = useState(false);
   const [clearSearchIcon, setClearSearchIcon] = useState(false);
+  const [isDublicateModalVisible, setIsDublicateModalVisible] = useState(false);
   const showFullScreenError = controller.isError && controller.errorMessageType;
 
   const isVerificationFailed = controller.verificationErrorMessage !== '';
@@ -50,6 +59,20 @@ export const IssuersScreen: React.FC<
   const verificationErrorMessage = isTranslationKeyFound(translationKey, t)
     ? t(translationKey)
     : t(`errors.verificationFailed.ERR_GENERIC`);
+
+  useEffect(() => {
+    const service = props.route.params.service;
+
+    const subscription = service?.subscribe(state => {
+      if (state.matches('awaitUserDecision')) {
+        setIsDublicateModalVisible(true);
+      } else {
+        setIsDublicateModalVisible(false);
+      }
+    });
+
+    return () => subscription?.unsubscribe();
+  }, [props.route.params.service.state]);
 
   useLayoutEffect(() => {
     if (controller.loadingReason || showFullScreenError) {
@@ -230,10 +253,113 @@ export const IssuersScreen: React.FC<
 
   if (controller.loadingReason) {
     return (
-      <Loader
-        title={t('loaders.loading')}
-        subTitle={t(`loaders.subTitle.${controller.loadingReason}`)}
-      />
+      <>
+        <Loader
+          title={t('loaders.loading')}
+          subTitle={t(`loaders.subTitle.${controller.loadingReason}`)}
+        />
+
+        <Modal
+          //isVisible={props.route.params.service.state.matches('awaitUserDecision')}
+          isVisible={isDublicateModalVisible}
+          //onBackdropPress={() => {}}
+          //onBackButtonPress={() => {}}
+          backdropOpacity={0.5}>
+          <SafeAreaView
+            style={{
+              height: Platform.OS === 'android' ? '30%' : 'auto',
+              backgroundColor: 'white',
+              width: '100%',
+              borderRadius: 10,
+            }}>
+            <Text
+              testID="ExistingCredentialConfirm"
+              style={{
+                marginTop: 30,
+              }}
+              align="center"
+              color={Theme.Colors.blackIcon}
+              weight="semibold"
+              size="large">
+              {t('copilot:existingCredentialTitle')}
+            </Text>
+            <Text
+              testID="ExistingCredentialConfirmText"
+              style={{
+                marginTop: 20,
+                paddingHorizontal: 30,
+              }}
+              align="left"
+              color={Theme.Colors.blackIcon}
+              weight="regular"
+              size="mediumSmall">
+              {t('copilot:existingCredentialDescription')}
+            </Text>
+            <View
+              style={{
+                width: '100%',
+                height: 1,
+                backgroundColor: '#A7A7A7',
+                marginTop: 20,
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                borderBottomLeftRadius: 10,
+                borderBottomRightRadius: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  props.route.params.service.send({
+                    type: 'CANCEL_ADD_DUPLICATE',
+                  })
+                }
+                style={{
+                  width: '49.5%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  testID="ExistingCredentialCancel"
+                  align="center"
+                  color={Theme.Colors.forgotPin}
+                  weight="semibold"
+                  size="large">
+                  {t('copilot:existingCredentialButtonDeclineText')}
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{width: 1, height: '100%', backgroundColor: '#A7A7A7'}}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setIsDublicateModalVisible(false);
+                  setTimeout(() => {
+                    props.route.params.service.send({
+                      type: 'CONFIRM_ADD_DUPLICATE',
+                    });
+                  }, 300);
+                }}
+                style={{
+                  width: '49.5%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  testID="ExistingCredentialConfirm"
+                  align="center"
+                  color={Theme.Colors.errorMessage}
+                  weight="semibold"
+                  size="large">
+                  {t('copilot:existingCredentialButtonConfirmText')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
+        </Modal>
+      </>
     );
   }
 

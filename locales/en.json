@@ -1064,6 +1064,10 @@
     "keyManagementDesc": "Select the key generation method that aligns with your preference, putting you in control of your credential security.\nDrag and arrange the keys, with the top one being your highest priority.",
     "backupCard": "Credential",
     "backupSuggestionTitle": "Since you have not enabled backup, please enable it or you will lose your data when you reset the application or switch to a new device",
-    "goToBackupBtnTitle": "Go To Backup"
+    "goToBackupBtnTitle": "Go To Backup",
+    "existingCredentialTitle": "Credential Already Exists",
+    "existingCredentialDescription": "A credential with the same details already exists in your wallet. Do you still want to add it again?",
+    "existingCredentialButtonConfirmText": "Add Anyway",
+    "existingCredentialButtonDeclineText": "Cancel"
   }
 }
