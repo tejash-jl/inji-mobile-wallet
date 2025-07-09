@@ -45,7 +45,8 @@ export const vcMetaMachine =
               on: {
                 STORE_RESPONSE: {
                   actions: 'setMyVcs',
-                  target: 'receivedVcs',
+                  //target: 'receivedVcs',
+                  target: 'verifyVCs',
                 },
               },
             },
@@ -55,6 +56,20 @@ export const vcMetaMachine =
                 STORE_RESPONSE: {
                   actions: 'setReceivedVcs',
                   target: 'showTamperedPopup',
+                },
+              },
+            },
+            verifyVCs: {
+              entry: () => console.log('Entering verifyVCs state'),
+              invoke: {
+                src: 'verifyCredential',
+                onDone: {
+                  actions: ['setVerificationResult'],
+                  target: 'receivedVcs',
+                },
+                onError: {
+                  actions: ['logVerificationFailure'],
+                  target: 'receivedVcs',
                 },
               },
             },

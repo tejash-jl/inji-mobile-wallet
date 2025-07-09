@@ -26,6 +26,29 @@ export const VCMetaActions = (model: any) => {
         event.verificationStatus as vcVerificationBannerDetails,
     }),
 
+    setVerificationResult: model.assign({
+      myVcsMetadata: (context, event) => {
+        const results = event.data;
+
+        const updated = context.myVcsMetadata.map(vcMeta => {
+          const key = vcMeta.getVcKey();
+          const result = results.find(r => r.vcKey === key);
+
+          if (result) {
+            const updatedMeta = new VCMetadata({
+              ...vcMeta,
+              isVerified: result.isVerified,
+              verificationErrorCode: result.verificationErrorCode,
+              verificationMessage: result.verificationMessage,
+            });
+            return updatedMeta;
+          }
+          return vcMeta;
+        });
+        return updated;
+      },
+    }),
+
     sendBackupEvent: send(BackupEvents.DATA_BACKUP(true), {
       to: (context: any) => context.serviceRefs.backup,
     }),
