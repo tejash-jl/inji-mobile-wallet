@@ -12,6 +12,7 @@ import {
 } from '../../shared/openId4VCI/Utils';
 import {authorize} from 'react-native-app-auth';
 import {
+  decryptJson,
   fetchKeyPair,
   generateKeyPair,
 } from '../../shared/cryptoutil/cryptoUtil';
@@ -29,6 +30,9 @@ import {TelemetryConstants} from '../../shared/telemetry/TelemetryConstants';
 import {VciClient} from '../../shared/vciClient/VciClient';
 import {isMockVC} from '../../shared/Utils';
 import {VCFormat} from '../../shared/VCFormat';
+import Storage, {MMKV} from '../../shared/storage';
+import React from 'react';
+import {GlobalContext} from '../../shared/GlobalContext';
 
 export const IssuersService = () => {
   return {
@@ -107,6 +111,7 @@ export const IssuersService = () => {
       );
 
       console.info(`VC download via ${context.selectedIssuerId} is successful`);
+      console.log('VC: context.encryptionKey:', context.encryptionKey);
       return await updateCredentialInformation(context, credential);
     },
     invokeAuthorization: async (context: any) => {
@@ -151,6 +156,7 @@ export const IssuersService = () => {
     },
 
     verifyCredential: async (context: any) => {
+      console.log('Pintu Kumar Verifying credential:', context);
       //TODO: Remove bypassing verification of mock VCs once mock VCs are verifiable
       if (
         context.selectedCredentialType.format === VCFormat.mso_mdoc ||
@@ -170,6 +176,64 @@ export const IssuersService = () => {
           verificationMessage: VerificationErrorMessage.NO_ERROR,
           verificationErrorCode: VerificationErrorType.NO_ERROR,
         };
+      }
+    },
+
+    checkForDuplicateCredential: async (context: any) => {
+      console.log('Pintu Kumar Checking for duplicate credential:', context);
+
+      const newCredential = context.verifiableCredential;
+      console.log('New Credential:', newCredential);
+
+      const encryptionKey = context.encryptionKey;
+      console.log('Encryption Key:Pintu Kumar : ', encryptionKey);
+
+      const areCredentialSubjectsEqual = (
+        subject1: any,
+        subject2: any,
+      ): boolean => {
+        const {type: type1, ...rest1} = subject1;
+        const {type: type2, ...rest2} = subject2;
+
+        return JSON.stringify(rest1) === JSON.stringify(rest2);
+      };
+
+      try {
+        const keys = await MMKV.indexer.strings.getKeys();
+        const vcKeys = keys.filter(key => key.startsWith('VC_'));
+
+        const newCredentialSubject =
+          newCredential?.credential?.credentialSubject;
+        console.log('New Credential Subject:', newCredentialSubject);
+        if (!newCredentialSubject) return false;
+
+        for (const key of vcKeys) {
+          const storedVcData = await Storage.getItem(key, encryptionKey);
+          if (storedVcData) {
+            const decryptedValue = await decryptJson(
+              encryptionKey,
+              storedVcData,
+            );
+            const storedCredential = JSON.parse(decryptedValue);
+            const storedCredentialSubject =
+              storedCredential?.verifiableCredential?.credential
+                ?.credentialSubject;
+
+            if (
+              storedCredentialSubject &&
+              areCredentialSubjectsEqual(
+                newCredentialSubject,
+                storedCredentialSubject,
+              )
+            ) {
+              return true; // Duplicate found
+            }
+          }
+        }
+        return false; // No duplicate found
+      } catch (error) {
+        console.error('Error checking for duplicate credential:', error);
+        return false;
       }
     },
   };

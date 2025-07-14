@@ -102,6 +102,13 @@ export const IssuersActions = (model: any) => {
         return ErrorMessage.CREDENTIAL_TYPE_DOWNLOAD_FAILURE;
       },
     }),
+    cleanupOnCancelDuplicate: assign({
+      verifiableCredential: _ => null,
+      credentialWrapper: _ => null,
+      errorMessage: _ => '',
+      loadingReason: _ => null,
+      selectedCredentialType: _ => ({}),
+    }),
 
     setError: model.assign({
       errorMessage: (_: any, event: any) => {

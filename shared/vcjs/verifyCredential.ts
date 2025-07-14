@@ -45,6 +45,7 @@ export async function verifyCredential(
           : JSON.stringify(updatedCredential),
         credentialFormat,
       );
+      console.log("Vc Verifier Result: ", vcVerifierResult);
       return handleVcVerifierResponse(vcVerifierResult, updatedCredential);
     } else {
       //ToDo - Have to remove the condition once Vc Verifier Library is built for Swift to validate mso_mdoc

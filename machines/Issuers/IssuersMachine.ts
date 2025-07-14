@@ -375,10 +375,13 @@ export const IssuersMachine = model.createMachine(
         description: 'credential is downloaded from the selected issuer',
         invoke: {
           src: 'downloadCredential',
-          onDone: {
-            actions: ['setVerifiableCredential', 'setCredentialWrapper'],
-            target: 'verifyingCredential',
-          },
+          onDone: [
+            {
+              actions: ['setVerifiableCredential', 'setCredentialWrapper'],
+              target: 'handleDuplicateCredential',
+              //target: 'verifyingCredential',
+            },
+          ],
           onError: [
             {
               cond: 'hasUserCancelledBiometric',
@@ -422,6 +425,43 @@ export const IssuersMachine = model.createMachine(
                 target: '#issuersMachine.selectingIssuer',
               },
             },
+          },
+        },
+      },
+      handleDuplicateCredential: {
+        description:
+          'checks for duplicate credential and waits for user decision',
+        invoke: {
+          src: 'checkForDuplicateCredential',
+          onDone: [
+            {
+              //cond: (context, event) => event.data === true,
+              cond: (context, event) => {
+                console.log(
+                  'checkForDuplicateCredential response:',
+                  event.data,
+                );
+                return event.data === true;
+              },
+              target: 'awaitUserDecision',
+            },
+            {
+              target: 'verifyingCredential',
+            },
+          ],
+          onError: {
+            target: 'verifyingCredential',
+          },
+        },
+      },
+      awaitUserDecision: {
+        on: {
+          CONFIRM_ADD_DUPLICATE: {
+            target: 'verifyingCredential',
+          },
+          CANCEL_ADD_DUPLICATE: {
+            actions: ['cleanupOnCancelDuplicate'],
+            target: 'displayIssuers', //idle
           },
         },
       },

@@ -16,27 +16,45 @@ export const VCVerification: React.FC<VCVerificationProps> = ({
   display,
   vcStatus
 }) => {
-  const { t } = useTranslation('VcDetails');
-  console.log("vcStatus VCVerification:", vcStatus);
-  const statusText = vcMetadata.isVerified
-    ? vcMetadata.isExpired
+  const {t} = useTranslation('VcDetails');
+  console.log("VCVerification:", vcMetadata, "\tvcMetadata.verificationErrorCode :", vcMetadata.verificationErrorCode);
+  const statusText = !vcMetadata.isVerified
+    ? vcMetadata.verificationErrorCode === 'REVOKED'
+      ? t('Revoked')
+      : t('pending')
+    : vcMetadata.isExpired
       ? t('expired')
-      : vcStatus === 'revoked' ? t('revoked') : t('valid')
-    : t('pending');
+      : t('valid');
 
-  const statusIcon = vcMetadata.isVerified ? (
-    vcMetadata.isExpired ? (
-      <PendingIcon />
-    ) :
-      vcStatus === 'revoked' ? (
-        // <View style={{marginRight: 5}}>{SvgImage.RevokedIcon()}</View>
-        <RevokedIcon />
-      ) : (
-        <VerifiedIcon />
-      )
-  ) : (
-    <PendingIcon />
-  );
+  const statusIcon = vcMetadata.isVerified
+    ? (vcMetadata.isExpired
+        ? <PendingIcon />
+        : <VerifiedIcon />)
+    : (vcMetadata.verificationErrorCode === 'REVOKED'
+        ? <RevokedIcon />
+        : <PendingIcon />);
+
+  //const { t } = useTranslation('VcDetails');
+  // console.log("vcStatus VCVerification:", vcStatus);
+  // const statusText = vcMetadata.isVerified
+  //   ? vcMetadata.isExpired
+  //     ? t('expired')
+  //     : vcStatus === 'revoked' ? t('revoked') : t('valid')
+  //   : t('pending');
+
+  // const statusIcon = vcMetadata.isVerified ? (
+  //   vcMetadata.isExpired ? (
+  //     <PendingIcon />
+  //   ) :
+  //     vcStatus === 'revoked' ? (
+  //       // <View style={{marginRight: 5}}>{SvgImage.RevokedIcon()}</View>
+  //       <RevokedIcon />
+  //     ) : (
+  //       <VerifiedIcon />
+  //     )
+  // ) : (
+  //   <PendingIcon />
+  // );
   return (
     <Row
       {...testIDProps('verified')}
