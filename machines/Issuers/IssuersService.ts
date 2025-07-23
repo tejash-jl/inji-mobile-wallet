@@ -156,7 +156,7 @@ export const IssuersService = () => {
     },
 
     verifyCredential: async (context: any) => {
-      console.log('Pintu Kumar Verifying credential:', context);
+      console.log('Verifying credential:', context);
       //TODO: Remove bypassing verification of mock VCs once mock VCs are verifiable
       if (
         context.selectedCredentialType.format === VCFormat.mso_mdoc ||
@@ -180,13 +180,13 @@ export const IssuersService = () => {
     },
 
     checkForDuplicateCredential: async (context: any) => {
-      console.log('Pintu Kumar Checking for duplicate credential:', context);
+      console.log('Checking for duplicate credential:', context);
 
       const newCredential = context.verifiableCredential;
       console.log('New Credential:', newCredential);
 
       const encryptionKey = context.encryptionKey;
-      console.log('Encryption Key:Pintu Kumar : ', encryptionKey);
+      console.log('Encryption Key : ', encryptionKey);
 
       const areCredentialSubjectsEqual = (
         subject1: any,

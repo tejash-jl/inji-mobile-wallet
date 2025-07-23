@@ -48,12 +48,12 @@ export const PasscodeScreen: React.FC<PasscodeRouteProps> = props => {
   const {appService} = useContext(GlobalContext);
 
   console.log(
-    'Pintu Kumar Whole Object-----------------------------',
+    'Whole Object-----------------------------',
     controller,
   );
 
   console.log(
-    'Pintu Kumar Stored Passcode & Stored Salt-----------------------------',
+    'Stored Passcode & Stored Salt-----------------------------',
     controller.storedPasscode,
     '\t',
     controller.storedSalt,
