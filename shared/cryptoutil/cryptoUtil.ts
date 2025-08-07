@@ -381,6 +381,38 @@ export async function decryptJson(
   }
 }
 
+export async function decryptJson2(
+  encryptionKey: string,
+  encryptedData: string,
+): Promise<string> {
+  try {
+    if (encryptedData === null || encryptedData === undefined) {
+      // to avoid crash in case of null or undefined
+      return '';
+    }
+    // Disable Encryption in debug mode
+    if (DEBUG_MODE_ENABLED && _DEV_) {
+      return JSON.parse(encryptedData);
+    }
+
+    if (!isHardwareKeystoreExists) {
+      return decryptWithForge(encryptedData, encryptionKey);
+    }
+    const decryptedData = await RNSecureKeystoreModule.decryptData(
+      ENCRYPTION_ID,
+      encryptedData,
+    );
+    return decryptedData;
+  } catch (e) {
+    console.error('error decryptJson:', e);
+
+    if (e.toString().includes(BIOMETRIC_CANCELLED)) {
+      throw new BiometricCancellationError(e.toString());
+    }
+    throw e;
+  }
+}
+
 function encryptWithForge(text: string, key: string): EncryptedOutput {
   //iv - initialization vector
   const iv = forge.random.getBytesSync(16);

@@ -267,7 +267,7 @@ export const IssuersScreen: React.FC<
           backdropOpacity={0.5}>
           <SafeAreaView
             style={{
-              height: Platform.OS === 'android' ? '30%' : 'auto',
+              height: Platform.OS === 'android' ? '30%' : '25%',
               backgroundColor: 'white',
               width: '100%',
               borderRadius: 10,

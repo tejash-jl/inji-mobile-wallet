@@ -10,53 +10,72 @@ import {VCMetadata} from '../shared/VCMetadata';
 import {SvgImage} from './ui/svg';
 import {View} from 'react-native';
 import RevokedIcon from './RevokedIcon';
+import {Platform} from 'react-native';
 
 export const VCVerification: React.FC<VCVerificationProps> = ({
   vcMetadata,
   display,
   vcStatus,
 }) => {
-  // const {t} = useTranslation('VcDetails');
-  // console.log("VCVerification:", vcMetadata, "\tvcMetadata.verificationErrorCode :", vcMetadata.verificationErrorCode);
-  // console.log("verificationerrorcode>>>>>>>>>",vcMetadata.verificationErrorCode);
-  // const statusText = !vcMetadata.isVerified
-  //   ? vcMetadata.verificationErrorCode === 'REVOKED'
-  //     ? t('Revoked')
-  //     : t('pending')
-  //   : vcMetadata.isExpired
-  //     ? t('expired')
-  //     : t('valid');
-  // console.log("statusText:", statusText);
-  // const statusIcon = vcMetadata.isVerified
-  //   ? (vcMetadata.isExpired
-  //       ? <PendingIcon />
-  //       : <VerifiedIcon />)
-  //   : (vcMetadata.verificationErrorCode === 'REVOKED'
-  //       ? <RevokedIcon />
-  //       : <PendingIcon />);
-
   const {t} = useTranslation('VcDetails');
-  console.log('vcStatus VCVerification:', vcStatus);
-  const statusText = vcMetadata.isVerified
-    ? vcMetadata.isExpired
-      ? t('expired')
-      : vcStatus === 'revoked'
-      ? t('revoked')
-      : t('valid')
-    : t('pending');
+  let statusText: string;
+  let statusIcon: React.ReactNode;
 
-  const statusIcon = vcMetadata.isVerified ? (
-    vcMetadata.isExpired ? (
-      <PendingIcon />
-    ) : vcStatus === 'revoked' ? (
-      // <View style={{marginRight: 5}}>{SvgImage.RevokedIcon()}</View>
-      <RevokedIcon />
+  if (Platform.OS === 'ios') {
+    console.log('vcStatus VCVerification:', vcStatus);
+
+    statusText = vcMetadata.isVerified
+      ? vcMetadata.isExpired
+        ? t('expired')
+        : vcStatus === 'revoked'
+        ? t('revoked')
+        : t('valid')
+      : t('pending');
+
+    console.log(
+      'vcMetadata.isVerified:',
+      vcMetadata.isVerified,
+      'StatusText:',
+      statusText,
+    );
+
+    statusIcon = vcMetadata.isVerified ? (
+      vcMetadata.isExpired ? (
+        <PendingIcon />
+      ) : vcStatus === 'revoked' ? (
+        <RevokedIcon />
+      ) : (
+        <VerifiedIcon />
+      )
     ) : (
-      <VerifiedIcon />
-    )
-  ) : (
-    <PendingIcon />
-  );
+      <PendingIcon />
+    );
+  } else {
+    if (!vcMetadata.isVerified) {
+      statusText =
+        vcMetadata.verificationErrorCode === 'REVOKED' || vcStatus === 'revoked'
+          ? t('revoked')
+          : t('pending');
+    } else if (vcMetadata.isExpired) {
+      statusText = t('expired');
+    } else {
+      statusText = t('valid');
+    }
+
+    if (!vcMetadata.isVerified) {
+      statusIcon =
+        vcMetadata.verificationErrorCode === 'REVOKED' ||
+        vcStatus === 'revoked' ? (
+          <RevokedIcon />
+        ) : (
+          <PendingIcon />
+        );
+    } else if (vcMetadata.isExpired) {
+      statusIcon = <PendingIcon />;
+    } else {
+      statusIcon = <VerifiedIcon />;
+    }
+  }
   return (
     <Row
       {...testIDProps('verified')}

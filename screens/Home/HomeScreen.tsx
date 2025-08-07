@@ -122,6 +122,7 @@ export const HomeScreen: React.FC<
     const credentialStatus =
       JSON.parse(decryptedValue)?.verifiableCredential?.credential
         ?.credentialStatus;
+    console.log('checkCredentialStatus : ', credentialStatus);
 
     if (!credentialStatus) {
       throw new Error('Credential status information is not available');
@@ -141,7 +142,9 @@ export const HomeScreen: React.FC<
     }
 
     const bitArray = decodeEncodedList(encodedList);
+    console.log('bitArray:', bitArray);
     const revoked = isIndexRevoked(statusListIndex, bitArray);
+    console.log('>>>>>>>>>>>>', revoked);
     return {
       status: revoked ? 'revoked' : 'valid',
       index: statusListIndex,
