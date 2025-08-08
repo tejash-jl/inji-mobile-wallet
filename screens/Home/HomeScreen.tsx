@@ -27,6 +27,8 @@ import Storage, {MMKV} from '../../shared/storage';
 import {decryptJson, encryptJson} from '../../shared/cryptoutil/cryptoUtil';
 import {GlobalContext} from '../../shared/GlobalContext';
 import {Platform} from 'react-native';
+import pako from 'pako';
+import {decodeEncodedList, isIndexRevoked} from '../../shared/Utils';
 
 export const HomeScreen: React.FC<
   HomeRouteProps & {navigationRef?: any}
@@ -120,20 +122,35 @@ export const HomeScreen: React.FC<
     const credentialStatus =
       JSON.parse(decryptedValue)?.verifiableCredential?.credential
         ?.credentialStatus;
+    console.log('checkCredentialStatu>>>>s : ', credentialStatus);
 
     if (!credentialStatus) {
       throw new Error('Credential status information is not available');
     }
-    const url = `${credentialStatus.statusListCredential}?statusListIndex=${credentialStatus.statusListIndex}&statusPurpose=${credentialStatus.statusPurpose}&type=${credentialStatus.type}`;
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error checking credential status:', error);
-      throw error;
+    const statusListCredentialUrl = credentialStatus.id;
+    console.log('statusListCredentialUrl:', statusListCredentialUrl);
+    const statusListIndex = parseInt(credentialStatus.statusListIndex);
+
+    const response = await fetch(statusListCredentialUrl);
+    console.log('statusListCredentialUrl:', statusListCredentialUrl);
+    const statusListVcJson = await response.json();
+    console.log('statusListVcJson:', statusListVcJson);
+
+    const encodedList = statusListVcJson?.credentialSubject?.encodedList;
+    if (!encodedList) {
+      throw new Error('Missing encodedList in status list credential');
     }
+
+    const bitArray = decodeEncodedList(encodedList);
+    console.log('bitArray:', bitArray);
+    const revoked = isIndexRevoked(statusListIndex, bitArray);
+    console.log('>>>>>>>>>>>>', revoked);
+    return {
+      status: revoked ? 'revoked' : 'valid',
+      index: statusListIndex,
+      listUrl: statusListCredentialUrl,
+    };
   };
 
   const setVCsStatus = useSetVCsStatus();

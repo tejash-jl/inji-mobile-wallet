@@ -13,6 +13,7 @@ import {
 import {authorize} from 'react-native-app-auth';
 import {
   decryptJson,
+  decryptJson2,
   fetchKeyPair,
   generateKeyPair,
 } from '../../shared/cryptoutil/cryptoUtil';
@@ -186,16 +187,41 @@ export const IssuersService = () => {
       console.log('New Credential:', newCredential);
 
       const encryptionKey = context.encryptionKey;
-      console.log('Encryption Key:Pintu Kumar : ', encryptionKey);
+      console.log('Encryption Key:Pintu Kumar :', encryptionKey);
 
       const areCredentialSubjectsEqual = (
         subject1: any,
         subject2: any,
       ): boolean => {
+        console.log('Comparing Credential Subjects:', subject1, subject2);
+        console.log('>>>>>>.sub1', subject1);
+        console.log('>>>>>>.sub2', subject2);
+
+        // Separate the 'type' property as in the original function
         const {type: type1, ...rest1} = subject1;
         const {type: type2, ...rest2} = subject2;
 
-        return JSON.stringify(rest1) === JSON.stringify(rest2);
+        // Check if the number of keys in both objects is the same
+        const keys1 = Object.keys(rest1);
+        const keys2 = Object.keys(rest2);
+
+        if (keys1.length !== keys2.length) {
+          console.log(">>>>>>>>>>>>> false: Key counts don't match");
+          return false;
+        }
+
+        // Iterate through the keys and compare their values
+        for (const key of keys1) {
+          // Check if the other object has the key and if the values are identical
+          if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
+            console.log(`>>>>>>>>>>>>> false: Mismatch at key '${key}'`);
+            return false;
+          }
+        }
+
+        // If all checks pass, the objects are a match
+        console.log('>>>>>>>>>>>>> true: All keys and values match');
+        return true;
       };
 
       try {
@@ -209,25 +235,49 @@ export const IssuersService = () => {
 
         for (const key of vcKeys) {
           const storedVcData = await Storage.getItem(key, encryptionKey);
+          console.log('Stored VC Data for key:', key, storedVcData);
           if (storedVcData) {
             const decryptedValue = await decryptJson(
               encryptionKey,
               storedVcData,
             );
-            const storedCredential = JSON.parse(decryptedValue);
+            console.log('Decrypted Value:', decryptedValue);
+            const storedCredential = JSONSerialization(decryptedValue);
+            console.log('Stored Credential:', storedCredential);
             const storedCredentialSubject =
-              storedCredential?.verifiableCredential?.credential
-                ?.credentialSubject;
+              storedCredential.verifiableCredential.credential
+                .credentialSubject;
+            console.log('Credential Subject:', storedCredentialSubject);
+            console.log(
+              'verifiableCredential:',
+              storedCredential.verifiableCredential,
+            );
 
-            if (
-              storedCredentialSubject &&
-              areCredentialSubjectsEqual(
-                newCredentialSubject,
-                storedCredentialSubject,
-              )
-            ) {
+            console.log('Checking for duplicates...');
+
+            console.log('Stored Credential Subject:', storedCredentialSubject);
+            console.log('New Credential Subject:', newCredentialSubject);
+
+            if (storedCredentialSubject) {
+              console.log('Stored Credential Subject exists.');
+            } else {
+              console.log(
+                'Stored Credential Subject is falsy (null or undefined).',
+              );
+            }
+
+            const areEqual = areCredentialSubjectsEqual(
+              newCredentialSubject,
+              storedCredentialSubject,
+            );
+            console.log('Result of areCredentialSubjectsEqual:', areEqual);
+
+            if (storedCredentialSubject && areEqual) {
+              console.log('Duplicate found!');
               return true; // Duplicate found
             }
+
+            console.log('No duplicate found in this iteration.');
           }
         }
         return false; // No duplicate found
@@ -238,3 +288,15 @@ export const IssuersService = () => {
     },
   };
 };
+
+function JSONSerialization(decryptedValue: string) {
+  try {
+    if (typeof decryptedValue === 'string') {
+      return JSON.parse(decryptedValue);
+    }
+    return decryptedValue;
+  } catch (e) {
+    console.error('Failed to parse decrypted value:', e);
+    return decryptedValue;
+  }
+}
