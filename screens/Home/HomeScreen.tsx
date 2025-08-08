@@ -122,13 +122,14 @@ export const HomeScreen: React.FC<
     const credentialStatus =
       JSON.parse(decryptedValue)?.verifiableCredential?.credential
         ?.credentialStatus;
-    console.log('checkCredentialStatus : ', credentialStatus);
+    console.log('checkCredentialStatu>>>>s : ', credentialStatus);
 
     if (!credentialStatus) {
       throw new Error('Credential status information is not available');
     }
 
-    const statusListCredentialUrl = credentialStatus.statusListCredential;
+    const statusListCredentialUrl = credentialStatus.id;
+    console.log('statusListCredentialUrl:', statusListCredentialUrl);
     const statusListIndex = parseInt(credentialStatus.statusListIndex);
 
     const response = await fetch(statusListCredentialUrl);
