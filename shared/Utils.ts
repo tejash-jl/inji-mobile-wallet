@@ -63,7 +63,11 @@ export const decodeEncodedList = (encodedList: string): Uint8Array => {
   const padding = '='.repeat((4 - (base64url.length % 4)) % 4);
   const padded = base64url + padding;
   const decoded = Buffer.from(padded, 'base64');
-  return pako.inflate(decoded);
+  try {
+    return pako.inflate(decoded);
+  } catch (e) {
+    throw new Error(`Failed to inflate decoded data in decodeEncodedList: ${e instanceof Error ? e.message : String(e)}`);
+  }
 };
 
 export const isIndexRevoked = (
