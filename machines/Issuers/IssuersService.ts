@@ -228,7 +228,6 @@ export const IssuersService = () => {
             );
 
             console.log("decryptedValue : ", decryptedValue)
-            //const storedCredential = JSON.parse(decryptedValue);
             const storedCredential = JSONSerialization(decryptedValue);
             const storedCredentialSubject =
               storedCredential?.verifiableCredential?.credential
