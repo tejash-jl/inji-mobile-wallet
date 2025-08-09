@@ -156,7 +156,7 @@ export const IssuersService = () => {
     },
 
     verifyCredential: async (context: any) => {
-      console.log('Pintu Kumar Verifying credential:', context);
+      console.log('Verifying credential:', context);
       //TODO: Remove bypassing verification of mock VCs once mock VCs are verifiable
       if (
         context.selectedCredentialType.format === VCFormat.mso_mdoc ||
@@ -180,13 +180,13 @@ export const IssuersService = () => {
     },
 
     checkForDuplicateCredential: async (context: any) => {
-      console.log('Pintu Kumar Checking for duplicate credential:', context);
+      console.log('Checking for duplicate credential:', context);
 
       const newCredential = context.verifiableCredential;
       console.log('New Credential:', newCredential);
 
       const encryptionKey = context.encryptionKey;
-      console.log('Encryption Key:Pintu Kumar : ', encryptionKey);
+      console.log('Encryption Key : ', encryptionKey);
 
       const areCredentialSubjectsEqual = (
         subject1: any,
@@ -195,7 +195,19 @@ export const IssuersService = () => {
         const {type: type1, ...rest1} = subject1;
         const {type: type2, ...rest2} = subject2;
 
-        return JSON.stringify(rest1) === JSON.stringify(rest2);
+        const keys1 = Object.keys(rest1);
+        const keys2 = Object.keys(rest2);
+
+        if (keys1.length !== keys2.length) {
+            return false;
+          }
+
+          for (const key of keys1) {
+            if (!Object.prototype.hasOwnProperty.call(rest2, key) || rest1[key] !== rest2[key]) {
+              return false;
+            }
+          }
+          return true;
       };
 
       try {
@@ -214,7 +226,8 @@ export const IssuersService = () => {
               encryptionKey,
               storedVcData,
             );
-            const storedCredential = JSON.parse(decryptedValue);
+
+            const storedCredential = JSONSerialization(decryptedValue);
             const storedCredentialSubject =
               storedCredential?.verifiableCredential?.credential
                 ?.credentialSubject;
@@ -238,3 +251,15 @@ export const IssuersService = () => {
     },
   };
 };
+
+function JSONSerialization(decryptedValue: string) {
+    try {
+      if (typeof decryptedValue === 'string') {
+        return JSON.parse(decryptedValue);
+      }
+      return decryptedValue;
+    } catch (e) {
+      console.error('Failed to parse decrypted value:', e);
+      return decryptedValue;
+    }
+  }

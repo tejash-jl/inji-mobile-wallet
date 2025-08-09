@@ -186,7 +186,7 @@ export const fieldItemIterator = (
 ) => {
   const fieldNameColor = display.getTextColor(Theme.Colors.DetailsLabel);
   const fieldValueColor = display.getTextColor(Theme.Colors.Details);
-  //console.error("VCvDetails: fieldItemIterator: Pintu ", fields, props.credential.credentialSubject.courses);
+  //console.error("VCvDetails: fieldItemIterator: ", fields, props.credential.credentialSubject.courses);
   return fields.map(field => {
     const fieldName = getFieldName(
       field,
@@ -208,7 +208,7 @@ export const fieldItemIterator = (
     )
       return;
 
-      //console.error("Field Value: fieldItemIterator: Pintu 2 :", fieldValue);
+      //console.error("Field Value: fieldItemIterator:", fieldValue);
     return (
       <Row
         key={field}

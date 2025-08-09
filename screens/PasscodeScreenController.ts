@@ -56,7 +56,7 @@ export function usePasscodeScreen(props: PasscodeRouteProps) {
     },
 
     SETUP_PASSCODE: () => {
-      console.log('Pintu Kumar Setting up passcode...', passcode);
+      console.log('Setting up passcode...', passcode);
       authService.send(AuthEvents.SETUP_PASSCODE(passcode));
       settingsService?.send(
         SettingsEvents.TOGGLE_BIOMETRIC_UNLOCK(false, true),
