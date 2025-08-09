@@ -208,7 +208,6 @@ export const IssuersService = () => {
             }
           }
           return true;
-        //return JSON.stringify(rest1) === JSON.stringify(rest2);
       };
 
       try {
