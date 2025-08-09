@@ -70,6 +70,16 @@ export const decodeEncodedList = (encodedList: string): Uint8Array => {
   }
 };
 
+/**
+ * Checks if a specific index is marked as revoked in a bit array.
+ * The bit array is a Uint8Array where each bit represents the revocation status of an index.
+ * Bits are ordered from most significant (left) to least significant (right) within each byte.
+ * 
+ * @param {number} index - The index to check for revocation.
+ * @param {Uint8Array} bitArray - The bit array representing revocation statuses.
+ * @returns {boolean} True if the index is marked as revoked, false otherwise.
+ * @throws {Error} If the index is out of bounds for the bit array.
+ */
 export const isIndexRevoked = (
   index: number,
   bitArray: Uint8Array,
