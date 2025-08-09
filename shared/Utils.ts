@@ -2,6 +2,7 @@ import {VCMetadata} from './VCMetadata';
 import {NETWORK_REQUEST_FAILED} from './constants';
 import {groupBy} from './javascript';
 import {Issuers} from './openId4VCI/Utils';
+import pako from 'pako';
 
 export const getVCsOrderedByPinStatus = (vcMetadatas: VCMetadata[]) => {
   const [pinned, unpinned] = groupBy(
@@ -53,4 +54,31 @@ export const parseJSON = (input: any) => {
 
 export const isNetworkError = (error: string) => {
   return error.includes(NETWORK_REQUEST_FAILED);
+};
+
+export const decodeEncodedList = (encodedList: string): Uint8Array => {
+  const base64url = encodedList.startsWith('u')
+    ? encodedList.slice(1)
+    : encodedList;
+  const padding = '='.repeat((4 - (base64url.length % 4)) % 4);
+  const padded = base64url + padding;
+  const decoded = Buffer.from(padded, 'base64');
+  return pako.inflate(decoded);
+};
+
+export const isIndexRevoked = (
+  index: number,
+  bitArray: Uint8Array,
+): boolean => {
+  const byteIndex = Math.floor(index / 8);
+  const bitIndex = index % 8;
+
+  if (byteIndex >= bitArray.length) {
+    throw new Error(
+      `Index ${index} out of bounds for bit array of length ${bitArray.length}`,
+    );
+  }
+
+  const targetByte = bitArray[byteIndex];
+  return ((targetByte >> (7 - bitIndex)) & 1) === 1;
 };

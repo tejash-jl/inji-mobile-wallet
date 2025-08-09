@@ -33,6 +33,7 @@ import {VCFormat} from '../../shared/VCFormat';
 import Storage, {MMKV} from '../../shared/storage';
 import React from 'react';
 import {GlobalContext} from '../../shared/GlobalContext';
+import base64 from 'react-native-base64';
 
 export const IssuersService = () => {
   return {
@@ -195,7 +196,20 @@ export const IssuersService = () => {
         const {type: type1, ...rest1} = subject1;
         const {type: type2, ...rest2} = subject2;
 
-        return JSON.stringify(rest1) === JSON.stringify(rest2);
+        const keys1 = Object.keys(rest1);
+        const keys2 = Object.keys(rest2);
+
+        if (keys1.length !== keys2.length) {
+            return false;
+          }
+
+          for (const key of keys1) {
+            if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
+              return false;
+            }
+          }
+          return true;
+        //return JSON.stringify(rest1) === JSON.stringify(rest2);
       };
 
       try {
@@ -214,7 +228,10 @@ export const IssuersService = () => {
               encryptionKey,
               storedVcData,
             );
-            const storedCredential = JSON.parse(decryptedValue);
+
+            console.log("decryptedValue : ", decryptedValue)
+            //const storedCredential = JSON.parse(decryptedValue);
+            const storedCredential = JSONSerialization(decryptedValue);
             const storedCredentialSubject =
               storedCredential?.verifiableCredential?.credential
                 ?.credentialSubject;
@@ -238,3 +255,15 @@ export const IssuersService = () => {
     },
   };
 };
+
+function JSONSerialization(decryptedValue: string) {
+    try {
+      if (typeof decryptedValue === 'string') {
+        return JSON.parse(decryptedValue);
+      }
+      return decryptedValue;
+    } catch (e) {
+      console.error('Failed to parse decrypted value:', e);
+      return decryptedValue;
+    }
+  }
