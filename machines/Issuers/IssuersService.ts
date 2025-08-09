@@ -33,7 +33,6 @@ import {VCFormat} from '../../shared/VCFormat';
 import Storage, {MMKV} from '../../shared/storage';
 import React from 'react';
 import {GlobalContext} from '../../shared/GlobalContext';
-import base64 from 'react-native-base64';
 
 export const IssuersService = () => {
   return {
