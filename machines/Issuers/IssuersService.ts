@@ -203,7 +203,7 @@ export const IssuersService = () => {
           }
 
           for (const key of keys1) {
-            if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
+            if (!Object.prototype.hasOwnProperty.call(rest2, key) || rest1[key] !== rest2[key]) {
               return false;
             }
           }
