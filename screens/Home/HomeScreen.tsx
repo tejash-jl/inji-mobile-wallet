@@ -126,18 +126,6 @@ export const HomeScreen: React.FC<
     if (!credentialStatus) {
       throw new Error('Credential status information is not available');
     }
-    // const url = `${credentialStatus.statusListCredential}?statusListIndex=${credentialStatus.statusListIndex}&statusPurpose=${credentialStatus.statusPurpose}&type=${credentialStatus.type}`;
-
-    // try {
-    //   const response = await fetch(url);
-    //   const data = await response.json();
-    //   return data;
-    // } catch (error) {
-    //   console.error('Error checking credential status:', error);
-    //   throw error;
-    // }
-
-    //const statusListCredentialUrl = credentialStatus.statusListCredential;
     const statusListCredentialUrl = credentialStatus.id;
     const statusListIndex = parseInt(credentialStatus.statusListIndex);
 
