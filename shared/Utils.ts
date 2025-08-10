@@ -56,24 +56,13 @@ export const isNetworkError = (error: string) => {
   return error.includes(NETWORK_REQUEST_FAILED);
 };
 
-// Helper function to decode base64 to Uint8Array in a cross-platform way
-function base64ToUint8Array(base64: string): Uint8Array {
-  const binaryString = atob(base64);
-  const len = binaryString.length;
-  const bytes = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-  return bytes;
-}
-
 export const decodeEncodedList = (encodedList: string): Uint8Array => {
   const base64url = encodedList.startsWith('u')
     ? encodedList.slice(1)
     : encodedList;
   const padding = '='.repeat((4 - (base64url.length % 4)) % 4);
   const padded = base64url + padding;
-  const decoded = base64ToUint8Array(padded);
+  const decoded = Buffer.from(padded, 'base64');
   try {
     return pako.inflate(decoded);
   } catch (e) {
