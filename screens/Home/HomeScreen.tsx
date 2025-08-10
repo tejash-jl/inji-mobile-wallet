@@ -141,19 +141,10 @@ export const HomeScreen: React.FC<
     const statusListCredentialUrl = credentialStatus.id;
     const statusListIndex = parseInt(credentialStatus.statusListIndex);
 
-    let statusListVcJson;
-    try {
-      const response = await fetch(statusListCredentialUrl);
-      console.log('statusListCredentialUrl:', statusListCredentialUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch status list credential: ${response.status} ${response.statusText}`);
-      }
-      statusListVcJson = await response.json();
-      console.log('statusListVcJson:', statusListVcJson);
-    } catch (error) {
-      console.error('Error fetching status list credential:', error);
-      throw error;
-    }
+    const response = await fetch(statusListCredentialUrl);
+    console.log('statusListCredentialUrl:', statusListCredentialUrl);
+    const statusListVcJson = await response.json();
+    console.log('statusListVcJson:', statusListVcJson);
 
     const encodedList = statusListVcJson?.credentialSubject?.encodedList;
     if (!encodedList) {
