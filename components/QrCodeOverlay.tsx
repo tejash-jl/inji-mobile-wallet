@@ -1,29 +1,29 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Pressable, View} from 'react-native';
-import {Icon, Overlay} from 'react-native-elements';
-import {Centered, Column, Row, Text, Button} from './ui';
+import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, View } from 'react-native';
+import { Icon, Overlay } from 'react-native-elements';
+import { Centered, Column, Row, Text, Button } from './ui';
 import QRCode from 'react-native-qrcode-svg';
-import {Theme} from './ui/styleUtils';
-import {DefaultTheme} from './ui/themes/DefaultTheme';
-import {useTranslation} from 'react-i18next';
+import { Theme } from './ui/styleUtils';
+import { DefaultTheme } from './ui/themes/DefaultTheme';
+import { useTranslation } from 'react-i18next';
 import testIDProps from '../shared/commonUtil';
-import {SvgImage} from './ui/svg';
-import {NativeModules} from 'react-native';
-import {VerifiableCredential} from '../machines/VerifiableCredential/VCMetaMachine/vc';
-import {DEFAULT_ECL, MAX_QR_DATA_LENGTH} from '../shared/constants';
-import {VCMetadata} from '../shared/VCMetadata';
-import {shareImageToAllSupportedApps} from '../shared/sharing/imageUtils';
-import {ShareOptions} from 'react-native-share';
-import {BOTTOM_TAB_ROUTES} from '../routes/routesConstants';
+import { SvgImage } from './ui/svg';
+import { NativeModules } from 'react-native';
+import { VerifiableCredential } from '../machines/VerifiableCredential/VCMetaMachine/vc';
+import { DEFAULT_ECL, MAX_QR_DATA_LENGTH } from '../shared/constants';
+import { VCMetadata } from '../shared/VCMetadata';
+import { shareImageToAllSupportedApps } from '../shared/sharing/imageUtils';
+import { ShareOptions } from 'react-native-share';
+import { BOTTOM_TAB_ROUTES } from '../routes/routesConstants';
 
 export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
-  const {RNPixelpassModule} = NativeModules;
-  const {t} = useTranslation('VcDetails');
+  const { RNPixelpassModule } = NativeModules;
+  const { t } = useTranslation('VcDetails');
   const [qrString, setQrString] = useState('');
   const [qrError, setQrError] = useState(false);
   const [isQRLoading, setIsQRLoding] = useState(true);
   const base64ImageType = 'data:image/png;base64,';
-  const {RNSecureKeystoreModule} = NativeModules;
+  const { RNSecureKeystoreModule } = NativeModules;
 
   async function getQRData(): Promise<string> {
     let qrData: string;
@@ -35,7 +35,12 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
         throw new Error('No key data found');
       }
     } catch {
-      const {credential} = props.verifiableCredential;
+      const { credential } = props.verifiableCredential;
+
+      if (credential?.validUntil === null) {
+        delete credential?.validUntil;
+      }
+
       qrData = await RNPixelpassModule.generateQRData(
         JSON.stringify(credential),
         '',
@@ -120,7 +125,7 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
       <Overlay
         isVisible={isQrOverlayVisible}
         onBackdropPress={toggleQrOverlay}
-        overlayStyle={{padding: 1, borderRadius: 21}}>
+        overlayStyle={{ padding: 1, borderRadius: 21 }}>
         <Column style={Theme.QrCodeStyles.expandedQrCode}>
           <Row pY={20} style={Theme.QrCodeStyles.QrCodeHeader}>
             <Text
@@ -176,8 +181,8 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
         onPress={vcShareView}>
         <Column
           testID="qrCodeFailedDetails"
-          style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <View style={{marginBottom: 4}}>{SvgImage.FailedLoadQRIcon()}</View>
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ marginBottom: 4 }}>{SvgImage.FailedLoadQRIcon()}</View>
           <Text
             style={{
               fontFamily: 'Inter_700Bold',
@@ -199,7 +204,7 @@ export const QrCodeOverlay: React.FC<QrCodeOverlayProps> = props => {
             }}>
             {t('failedLoadingQRMessage')}
           </Text>
-          <View style={{marginTop: 8}}>{SvgImage.FailedQRShare()}</View>
+          <View style={{ marginTop: 8 }}>{SvgImage.FailedQRShare()}</View>
         </Column>
       </Pressable>
     </View>
