@@ -33,6 +33,7 @@ import {VCFormat} from '../../shared/VCFormat';
 import Storage, {MMKV} from '../../shared/storage';
 import React from 'react';
 import {GlobalContext} from '../../shared/GlobalContext';
+import base64 from 'react-native-base64';
 
 export const IssuersService = () => {
   return {
@@ -203,11 +204,12 @@ export const IssuersService = () => {
           }
 
           for (const key of keys1) {
-            if (!Object.prototype.hasOwnProperty.call(rest2, key) || rest1[key] !== rest2[key]) {
+            if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
               return false;
             }
           }
           return true;
+        //return JSON.stringify(rest1) === JSON.stringify(rest2);
       };
 
       try {
@@ -227,6 +229,8 @@ export const IssuersService = () => {
               storedVcData,
             );
 
+            console.log("decryptedValue : ", decryptedValue)
+            //const storedCredential = JSON.parse(decryptedValue);
             const storedCredential = JSONSerialization(decryptedValue);
             const storedCredentialSubject =
               storedCredential?.verifiableCredential?.credential
