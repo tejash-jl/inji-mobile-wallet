@@ -126,25 +126,22 @@ export const HomeScreen: React.FC<
     if (!credentialStatus) {
       throw new Error('Credential status information is not available');
     }
-    // const url = `${credentialStatus.statusListCredential}?statusListIndex=${credentialStatus.statusListIndex}&statusPurpose=${credentialStatus.statusPurpose}&type=${credentialStatus.type}`;
-
-    // try {
-    //   const response = await fetch(url);
-    //   const data = await response.json();
-    //   return data;
-    // } catch (error) {
-    //   console.error('Error checking credential status:', error);
-    //   throw error;
-    // }
-
-    //const statusListCredentialUrl = credentialStatus.statusListCredential;
     const statusListCredentialUrl = credentialStatus.id;
     const statusListIndex = parseInt(credentialStatus.statusListIndex);
 
-    const response = await fetch(statusListCredentialUrl);
-    console.log('statusListCredentialUrl:', statusListCredentialUrl);
-    const statusListVcJson = await response.json();
-    console.log('statusListVcJson:', statusListVcJson);
+    let statusListVcJson;
+    try {
+      const response = await fetch(statusListCredentialUrl);
+      console.log('statusListCredentialUrl:', statusListCredentialUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch status list credential: ${response.status} ${response.statusText}`);
+      }
+      statusListVcJson = await response.json();
+      console.log('statusListVcJson:', statusListVcJson);
+    } catch (error) {
+      console.error('Error fetching status list credential:', error);
+      throw error;
+    }
 
     const encodedList = statusListVcJson?.credentialSubject?.encodedList;
     if (!encodedList) {

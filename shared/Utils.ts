@@ -56,16 +56,41 @@ export const isNetworkError = (error: string) => {
   return error.includes(NETWORK_REQUEST_FAILED);
 };
 
+// Helper function to decode base64 to Uint8Array in a cross-platform way
+function base64ToUint8Array(base64: string): Uint8Array {
+  const binaryString = atob(base64);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
+}
+
 export const decodeEncodedList = (encodedList: string): Uint8Array => {
   const base64url = encodedList.startsWith('u')
     ? encodedList.slice(1)
     : encodedList;
   const padding = '='.repeat((4 - (base64url.length % 4)) % 4);
   const padded = base64url + padding;
-  const decoded = Buffer.from(padded, 'base64');
-  return pako.inflate(decoded);
+  const decoded = base64ToUint8Array(padded);
+  try {
+    return pako.inflate(decoded);
+  } catch (e) {
+    throw new Error(`Failed to inflate decoded data in decodeEncodedList: ${e instanceof Error ? e.message : String(e)}`);
+  }
 };
 
+/**
+ * Checks if a specific index is marked as revoked in a bit array.
+ * The bit array is a Uint8Array where each bit represents the revocation status of an index.
+ * Bits are ordered from most significant (left) to least significant (right) within each byte.
+ * 
+ * @param {number} index - The index to check for revocation.
+ * @param {Uint8Array} bitArray - The bit array representing revocation statuses.
+ * @returns {boolean} True if the index is marked as revoked, false otherwise.
+ * @throws {Error} If the index is out of bounds for the bit array.
+ */
 export const isIndexRevoked = (
   index: number,
   bitArray: Uint8Array,
