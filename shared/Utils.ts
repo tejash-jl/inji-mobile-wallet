@@ -57,16 +57,39 @@ export const isNetworkError = (error: string) => {
 };
 
 export const decodeEncodedList = (encodedList: string): Uint8Array => {
+  console.log('Input encodedList:', encodedList);
   const base64url = encodedList.startsWith('u')
     ? encodedList.slice(1)
     : encodedList;
+  console.log('Processed base64url:', base64url);
   const padding = '='.repeat((4 - (base64url.length % 4)) % 4);
+  console.log('Calculated padding length:', padding.length);
   const padded = base64url + padding;
+  console.log('Padded base64url:', padded, 'length:', padded.length);
   const decoded = Buffer.from(padded, 'base64');
+  console.log('Decoded buffer:', decoded, 'length:', decoded.length);
   try {
-    return pako.inflate(decoded);
+    console.log('Attempting to inflate decoded buffer...');
+    const inflated = pako.ungzip(decoded);
+    console.log(
+      'Successfully inflated data:',
+      inflated,
+      'length:',
+      inflated.length,
+    );
+    return inflated;
   } catch (e) {
-    throw new Error(`Failed to inflate decoded data in decodeEncodedList: ${e instanceof Error ? e.message : String(e)}`);
+    console.error('Inflation error:', e);
+    console.error('Error details:', {
+      message: e instanceof Error ? e.message : String(e),
+      decodedLength: decoded.length,
+      inputLength: encodedList.length,
+    });
+    throw new Error(
+      `Failed to inflate decoded data in decodeEncodedList: ${
+        e instanceof Error ? e.message : String(e)
+      }`,
+    );
   }
 };
 
@@ -74,15 +97,27 @@ export const isIndexRevoked = (
   index: number,
   bitArray: Uint8Array,
 ): boolean => {
+  console.log('Input index:', index);
+  console.log('Input bitArray length:', bitArray.length);
+
   const byteIndex = Math.floor(index / 8);
+  console.log('Calculated byteIndex:', byteIndex);
+
   const bitIndex = index % 8;
+  console.log('Calculated bitIndex:', bitIndex);
 
   if (byteIndex >= bitArray.length) {
+    console.error('Index out of bounds:', {
+      byteIndex,
+      arrayLength: bitArray.length,
+    });
     throw new Error(
       `Index ${index} out of bounds for bit array of length ${bitArray.length}`,
     );
   }
 
   const targetByte = bitArray[byteIndex];
+  console.log('Target byte value:', targetByte);
+
   return ((targetByte >> (7 - bitIndex)) & 1) === 1;
 };
