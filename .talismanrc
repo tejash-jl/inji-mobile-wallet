@@ -397,3 +397,5 @@ fileignoreconfig:
   - filename: assets/InjiHomeLogo.svg
     checksum: 46923cf7899a3772fc27d92c70596139f1cb406991feb1ad197afde6046f4639
     version: ""
+  - filename: ios/Inji.xcodeproj/xcshareddata/xcschemes/Inji.xcscheme
+    checksum: 59a468804fadff8cde52d25ed270038419289315da048e090598a40e53b8217e

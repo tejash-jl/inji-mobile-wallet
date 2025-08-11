@@ -60,6 +60,13 @@
             ReferencedContainer = "container:Inji.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "MIMOTO_HOST"
+            value = "https://verifytt.gov.tt"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
