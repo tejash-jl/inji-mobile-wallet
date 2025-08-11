@@ -37,7 +37,14 @@ export async function verifyCredential(
   try {
     //ToDo - Have to remove else part once Vc Verifier Library is built for Swift
     if (isAndroid()) {
-      const orderedCredential = reorderFields(verifiableCredential);
+
+      console.log("verifiableCredential : ", verifiableCredential)
+
+      let orderedCredential = reorderFields(verifiableCredential);
+      orderedCredential = removeNullValidUntil(orderedCredential)
+
+      console.log("verifiableCredential Removed ValidUntil : ", verifiableCredential)
+
       const updatedCredential = removeNullJws(orderedCredential);
       let vcVerifierResult = await vcVerifier.verifyCredentials(
         typeof orderedCredential === 'string'
@@ -156,6 +163,14 @@ function removeNullJws(vc: any) {
   // Check if the proof object exists and has a jws field with a null value
   if (vc.proof && vc.proof.jws === null) {
     delete vc.proof.jws; // Remove the jws field
+  }
+  return vc;
+}
+
+function removeNullValidUntil(vc: any) {
+  // Check if the validUntil exists with a null value
+  if (vc.validUntil === null) {
+    delete vc.validUntil; // Remove the validUntil field
   }
   return vc;
 }
