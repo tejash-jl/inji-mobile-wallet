@@ -60,7 +60,6 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
                         CredentialFormat.MSO_MDOC, issuerMetaData.getString("doctype"),
                         issuerMetaData.getMap("claims").toHashMap());
             } else {
-                Log.e("InjiVciClientModule", "Unexpected credentialFormat: " + issuerMetadataCredentialFormat);
                 throw new IllegalStateException("Unexpected value: " + issuerMetadataCredentialFormat);
             }
 
