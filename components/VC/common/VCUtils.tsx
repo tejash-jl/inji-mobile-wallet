@@ -119,7 +119,6 @@ export const getFieldName = (
   wellknown: any,
   format: string,
 ): string => {
-
   //console.error('getFieldName: field:', field, "wellknown:", wellknown, "format:", format);
   if (wellknown) {
     if (format === VCFormat.ldp_vc) {
