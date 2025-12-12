@@ -30,7 +30,6 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void init(String appId) {
-        Log.d("InjiVciClientModule", "Initializing InjiVciClientModule with " + appId);
         vciClient = new VCIClient(appId);
     }
 
@@ -64,8 +63,9 @@ public class InjiVciClientModule extends ReactContextBaseJavaModule {
                 throw new IllegalStateException("Unexpected value: " + issuerMetadataCredentialFormat);
             }
 
-            CredentialResponse response = vciClient.requestCredential(constructedIssuerMetadata, new JWTProof(jwtProofValue)
-                    , accessToken);
+            JWTProof jwtProof = new JWTProof(jwtProofValue);
+
+            CredentialResponse response = vciClient.requestCredential(constructedIssuerMetadata, jwtProof, accessToken);
             promise.resolve(response.toJsonString());
         } catch (Exception exception) {
             promise.reject(exception);

@@ -419,7 +419,7 @@ export const DefaultTheme = {
     },
     injiLogo: {
       width: 150,
-      height: 50,
+      height: 70,
     },
     injiHomeLogo: {
       marginLeft: Platform.OS === 'android' ? -5 : 0,

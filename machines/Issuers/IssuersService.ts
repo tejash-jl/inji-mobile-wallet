@@ -123,12 +123,14 @@ export const IssuersService = () => {
             TelemetryConstants.Screens.webViewPage,
         ),
       );
-      return await authorize(
-        constructAuthorizationConfiguration(
-          context.selectedIssuer,
-          context.selectedCredentialType.scope,
-        ),
+
+      const authConfig = constructAuthorizationConfiguration(
+        context.selectedIssuer,
+        context.selectedCredentialType.scope,
+        context.selectedCredentialType.id,
       );
+
+      return await authorize(authConfig);
     },
 
     getKeyOrderList: async () => {
@@ -200,15 +202,15 @@ export const IssuersService = () => {
         const keys2 = Object.keys(rest2);
 
         if (keys1.length !== keys2.length) {
+          return false;
+        }
+
+        for (const key of keys1) {
+          if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
             return false;
           }
-
-          for (const key of keys1) {
-            if (!rest2.hasOwnProperty(key) || rest1[key] !== rest2[key]) {
-              return false;
-            }
-          }
-          return true;
+        }
+        return true;
         //return JSON.stringify(rest1) === JSON.stringify(rest2);
       };
 
@@ -229,7 +231,7 @@ export const IssuersService = () => {
               storedVcData,
             );
 
-            console.log("decryptedValue : ", decryptedValue)
+            console.log('decryptedValue : ', decryptedValue);
             //const storedCredential = JSON.parse(decryptedValue);
             const storedCredential = JSONSerialization(decryptedValue);
             const storedCredentialSubject =
@@ -257,13 +259,13 @@ export const IssuersService = () => {
 };
 
 function JSONSerialization(decryptedValue: string) {
-    try {
-      if (typeof decryptedValue === 'string') {
-        return JSON.parse(decryptedValue);
-      }
-      return decryptedValue;
-    } catch (e) {
-      console.error('Failed to parse decrypted value:', e);
-      return decryptedValue;
+  try {
+    if (typeof decryptedValue === 'string') {
+      return JSON.parse(decryptedValue);
     }
+    return decryptedValue;
+  } catch (e) {
+    console.error('Failed to parse decrypted value:', e);
+    return decryptedValue;
   }
+}

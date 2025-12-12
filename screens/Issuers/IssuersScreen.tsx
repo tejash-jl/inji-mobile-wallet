@@ -424,6 +424,7 @@ export const IssuersScreen: React.FC<
                 )}
                 numColumns={1}
                 keyExtractor={item => item.credential_issuer}
+                contentContainerStyle={{paddingBottom: 10}}
               />
             )}
           </Column>

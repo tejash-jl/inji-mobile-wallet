@@ -113,8 +113,8 @@ android {
         applicationId 'tt.gov.verifytt'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionName "0.16.6"
-        versionCode 16
+        versionName "0.17.2"
+        versionCode 22
         manifestPlaceholders = [
                 APP_NAME             : APP_NAME,
                 appAuthRedirectScheme: 'tt.gov.verifytt.inji'
@@ -278,7 +278,8 @@ dependencies {
     implementation("io.mosip:secure-keystore:0.3.0")
     implementation("io.mosip:tuvali:0.5.1")
     //implementation("io.mosip:inji-vci-client:0.2.0")
-    implementation("io.mosip:inji-vci-client-jar:1.1.0-SNAPSHOT")
+    //implementation("io.mosip:inji-vci-client-jar:1.1.0-SNAPSHOT")
+    implementation(name: "inji-vci-client-1.1.0-SNAPSHOT-release", ext: "aar")
     
     implementation("com.google.code.gson:gson:2.10.1")
     // implementation("io.mosip:vcverifier-aar:1.1.0"){

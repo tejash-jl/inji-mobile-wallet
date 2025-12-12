@@ -82,15 +82,17 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
               key={'credentialType'}
               testID="credentialType"
               fieldValue={getCredentialType(props.wellknown)}
-              fieldValueColor={wellknownDisplayProperty.getTextColor(
-                Theme.Colors.Details,
-              )}
+              // fieldValueColor={wellknownDisplayProperty.getTextColor(
+              //   Theme.Colors.Details,
+              // )}
+              fieldValueColor={'#fff'}
             />
             <Row>
               <VCVerification
                 display={wellknownDisplayProperty}
                 vcMetadata={props.verifiableCredentialData?.vcMetadata}
                 vcStatus={props.vcStatus}
+                textColor='#fff'
               />
             </Row>
           </Column>

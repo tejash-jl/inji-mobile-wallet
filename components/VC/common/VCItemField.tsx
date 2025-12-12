@@ -21,7 +21,7 @@ export const VCItemFieldName = ({
       {fieldName && (
         <Text
           testID={`${testID}Title`}
-          color={textColor}
+          color={'#000'}
           style={Theme.Styles.fieldItemTitle}>
           {fieldName}
         </Text>
@@ -121,7 +121,7 @@ export const VCItemField: React.FC<VCItemFieldProps> = props => {
   return (
     <Column>
       <VCItemFieldName {...props} />
-      <VCItemFieldValue {...props} />
+      <VCItemFieldValue {...props} fieldValueColor='#000' />
     </Column>
   );
 };

@@ -14,7 +14,8 @@ import RevokedIcon from './RevokedIcon';
 export const VCVerification: React.FC<VCVerificationProps> = ({
   vcMetadata,
   display,
-  vcStatus
+  vcStatus,
+  textColor
 }) => {
   // const {t} = useTranslation('VcDetails');
   // console.log("VCVerification:", vcMetadata, "\tvcMetadata.verificationErrorCode :", vcMetadata.verificationErrorCode);
@@ -138,7 +139,8 @@ export const VCVerification: React.FC<VCVerificationProps> = ({
           vcStatus !== undefined && (
             <Text
               testID="verificationStatus"
-              color={display.getTextColor(Theme.Colors.Details)}
+              //color={display.getTextColor(Theme.Colors.Details)}
+              color={textColor}
               style={Theme.Styles.verificationStatus}>
               {statusText}
             </Text>
@@ -154,4 +156,5 @@ export interface VCVerificationProps {
   vcMetadata: VCMetadata;
   display: Display;
   vcStatus?: string;
+  textColor?: string;
 }

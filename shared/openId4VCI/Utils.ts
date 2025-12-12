@@ -142,13 +142,17 @@ export const getDisplayObjectForCurrentLanguage = (
 export const constructAuthorizationConfiguration = (
   selectedIssuer: issuerType,
   supportedScope: string,
+  credentialTypeId?: string,
 ) => {
   return {
     issuer: selectedIssuer.credential_issuer,
     clientId: selectedIssuer.client_id,
     scopes: [supportedScope],
     redirectUrl: selectedIssuer.redirect_uri,
-    additionalParameters: {ui_locales: i18n.language},
+    additionalParameters: {
+      ui_locales: i18n.language,
+      ...(credentialTypeId && {credential_type: credentialTypeId}),
+    },
     serviceConfiguration: {
       authorizationEndpoint: selectedIssuer.authorizationEndpoint,
       tokenEndpoint: selectedIssuer.token_endpoint,
@@ -255,8 +259,8 @@ export const vcDownloadTimeout = async (): Promise<number> => {
 
 // OIDCErrors is a collection of external errors from the OpenID library or the issuer
 export const OIDCErrors = {
-  OIDC_FLOW_CANCELLED_ANDROID : 'User cancelled flow',
-  OIDC_FLOW_CANCELLED_IOS : 'org.openid.appauth.general error -3',
+  OIDC_FLOW_CANCELLED_ANDROID: 'User cancelled flow',
+  OIDC_FLOW_CANCELLED_IOS: 'org.openid.appauth.general error -3',
 
   INVALID_TOKEN_SPECIFIED: 'Invalid token specified',
   OIDC_CONFIG_ERROR_PREFIX: 'Config error',
