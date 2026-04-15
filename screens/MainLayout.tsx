@@ -3,7 +3,7 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import {mainRoutes, share} from '../routes/main';
 import {Theme} from '../components/ui/styleUtils';
 import {useTranslation} from 'react-i18next';
@@ -15,7 +15,7 @@ import testIDProps from '../shared/commonUtil';
 import {SvgImage} from '../components/ui/svg';
 import {isIOS} from '../shared/constants';
 import {CopilotProvider} from 'react-native-copilot';
-import {Platform, View} from 'react-native';
+import {View} from 'react-native';
 import {CopilotTooltip} from '../components/CopilotTooltip';
 import {Copilot} from '../components/ui/Copilot';
 import LinearGradient from 'react-native-linear-gradient';
@@ -46,14 +46,9 @@ export const MainLayout: React.FC = () => {
       navigation.navigate(BOTTOM_TAB_ROUTES.share);
     }
   }, [linkCode]);
-  const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingBottom: Platform.OS === 'ios' ? insets.bottom - 15 : 0,
-      }}>
+    <View style={{flex: 1}}>
       <CopilotProvider
         stopOnOutsideClick
         androidStatusBarVisible

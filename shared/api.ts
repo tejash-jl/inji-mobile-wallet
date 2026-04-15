@@ -34,7 +34,7 @@ export const API_URLS: ApiUrls = {
   issuerWellknownConfig: {
     method: 'GET',
     buildURL: (issuerId: string): `/${string}` =>
-      `/v1/mimoto/issuers/${issuerId}/well-known-proxy`,
+      `/v1/mimoto/issuers/${issuerId.toLowerCase()}/well-known-proxy`,
   },
   authorizationServerMetadataConfig: {
     method: 'GET',
@@ -133,7 +133,9 @@ export const API = {
   fetchAuthorizationServerMetadata: async (authorizationServerUrl: string) => {
     const response = await request(
       API_URLS.authorizationServerMetadataConfig.method,
-      API_URLS.authorizationServerMetadataConfig.buildURL(authorizationServerUrl),
+      API_URLS.authorizationServerMetadataConfig.buildURL(
+        authorizationServerUrl,
+      ),
       undefined,
       '',
     );
@@ -286,10 +288,10 @@ async function generateCacheAPIFunctionWithAPIPreference(
       onErrorHardCodedValue != undefined
     }`);
 
-    console.error(`The error in fetching api ${cacheKey}`,error);
-    var response=null;
-    if(!(await NetInfo.fetch()).isConnected){
-       response = await getItem(cacheKey, null, '');
+    console.error(`The error in fetching api ${cacheKey}`, error);
+    var response = null;
+    if (!(await NetInfo.fetch()).isConnected) {
+      response = await getItem(cacheKey, null, '');
     }
     if (response) {
       return response;

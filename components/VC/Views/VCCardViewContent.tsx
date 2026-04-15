@@ -57,7 +57,6 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
   const {start} = useCopilot();
   const {t} = useTranslation();
 
-
   console.log('VCCardViewContent props:', props.vcStatus);
 
   return (
@@ -82,17 +81,17 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
               key={'credentialType'}
               testID="credentialType"
               fieldValue={getCredentialType(props.wellknown)}
-              // fieldValueColor={wellknownDisplayProperty.getTextColor(
-              //   Theme.Colors.Details,
-              // )}
-              fieldValueColor={'#fff'}
+              fieldValueColor={wellknownDisplayProperty.getTextColor(
+                Theme.Colors.Details,
+              )}
+              //fieldValueColor={'#fff'}
             />
             <Row>
               <VCVerification
                 display={wellknownDisplayProperty}
                 vcMetadata={props.verifiableCredentialData?.vcMetadata}
                 vcStatus={props.vcStatus}
-                textColor='#fff'
+                textColor="#fff"
               />
             </Row>
           </Column>
