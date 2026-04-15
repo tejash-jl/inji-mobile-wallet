@@ -23,6 +23,7 @@ import {
 import {TelemetryConstants} from './shared/telemetry/TelemetryConstants';
 import {MessageOverlay} from './components/MessageOverlay';
 import {NativeModules} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {isHardwareKeystoreExists} from './shared/cryptoutil/cryptoUtil';
 import i18n from './i18n';
 import './shared/flipperConfig';
@@ -137,16 +138,18 @@ const AppInitialization: React.FC = () => {
 
 export default function App() {
   return (
-    <GlobalContextProvider>
-      <CopilotProvider
-        stopOnOutsideClick
-        androidStatusBarVisible
-        tooltipComponent={CopilotTooltip}
-        tooltipStyle={Theme.Styles.copilotStyle}
-        stepNumberComponent={() => null}
-        animated>
-        <AppInitialization />
-      </CopilotProvider>
-    </GlobalContextProvider>
+    <SafeAreaProvider>
+      <GlobalContextProvider>
+        <CopilotProvider
+          stopOnOutsideClick
+          androidStatusBarVisible
+          tooltipComponent={CopilotTooltip}
+          tooltipStyle={Theme.Styles.copilotStyle}
+          stepNumberComponent={() => null}
+          animated>
+          <AppInitialization />
+        </CopilotProvider>
+      </GlobalContextProvider>
+    </SafeAreaProvider>
   );
 }

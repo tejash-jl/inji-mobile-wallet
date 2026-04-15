@@ -15,6 +15,8 @@ fileignoreconfig:
     checksum: 14654c0f038979fcd0d260170a45894a072f81e0767ca9a0e66935d33b5cc703
   - filename: screens/Home/MyVcs/GetIdInputModal.tsx
     checksum: 5c736ed79a372d0ffa7c02eb33d0dc06edbbb08d120978ff287f5f06cd6c7746
+  - filename: screens/AppLayout.tsx
+    checksum: bea6327d70961a5b1ee9c439e5642201df2a652e13f406bb0f7f07a181eea20d
   - filename: screens/AuthScreen.tsx
     checksum: 4a096c467bb9b3fa476c220993ef0a58d72a758c40cf741dc2e4ec4db0c692e8
   - filename: screens/BiometricScreen.tsx
