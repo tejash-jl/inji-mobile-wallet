@@ -84,14 +84,14 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
               fieldValueColor={wellknownDisplayProperty.getTextColor(
                 Theme.Colors.Details,
               )}
-              //fieldValueColor={'#fff'}
+              // fieldValueColor={'#000000'}
             />
             <Row>
               <VCVerification
                 display={wellknownDisplayProperty}
                 vcMetadata={props.verifiableCredentialData?.vcMetadata}
                 vcStatus={props.vcStatus}
-                //textColor='#fff'
+                //textColor={wellknownDisplayProperty.getTextColor(
               />
             </Row>
           </Column>

@@ -424,6 +424,7 @@ export const DefaultTheme = {
     injiHomeLogo: {
       marginLeft: Platform.OS === 'android' ? -5 : 0,
       marginTop: Platform.OS === 'android' ? 0 : -5,
+      backgroundColor: 'transparent',
       //marginBottom: isAndroid() ? -30 : 0,
     },
     logo: {

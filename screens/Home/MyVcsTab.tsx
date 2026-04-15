@@ -93,8 +93,8 @@ export const MyVcsTab: React.FC<HomeScreenTabProps> = ({
       if (!isDownloading) {
         let isVcFound = false;
         const credentialSubject =
-          vc.verifiableCredential.credentialSubject ||
-          vc.verifiableCredential.credential.credentialSubject;
+          vc?.verifiableCredential.credentialSubject ||
+          vc?.verifiableCredential.credential.credentialSubject;
         if (isStringAndContains(searchText, vc['vcMetadata'].credentialType))
           isVcFound = true;
         else if (credentialSubject) {

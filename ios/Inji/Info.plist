@@ -73,6 +73,8 @@
 		<string>Feather.ttf</string>
 		<string>AntDesign.ttf</string>
 	</array>
+	<key>UIDesignRequiresCompatibility</key>
+	<string>YES</string>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
