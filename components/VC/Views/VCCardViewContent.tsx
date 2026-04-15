@@ -91,7 +91,7 @@ export const VCCardViewContent: React.FC<VCItemContentProps> = props => {
                 display={wellknownDisplayProperty}
                 vcMetadata={props.verifiableCredentialData?.vcMetadata}
                 vcStatus={props.vcStatus}
-                //textColor='#fff'
+                textColor="#fff"
               />
             </Row>
           </Column>
