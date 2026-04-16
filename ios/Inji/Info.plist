@@ -74,7 +74,7 @@
 		<string>AntDesign.ttf</string>
 	</array>
 	<key>UIDesignRequiresCompatibility</key>
-	<string>YES</string>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

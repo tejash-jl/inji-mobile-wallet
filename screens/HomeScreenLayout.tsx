@@ -82,7 +82,7 @@ export const HomeScreenLayout: React.FC<RootRouteProps> = props => {
 
   var HomeScreenOptions = {
     headerLeft: () =>
-      isIOS() || !isRTL ? (
+      isIOS() ? (
         <View style={Theme.Styles.injiHomeLogo}>
           {SvgImage.InjiLogo(Theme.Styles.injiLogo)}
         </View>
