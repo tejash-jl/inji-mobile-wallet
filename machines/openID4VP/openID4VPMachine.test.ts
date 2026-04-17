@@ -269,7 +269,7 @@ describe('openID4VP Machine - responseMode behavior tests', () => {
 
       // Simulate the sendVP service logic
       const context = {
-        selectedVCs: {'input-desc-1': [{verifiableCredential: {}}]},
+        selectedVCs: {'input-descriptor-1': [{verifiableCredential: {}}]},
         publicKey: 'mock-public-key',
         privateKey: 'mock-private-key',
         keyType: 'RS256',
